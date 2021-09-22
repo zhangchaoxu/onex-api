@@ -16,12 +16,11 @@
         <onex-common.version>1.9.29</onex-common.version>
         <onex-coder.version>1.9.29</onex-coder.version>
         <dynamic.datasource.version>3.4.1</dynamic.datasource.version>
-        <shiro.version>1.7.1</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
         <easy.captcha.version>1.6.2</easy.captcha.version>
         <easypoi.version>4.4.0</easypoi.version>
-        <aliyun.oss.version>3.13.0</aliyun.oss.version>
+        <aliyun.oss.version>3.13.1</aliyun.oss.version>
         <weixin.version>4.1.0</weixin.version>
-        <alipay.sdk.version>4.16.2.ALL</alipay.sdk.version>
         <jpush.version>3.4.9</jpush.version>
         <zxing.version>3.4.1</zxing.version>
     </properties>
@@ -136,12 +135,6 @@
             <artifactId>weixin-java-mp</artifactId>
             <version>${weixin.version}</version>
         </dependency>
-        <!-- alipay sdk
-        <dependency>
-            <groupId>com.alipay.sdk</groupId>
-            <artifactId>alipay-sdk-java</artifactId>
-            <version>${alipay.sdk.version}</version>
-        </dependency>-->
         <!-- zxing qrcode generator -->
         <dependency>
             <groupId>com.google.zxing</groupId>
