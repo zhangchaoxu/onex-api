@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONUtil;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.HttpContextUtils;
@@ -11,6 +12,7 @@ import com.nb6868.onex.common.util.JacksonUtils;
 import com.nb6868.onex.shop.modules.common.dao.LogDao;
 import com.nb6868.onex.shop.shiro.SecurityUser;
 import com.nb6868.onex.shop.shiro.UserDetail;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -35,6 +37,7 @@ import java.util.*;
  */
 @Aspect
 @Component
+@Slf4j
 public class LogOperationAspect {
 
     @Autowired
@@ -67,12 +70,17 @@ public class LogOperationAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Map<String, Object> logEntity = new HashMap<>();
 
+        // 日志记录类型
+        String logStoreType = "db";
+        String logType = "operation";
         try {
             Method method = joinPoint.getTarget().getClass().getDeclaredMethod(signature.getName(), signature.getParameterTypes());
             LogOperation annotation = method.getAnnotation(LogOperation.class);
             if (annotation != null) {
                 // 注解上的描述
                 logEntity.put("operation", annotation.value());
+                logType = annotation.type();
+                logStoreType = annotation.storeType();
             }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -100,9 +108,13 @@ public class LogOperationAspect {
         }
         logEntity.put("params", requestParam);
         logEntity.put("id", IdUtil.getSnowflake().nextId());
-        logEntity.put("type", "operation");
+        logEntity.put("type", logType);
         logEntity.put("content", null);
-        logDao.saveLog(logEntity);
+        if ("db".equalsIgnoreCase(logStoreType)) {
+            logDao.saveLog(logEntity);
+        } else {
+            log.info(JSONUtil.toJsonStr(logEntity));
+        }
     }
 
     /**

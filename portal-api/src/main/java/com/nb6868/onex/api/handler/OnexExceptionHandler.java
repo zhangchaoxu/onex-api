@@ -1,9 +1,12 @@
 package com.nb6868.onex.api.handler;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
-import com.nb6868.onex.api.modules.log.entity.ErrorEntity;
-import com.nb6868.onex.api.modules.log.service.ErrorService;
+import com.nb6868.onex.api.modules.common.dao.LogDao;
+import com.nb6868.onex.api.shiro.SecurityUser;
+import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.pojo.Result;
@@ -20,7 +23,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -54,7 +56,7 @@ public class OnexExceptionHandler {
     private String env;
 
     @Autowired
-    private ErrorService errorService;
+    private LogDao logDao;
 
     /**
      * 处理自定义异常
@@ -277,26 +279,37 @@ public class OnexExceptionHandler {
      * 保存异常日志
      */
     private void saveLog(Exception ex) {
-        ErrorEntity log = new ErrorEntity();
-        // 请求相关信息
+        Map<String, Object> logEntity = new HashMap<>();
+        Date now = new Date();
+        UserDetail user = SecurityUser.getUser();
+        logEntity.put("create_name", user.getUsername());
+        logEntity.put("create_id", user.getId());
+        logEntity.put("create_time", now);
+        logEntity.put("update_time", now);
+        logEntity.put("update_id", user.getId());
+        logEntity.put("state", 0);
+        logEntity.put("request_time", 0);
+        logEntity.put("id", IdUtil.getSnowflake().nextId());
+        logEntity.put("type", "error");
+        // 异常信息
+        logEntity.put("content", ExceptionUtil.stacktraceToString(ex));
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         if (null != request) {
-            log.setIp(HttpContextUtils.getIpAddr(request));
-            log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-            log.setUri(request.getRequestURI());
-            log.setMethod(request.getMethod());
+            logEntity.put("ip", HttpContextUtils.getIpAddr(request));
+            logEntity.put("user_agent", request.getHeader(HttpHeaders.USER_AGENT));
+            logEntity.put("uri", request.getRequestURI());
+            logEntity.put("method", request.getMethod());
             Map<String, String> params = HttpContextUtils.getParameterMap(request);
-            if (!CollectionUtils.isEmpty(params)) {
-                log.setParams(JSONUtil.toJsonStr(params));
+            if (CollUtil.isNotEmpty(params)) {
+                logEntity.put("params", JSONUtil.toJsonStr(params));
             }
         }
-        // 异常信息
-        log.setContent(ExceptionUtil.stacktraceToString(ex));
         // 保存
         try {
-            errorService.save(log);
+            logDao.saveLog(logEntity);
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("保存错误日志异常", e);
         }
     }
 }

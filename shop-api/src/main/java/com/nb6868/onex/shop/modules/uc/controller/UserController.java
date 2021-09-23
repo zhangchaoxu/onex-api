@@ -2,7 +2,6 @@ package com.nb6868.onex.shop.modules.uc.controller;
 
 import cn.hutool.core.lang.Dict;
 import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.LogLogin;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.auth.OauthWxMaLoginByCodeAndPhone;
 import com.nb6868.onex.common.exception.ErrorCode;
@@ -33,8 +32,8 @@ public class UserController {
 
     @PostMapping("/wxMaLoginByPhone")
     @ApiOperation(value = "微信小程序手机号授权登录", position = 10)
-    @LogLogin
     @AccessControl("/wxMaLoginByPhone")
+    @LogOperation(value = "微信小程序手机号授权登录", type = "login")
     public Result<Dict> wxMaLoginByPhone(@Validated(value = {DefaultGroup.class}) @RequestBody OauthWxMaLoginByCodeAndPhone request) {
         /*AuthProps.Config loginProps = authService.getLoginConfig(request.getType());
         AssertUtils.isNull(loginProps, ErrorCode.UNKNOWN_LOGIN_TYPE);
@@ -77,7 +76,7 @@ public class UserController {
 
     @GetMapping("userInfo")
     @ApiOperation(value = "登录用户信息", position = 100)
-    @LogOperation("登录用户信息")
+    @LogOperation(value = "登录用户信息")
     public Result<?> userInfo() {
         UserEntity entity = userService.getById(SecurityUser.getUserId());
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);

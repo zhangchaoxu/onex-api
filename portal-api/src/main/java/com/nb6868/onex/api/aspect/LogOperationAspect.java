@@ -3,14 +3,16 @@ package com.nb6868.onex.api.aspect;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
-import com.nb6868.onex.api.modules.log.entity.OperationEntity;
-import com.nb6868.onex.api.modules.log.service.OperationService;
+import com.nb6868.onex.api.modules.common.dao.LogDao;
 import com.nb6868.onex.api.shiro.SecurityUser;
 import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.HttpContextUtils;
+import com.nb6868.onex.common.util.JacksonUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,9 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 操作日志，切面处理类
@@ -37,10 +37,11 @@ import java.util.Map;
  */
 @Aspect
 @Component
+@Slf4j
 public class LogOperationAspect {
 
     @Autowired
-    private OperationService logOperationService;
+    private LogDao logDao;
 
     @Pointcut("@annotation(com.nb6868.onex.common.annotation.LogOperation)")
     public void pointcut() {
@@ -67,35 +68,53 @@ public class LogOperationAspect {
 
     private void saveLog(ProceedingJoinPoint joinPoint, String requestParam, long time, Integer state) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        OperationEntity log = new OperationEntity();
+        Map<String, Object> logEntity = new HashMap<>();
 
+        // 日志记录类型
+        String logStoreType = "db";
+        String logType = "operation";
         try {
             Method method = joinPoint.getTarget().getClass().getDeclaredMethod(signature.getName(), signature.getParameterTypes());
             LogOperation annotation = method.getAnnotation(LogOperation.class);
             if (annotation != null) {
                 // 注解上的描述
-                log.setOperation(annotation.value());
+                logEntity.put("operation", annotation.value());
+                logType = annotation.type();
+                logStoreType = annotation.storeType();
             }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
 
         // 登录用户信息
+        //
+        Date now = new Date();
         UserDetail user = SecurityUser.getUser();
-        log.setCreateName(user.getUsername());
-        log.setState(state);
-        log.setRequestTime(time);
+        logEntity.put("create_name", user.getUsername());
+        logEntity.put("create_id", user.getId());
+        logEntity.put("create_time", now);
+        logEntity.put("update_time", now);
+        logEntity.put("update_id", user.getId());
+        logEntity.put("state", state);
+        logEntity.put("request_time", time);
 
         // 请求相关信息
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        log.setIp(HttpContextUtils.getIpAddr(request));
         if (null != request) {
-            log.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-            log.setUri(request.getRequestURI());
-            log.setMethod(request.getMethod());
+            logEntity.put("ip", HttpContextUtils.getIpAddr(request));
+            logEntity.put("user_agent", request.getHeader(HttpHeaders.USER_AGENT));
+            logEntity.put("uri", request.getRequestURI());
+            logEntity.put("method", request.getMethod());
         }
-        log.setParams(requestParam);
-        logOperationService.save(log);
+        logEntity.put("params", requestParam);
+        logEntity.put("id", IdUtil.getSnowflake().nextId());
+        logEntity.put("type", logType);
+        logEntity.put("content", null);
+        if ("db".equalsIgnoreCase(logStoreType)) {
+            logDao.saveLog(logEntity);
+        } else {
+            log.info(JSONUtil.toJsonStr(logEntity));
+        }
     }
 
     /**
@@ -129,10 +148,10 @@ public class LogOperationAspect {
             if (actualParam.get(0) instanceof String || actualParam.get(0) instanceof Long || actualParam.get(0) instanceof Integer) {
                 return actualParam.get(0).toString();
             } else {
-                return JSONUtil.toJsonStr(actualParam.get(0));
+                return JacksonUtils.pojoToJson(actualParam.get(0), null);
             }
         } else if (actualParam.size() > 1) {
-            return JSONUtil.toJsonStr(actualParam);
+            return JacksonUtils.pojoToJson(actualParam, null);
         } else {
             return null;
         }
