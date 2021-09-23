@@ -2,18 +2,14 @@ package com.nb6868.onex.shop.modules.shop.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.PageData;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.shop.modules.shop.dao.GoodsDao;
-import com.nb6868.onex.shop.modules.shop.dto.GoodsDTO;
-import com.nb6868.onex.shop.modules.shop.dto.ReceiverDTO;
-import com.nb6868.onex.shop.modules.shop.entity.GoodsEntity;
-import com.nb6868.onex.shop.modules.shop.service.GoodsService;
-import com.nb6868.onex.shop.shiro.SecurityUser;
+import com.nb6868.onex.shop.modules.shop.dto.OrderDTO;
+import com.nb6868.onex.shop.modules.shop.entity.OrderEntity;
+import com.nb6868.onex.shop.modules.shop.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -28,31 +24,22 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
 
-@RestController("ShopGoodsController")
-@RequestMapping("/shop/goods")
+@RestController("ShopOrderController")
+@RequestMapping("/shop/order")
 @Validated
 @Slf4j
-@Api(tags="商品")
-@ApiSupport(order = 100)
-public class GoodsController {
+@Api(tags="订单")
+@ApiSupport(order = 110)
+public class OrderController {
 
     @Autowired
-    private GoodsService goodsService;
-
-    @GetMapping("categoryList")
-    @AccessControl("/categoryList")
-    @ApiOperation("分类列表")
-    public Result<?> categoryList() {
-        PageData<GoodsDTO> page = null;//goodsService.pageDto(params);
-
-        return new Result<>().success(page);
-    }
+    OrderService orderService;
 
     @GetMapping("page")
     @AccessControl("/page")
     @ApiOperation("分页")
     public Result<?> page(@ApiIgnore @RequestParam Map<String, Object> params) {
-        PageData<GoodsDTO> page = null;//goodsService.pageDto(params);
+        PageData<?> page = null;//goodsService.pageDto(params);
 
         return new Result<>().success(page);
     }
@@ -61,10 +48,10 @@ public class GoodsController {
     @AccessControl("/info")
     @ApiOperation("信息")
     public Result<?> info(@NotNull(message = "{id.require}") @RequestParam Long id) {
-        GoodsEntity entity = goodsService.getById(id);
+        OrderEntity entity = orderService.getById(id);
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);
         // 转成dto
-        GoodsDTO dto = ConvertUtils.sourceToTarget(entity, GoodsDTO.class);
+        OrderDTO dto = ConvertUtils.sourceToTarget(entity, OrderDTO.class);
 
         return new Result<>().success(dto);
     }
