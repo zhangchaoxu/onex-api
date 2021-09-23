@@ -1,17 +1,15 @@
 package com.nb6868.onex.shop.handler;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.json.JSONUtil;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.HttpContextUtils;
+import com.nb6868.onex.common.util.JacksonUtils;
 import com.nb6868.onex.common.util.MessageUtils;
 import com.nb6868.onex.shop.modules.sys.dao.LogDao;
-import com.nb6868.onex.shop.shiro.SecurityUser;
-import com.nb6868.onex.shop.shiro.UserDetail;
+import com.nb6868.onex.shop.modules.sys.entity.LogEntity;
+import com.nb6868.onex.shop.modules.sys.service.LogService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.apache.shiro.authz.UnauthenticatedException;
@@ -23,6 +21,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -56,7 +55,7 @@ public class OnexExceptionHandler {
     private String env;
 
     @Autowired
-    private LogDao logDao;
+    private LogService logService;
 
     /**
      * 处理自定义异常
@@ -279,37 +278,28 @@ public class OnexExceptionHandler {
      * 保存异常日志
      */
     private void saveLog(Exception ex) {
-        Map<String, Object> logEntity = new HashMap<>();
-        Date now = new Date();
-        UserDetail user = SecurityUser.getUser();
-        logEntity.put("create_name", user.getUsername());
-        logEntity.put("create_id", user.getId());
-        logEntity.put("create_time", now);
-        logEntity.put("update_time", now);
-        logEntity.put("update_id", user.getId());
-        logEntity.put("state", 0);
-        logEntity.put("request_time", 0);
-        logEntity.put("id", IdUtil.getSnowflake().nextId());
-        logEntity.put("type", "error");
-        // 异常信息
-        logEntity.put("content", ExceptionUtil.stacktraceToString(ex));
+        LogEntity logEntity = new LogEntity();
+        logEntity.setType("error");
+        logEntity.setState(0);
+        // 请求相关信息
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         if (null != request) {
-            logEntity.put("ip", HttpContextUtils.getIpAddr(request));
-            logEntity.put("user_agent", request.getHeader(HttpHeaders.USER_AGENT));
-            logEntity.put("uri", request.getRequestURI());
-            logEntity.put("method", request.getMethod());
+            logEntity.setIp(HttpContextUtils.getIpAddr(request));
+            logEntity.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+            logEntity.setUri(request.getRequestURI());
+            logEntity.setMethod(request.getMethod());
             Map<String, String> params = HttpContextUtils.getParameterMap(request);
-            if (CollUtil.isNotEmpty(params)) {
-                logEntity.put("params", JSONUtil.toJsonStr(params));
+            if (!CollectionUtils.isEmpty(params)) {
+                logEntity.setParams(JacksonUtils.pojoToJson(params));
             }
         }
+        // 异常信息
+        logEntity.setContent(ExceptionUtil.stacktraceToString(ex));
         // 保存
         try {
-            logDao.saveLog(logEntity);
+            logService.save(logEntity);
         } catch (Exception e) {
             e.printStackTrace();
-            log.error("保存错误日志异常", e);
         }
     }
 }
