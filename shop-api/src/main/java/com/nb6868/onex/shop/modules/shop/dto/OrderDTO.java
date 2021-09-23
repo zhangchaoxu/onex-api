@@ -1,6 +1,5 @@
 package com.nb6868.onex.shop.modules.shop.dto;
 
-import com.nb6868.onex.api.modules.shop.ShopConst;
 import com.nb6868.onex.common.pojo.BaseTenantDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,7 +8,6 @@ import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 订单
@@ -111,32 +109,5 @@ public class OrderDTO extends BaseTenantDTO {
 
 	@ApiModelProperty(value = "收件地址经度")
 	private String receiverRegionLng;
-
-	@ApiModelProperty(value = "商品列表")
-	private List<OrderItemDTO> orderItemList;
-
-	/**
-	 * 系统
-	 * 订单是否可取消
-	 */
-	public boolean isSysCancelable() {
-		return state == ShopConst.OrderStateEnum.PLACED.value();
-	}
-
-	/**
-	 * 用户
-	 * 订单是否可取消
-	 */
-	public boolean isUserCancelable() {
-		return state == ShopConst.OrderStateEnum.PLACED.value();
-	}
-
-	/**
-	 * 是否可支付
-	 * 订单状态处于未支付,并且时间允许
-	 */
-	public boolean isPayable() {
-		return state == ShopConst.OrderStateEnum.PLACED.value();
-	}
 
 }

@@ -19,13 +19,13 @@ import com.nb6868.onex.api.modules.shop.dao.OrderDao;
 import com.nb6868.onex.api.modules.shop.entity.GoodsEntity;
 import com.nb6868.onex.api.modules.shop.entity.OrderEntity;
 import com.nb6868.onex.api.modules.uc.service.UserService;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
 import com.nb6868.onex.api.modules.shop.ShopConst;
 import com.nb6868.onex.api.modules.shop.dto.OrderDTO;
 import com.nb6868.onex.api.modules.shop.dto.OrderOneClickRequest;
 import com.nb6868.onex.api.modules.shop.entity.OrderItemEntity;
 import com.nb6868.onex.api.modules.shop.entity.OrderLogEntity;
 import com.nb6868.onex.api.modules.sys.service.ParamService;
+import com.nb6868.onex.api.shiro.SecurityUser;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.pojo.ChangeStateRequest;
@@ -125,7 +125,6 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
     /**
      * 取消订单
      *
-     * @param orderId 订单id
      * @param remark 备注
      */
     public boolean cancel(Long id, String remark) {
