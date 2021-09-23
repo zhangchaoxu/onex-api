@@ -3,9 +3,9 @@ package com.nb6868.onex.api.aspect;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
-import com.nb6868.onex.api.modules.common.dao.LogDao;
+import com.nb6868.onex.api.modules.sys.entity.LogEntity;
+import com.nb6868.onex.api.modules.sys.service.LogService;
 import com.nb6868.onex.api.shiro.SecurityUser;
 import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.LogOperation;
@@ -41,7 +41,7 @@ import java.util.*;
 public class LogOperationAspect {
 
     @Autowired
-    private LogDao logDao;
+    private LogService logService;
 
     @Pointcut("@annotation(com.nb6868.onex.common.annotation.LogOperation)")
     public void pointcut() {
@@ -68,7 +68,7 @@ public class LogOperationAspect {
 
     private void saveLog(ProceedingJoinPoint joinPoint, String requestParam, long time, Integer state) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
-        Map<String, Object> logEntity = new HashMap<>();
+        LogEntity logEntity = new LogEntity();
 
         // 日志记录类型
         String logStoreType = "db";
@@ -78,7 +78,7 @@ public class LogOperationAspect {
             LogOperation annotation = method.getAnnotation(LogOperation.class);
             if (annotation != null) {
                 // 注解上的描述
-                logEntity.put("operation", annotation.value());
+                logEntity.setOperation(annotation.value());
                 logType = annotation.type();
                 logStoreType = annotation.storeType();
             }
@@ -87,31 +87,23 @@ public class LogOperationAspect {
         }
 
         // 登录用户信息
-        //
-        Date now = new Date();
         UserDetail user = SecurityUser.getUser();
-        logEntity.put("create_name", user.getUsername());
-        logEntity.put("create_id", user.getId());
-        logEntity.put("create_time", now);
-        logEntity.put("update_time", now);
-        logEntity.put("update_id", user.getId());
-        logEntity.put("state", state);
-        logEntity.put("request_time", time);
+        logEntity.setCreateName(user.getUsername());
+        logEntity.setState(state);
+        logEntity.setRequestTime(time);
+        logEntity.setType(logType);
 
         // 请求相关信息
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         if (null != request) {
-            logEntity.put("ip", HttpContextUtils.getIpAddr(request));
-            logEntity.put("user_agent", request.getHeader(HttpHeaders.USER_AGENT));
-            logEntity.put("uri", request.getRequestURI());
-            logEntity.put("method", request.getMethod());
+            logEntity.setIp(HttpContextUtils.getIpAddr(request));
+            logEntity.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+            logEntity.setUri(request.getRequestURI());
+            logEntity.setMethod(request.getMethod());
         }
-        logEntity.put("params", requestParam);
-        logEntity.put("id", IdUtil.getSnowflake().nextId());
-        logEntity.put("type", logType);
-        logEntity.put("content", null);
+        logEntity.setParams(requestParam);
         if ("db".equalsIgnoreCase(logStoreType)) {
-            logDao.saveLog(logEntity);
+            logService.save(logEntity);
         } else {
             log.info(JSONUtil.toJsonStr(logEntity));
         }

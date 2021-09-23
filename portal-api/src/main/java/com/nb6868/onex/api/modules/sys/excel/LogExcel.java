@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.modules.log.excel;
+package com.nb6868.onex.api.modules.sys.excel;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
 import lombok.Data;
@@ -11,8 +11,12 @@ import java.util.Date;
  * @author Charles zhangchaoxu@gmail.com
  */
 @Data
-public class OperationExcel {
+public class LogExcel {
 
+    @Excel(name = "类型")
+    private String type;
+    @Excel(name = "内容")
+    private String content;
     @Excel(name = "用户")
     private String createName;
     @Excel(name = "操作")

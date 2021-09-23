@@ -1,9 +1,9 @@
-package com.nb6868.onex.api.modules.log.service;
+package com.nb6868.onex.api.modules.sys.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.nb6868.onex.api.modules.log.dao.OperationDao;
-import com.nb6868.onex.api.modules.log.dto.OperationDTO;
-import com.nb6868.onex.api.modules.log.entity.OperationEntity;
+import com.nb6868.onex.api.modules.sys.dao.LogDao;
+import com.nb6868.onex.api.modules.sys.dto.LogDTO;
+import com.nb6868.onex.api.modules.sys.entity.LogEntity;
 import com.nb6868.onex.common.jpa.DtoService;
 import com.nb6868.onex.common.util.WrapperUtils;
 import org.springframework.stereotype.Service;
@@ -11,18 +11,20 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 /**
- * 操作日志
+ * 日志
  *
  * @author Charles zhangchaoxu@gmail.com
  */
 @Service
-public class OperationService extends DtoService<OperationDao, OperationEntity, OperationDTO> {
+public class LogService extends DtoService<LogDao, LogEntity, LogDTO> {
 
     @Override
-    public QueryWrapper<OperationEntity> getWrapper(String method, Map<String, Object> params) {
-        return new WrapperUtils<OperationEntity>(new QueryWrapper<>(), params)
+    public QueryWrapper<LogEntity> getWrapper(String method, Map<String, Object> params) {
+        return new WrapperUtils<LogEntity>(new QueryWrapper<>(), params)
                 // 状态
                 .eq("state", "state")
+                // 类型
+                .eq("type", "type")
                 // 用户
                 .like("createName", "create_name")
                 // 请求uri
