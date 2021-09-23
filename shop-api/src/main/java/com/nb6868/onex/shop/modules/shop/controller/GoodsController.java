@@ -1,5 +1,6 @@
 package com.nb6868.onex.shop.modules.shop.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.exception.ErrorCode;
@@ -32,6 +33,7 @@ import java.util.Map;
 @Validated
 @Slf4j
 @Api(tags="商品")
+@ApiSupport(order = 100)
 public class GoodsController {
 
     @Autowired

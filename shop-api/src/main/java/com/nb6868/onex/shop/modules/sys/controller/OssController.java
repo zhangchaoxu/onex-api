@@ -2,6 +2,7 @@ package com.nb6868.onex.shop.modules.sys.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.oss.AbstractOssService;
@@ -31,6 +32,7 @@ import java.util.List;
 @Validated
 @Slf4j
 @Api(tags = "素材库")
+@ApiSupport(order = 20)
 public class OssController {
 
     @Autowired

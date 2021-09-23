@@ -2,6 +2,7 @@ package com.nb6868.onex.shop.modules.shop.controller;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.StrUtil;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.pojo.Result;
@@ -29,7 +30,8 @@ import java.util.List;
 @RestController("ShopCartController")
 @RequestMapping("/shop/cart")
 @Validated
-@Api(tags = "购物车", position = 50)
+@Api(tags = "购物车")
+@ApiSupport(order = 120)
 @Slf4j
 public class CartController {
     @Autowired

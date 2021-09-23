@@ -7,6 +7,13 @@ server:
   servlet:
     context-path: /onex-shop-api
 
+knife4j:
+  # 生产环境开启访问认证
+  basic:
+    enable: true
+    username: shop-api
+    password: shop-api@2021
+
 spring:
   datasource:
     dynamic:
