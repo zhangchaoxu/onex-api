@@ -128,18 +128,18 @@ public class ShiroRealm extends AuthorizingRealm {
         UserDetail user = (UserDetail) principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         // 根据配置中的role和permission设置SimpleAuthorizationInfo
-        if (null != user.getLoginConfig() && user.getLoginConfig().isRoleBase()) {
+        if (null != user.getLoginConfig() && user.getLoginConfig().isPermissionBase()) {
             // 塞入角色列表,超级管理员全部
             List<String> permissionsList = user.getType() == ShiroConst.USER_TYPE_SUPERADMIN ? shiroDao.getAllPermissionsList() : shiroDao.getPermissionsListByUserId(user.getId());
             Set<String> set = new HashSet<>();
             permissionsList.forEach(permissions -> set.addAll(StrSplitter.splitTrim(permissions, ',', true)));
-            info.setRoles(set);
+            info.setStringPermissions(set);
         }
-        if (null != user.getLoginConfig() && user.getLoginConfig().isPermissionBase()) {
+        if (null != user.getLoginConfig() && user.getLoginConfig().isRoleBase()) {
             // 塞入权限列表,超级管理员全部
             List<String> roleList = user.getType() == ShiroConst.USER_TYPE_SUPERADMIN ? shiroDao.getAllRoleCodeList() : shiroDao.getRoleCodeListByUserId(user.getId());
             Set<String> set = new HashSet<>(roleList);
-            info.setStringPermissions(set);
+            info.setRoles(set);
         }
         return info;
     }

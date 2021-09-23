@@ -1,6 +1,5 @@
 package com.nb6868.onex.shop;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.nb6868.onex.common.config.WebSocketConfig;
 import com.nb6868.onex.common.util.SpringBeanNameGenerator;
 import com.nb6868.onex.common.wechat.WechatMpPropsConfig;
@@ -12,7 +11,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, DruidDataSourceAutoConfigure.class})
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @ComponentScan(nameGenerator = SpringBeanNameGenerator.class,
         // 扫描包
         basePackages = {"com.nb6868.onex.**"},
