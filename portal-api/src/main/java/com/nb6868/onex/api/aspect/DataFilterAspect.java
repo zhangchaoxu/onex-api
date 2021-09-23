@@ -86,7 +86,7 @@ public class DataFilterAspect {
             sqlFilter.append(" (");
             // 过滤租户
             if (dataFilter.tenantFilter() && !ObjectUtils.isEmpty(user.getTenantCode())) {
-                sqlFilter.append(tableAlias).append(dataFilter.tenantId()).append("=").append(user.getTenantCode());
+                sqlFilter.append(tableAlias).append(dataFilter.tenantCode()).append("=").append(user.getTenantCode());
             }
             // 过滤用户
             if (dataFilter.userFilter()) {
