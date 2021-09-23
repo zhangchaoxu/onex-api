@@ -2,8 +2,8 @@ package com.nb6868.onex.api.aspect;
 
 import cn.hutool.core.util.StrUtil;
 import com.nb6868.onex.api.modules.uc.UcConst;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
-import com.nb6868.onex.api.modules.uc.user.UserDetail;
+import com.nb6868.onex.api.shiro.SecurityUser;
+import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
@@ -52,7 +52,7 @@ public class DataFilterAspect {
                 //否则进行数据过滤
                 Map map = (Map) params;
                 String sqlFilter = getSqlFilter(user, point);
-                map.put(Const.SQL_FILTER, new DataScope(sqlFilter));
+                map.put(Const.SQL_FILTER, sqlFilter);
             } catch (Exception e) {
 
             }
@@ -85,8 +85,8 @@ public class DataFilterAspect {
             }
             sqlFilter.append(" (");
             // 过滤租户
-            if (dataFilter.tenantFilter() && !ObjectUtils.isEmpty(user.getTenantId())) {
-                sqlFilter.append(tableAlias).append(dataFilter.tenantId()).append("=").append(user.getTenantId());
+            if (dataFilter.tenantFilter() && !ObjectUtils.isEmpty(user.getTenantCode())) {
+                sqlFilter.append(tableAlias).append(dataFilter.tenantId()).append("=").append(user.getTenantCode());
             }
             // 过滤用户
             if (dataFilter.userFilter()) {

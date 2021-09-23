@@ -67,7 +67,7 @@ public class ShiroRealm extends AuthorizingRealm {
             if (userEntity == null) {
                 // 账号不存在
                 throw new OnexException(ErrorCode.ACCOUNT_NOT_EXIST);
-            } else if (MapUtil.getInt(userEntity, "state") != UcConst.UserStateEnum.ENABLED.value()) {
+            } else if (MapUtil.getInt(userEntity, "state") != ShiroConst.USER_STATE_ENABLED) {
                 // 账号锁定
                 throw new OnexException(ErrorCode.ACCOUNT_LOCK);
             }
@@ -91,7 +91,7 @@ public class ShiroRealm extends AuthorizingRealm {
             if (userEntity == null) {
                 // 账号不存在
                 throw new OnexException(ErrorCode.ACCOUNT_NOT_EXIST);
-            } else if (MapUtil.getInt(userEntity, "state") != UcConst.UserStateEnum.ENABLED.value()) {
+            } else if (MapUtil.getInt(userEntity, "state") != ShiroConst.USER_STATE_ENABLED) {
                 // 账号锁定
                 throw new OnexException(ErrorCode.ACCOUNT_LOCK);
             }
@@ -127,22 +127,16 @@ public class ShiroRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         // 根据配置中的role和permission设置SimpleAuthorizationInfo
         if (null != user.getLoginConfig() && user.getLoginConfig().isRoleBase()) {
-            // 塞入角色列表
-            List<String> permissionsList = shiroDao.getPermissionsListByUserId(user.getId());
+            // 塞入角色列表,超级管理员全部
+            List<String> permissionsList = user.getType() == ShiroConst.USER_TYPE_SUPERADMIN ? shiroDao.getAllPermissionsList() : shiroDao.getPermissionsListByUserId(user.getId());
             Set<String> set = new HashSet<>();
-            permissionsList.forEach(permissions -> {
-                set.addAll(StrSplitter.splitTrim(permissions, ',', true));
-            });
+            permissionsList.forEach(permissions -> set.addAll(StrSplitter.splitTrim(permissions, ',', true)));
             info.setRoles(set);
         }
         if (null != user.getLoginConfig() && user.getLoginConfig().isPermissionBase()) {
-            // 塞入权限列表
-            List<Long> roleList = shiroDao.getUserRolesByUserId(user.getId());
-            // 用户角色列表
-            Set<String> set = new HashSet<>();
-            for (Long role : roleList) {
-                set.add(String.valueOf(role));
-            }
+            // 塞入权限列表,超级管理员全部
+            List<String> roleList = user.getType() == ShiroConst.USER_TYPE_SUPERADMIN ? shiroDao.getAllRoleCodeList() : shiroDao.getRoleCodeListByUserId(user.getId());
+            Set<String> set = new HashSet<>(roleList);
             info.setStringPermissions(set);
         }
         return info;

@@ -3,6 +3,7 @@ package com.nb6868.onex.shop.modules.uc.controller;
 import cn.hutool.core.lang.Dict;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.LogLogin;
+import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.auth.OauthWxMaLoginByCodeAndPhone;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.Result;
@@ -76,6 +77,7 @@ public class UserController {
 
     @GetMapping("userInfo")
     @ApiOperation(value = "登录用户信息", position = 100)
+    @LogOperation("登录用户信息")
     public Result<?> userInfo() {
         UserEntity entity = userService.getById(SecurityUser.getUserId());
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);

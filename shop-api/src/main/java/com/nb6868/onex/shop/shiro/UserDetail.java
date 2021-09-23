@@ -24,6 +24,8 @@ public class UserDetail implements Serializable {
     private String mobile;
     private Integer state;
     private Integer type;
+    private Long deptId;
+    private String tenantCode;
     /**
      * 登录配置
      */

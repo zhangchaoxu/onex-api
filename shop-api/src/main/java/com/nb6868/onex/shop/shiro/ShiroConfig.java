@@ -1,6 +1,5 @@
-package com.nb6868.onex.shop.config;
+package com.nb6868.onex.shop.shiro;
 
-import com.nb6868.onex.shop.shiro.ShiroRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;

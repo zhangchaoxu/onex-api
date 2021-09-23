@@ -1,8 +1,8 @@
-package com.nb6868.onex.api.handler;
+package com.nb6868.onex.shop.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.nb6868.onex.api.shiro.SecurityUser;
-import com.nb6868.onex.api.shiro.UserDetail;
+import com.nb6868.onex.shop.shiro.SecurityUser;
+import com.nb6868.onex.shop.shiro.UserDetail;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

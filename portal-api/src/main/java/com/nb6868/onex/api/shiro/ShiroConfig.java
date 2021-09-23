@@ -1,6 +1,5 @@
-package com.nb6868.onex.api.config;
+package com.nb6868.onex.api.shiro;
 
-import com.nb6868.onex.api.shiro.ShiroRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
