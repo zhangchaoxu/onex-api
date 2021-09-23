@@ -6,7 +6,7 @@ import com.nb6868.onex.api.modules.uc.dao.MenuDao;
 import com.nb6868.onex.api.modules.uc.dto.MenuDTO;
 import com.nb6868.onex.api.modules.uc.entity.MenuEntity;
 import com.nb6868.onex.api.modules.uc.entity.MenuScopeEntity;
-import com.nb6868.onex.api.modules.uc.user.UserDetail;
+import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.jpa.DtoService;

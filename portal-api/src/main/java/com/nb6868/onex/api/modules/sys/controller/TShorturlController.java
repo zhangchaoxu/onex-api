@@ -1,8 +1,8 @@
 package com.nb6868.onex.api.modules.sys.controller;
 
+import com.nb6868.onex.api.shiro.SecurityUser;
+import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
-import com.nb6868.onex.api.modules.uc.user.UserDetail;
 import com.nb6868.onex.api.modules.sys.entity.ShorturlEntity;
 import com.nb6868.onex.api.modules.sys.service.ShorturlService;
 import io.swagger.annotations.Api;

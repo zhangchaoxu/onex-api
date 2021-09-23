@@ -4,7 +4,6 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.nb6868.onex.api.modules.crm.service.CustomerService;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.util.TenantUtils;
 import com.nb6868.onex.api.modules.crm.dto.CustomerDTO;
 import com.nb6868.onex.api.modules.crm.excel.CustomerExcel;
@@ -14,6 +13,7 @@ import com.nb6868.onex.common.pojo.MsgResult;
 import com.nb6868.onex.common.pojo.PageData;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.ConvertUtils;
+import com.nb6868.onex.common.util.ExcelUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
@@ -75,7 +75,7 @@ public class CustomerController {
         CustomerDTO data = customerService.getDtoById(id);
         AssertUtils.isNull(data, ErrorCode.DB_RECORD_NOT_EXISTED);
         // 检查租户权限
-        AssertUtils.isFalse(TenantUtils.checkTenantId(data.getTenantId()), ErrorCode.DATA_SCOPE_PARAMS_ERROR);
+        AssertUtils.isFalse(TenantUtils.checkTenantId(data.getTenantName()), ErrorCode.DATA_SCOPE_PARAMS_ERROR);
 
         return new Result<CustomerDTO>().success(data);
     }

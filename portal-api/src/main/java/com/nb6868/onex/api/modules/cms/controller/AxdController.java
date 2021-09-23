@@ -27,9 +27,10 @@ import java.util.Map;
 /**
  * 广告位
  * axd是因为ad会被部分广告拦截的浏览器插件拦截掉
+ *
  * @author Charles zhangchaoxu@gmail.com
  */
-@RestController
+@RestController("CmsAxd")
 @RequestMapping( "/cms/axd")
 @Validated
 @Api(tags="广告位")

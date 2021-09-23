@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nb6868.onex.api.modules.msg.dao.NoticeLogDao;
 import com.nb6868.onex.api.modules.msg.dto.NoticeLogDTO;
 import com.nb6868.onex.api.modules.msg.entity.NoticeLogEntity;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
-import com.nb6868.onex.api.modules.uc.user.UserDetail;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.DtoService;
 import com.nb6868.onex.common.util.WrapperUtils;

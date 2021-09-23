@@ -13,7 +13,7 @@ import com.nb6868.onex.api.modules.uc.entity.MenuEntity;
 import com.nb6868.onex.api.modules.uc.entity.TokenEntity;
 import com.nb6868.onex.api.modules.uc.entity.UserEntity;
 import com.nb6868.onex.api.modules.uc.entity.UserOauthEntity;
-import com.nb6868.onex.api.modules.uc.user.UserDetail;
+import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.auth.AuthProps;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;

@@ -3,8 +3,6 @@ package com.nb6868.onex.api.modules.shop.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nb6868.onex.api.modules.uc.entity.UserEntity;
 import com.nb6868.onex.api.modules.uc.service.UserService;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
-import com.nb6868.onex.api.modules.uc.user.UserDetail;
 import com.nb6868.onex.api.modules.shop.dao.ReceiverDao;
 import com.nb6868.onex.api.modules.shop.dto.AppReceiverRequest;
 import com.nb6868.onex.api.modules.shop.dto.ReceiverDTO;

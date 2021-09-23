@@ -23,12 +23,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 文章分类
- *
- * @author Charles zhangchaoxu@gmail.com
- */
-@RestController
+@RestController("CmsArticleCategory")
 @RequestMapping("/cms/articleCategory")
 @Validated
 @Api(tags = "文章类目")
