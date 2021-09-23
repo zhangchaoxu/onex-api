@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.config;
+package com.nb6868.onex.api.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.Cache;

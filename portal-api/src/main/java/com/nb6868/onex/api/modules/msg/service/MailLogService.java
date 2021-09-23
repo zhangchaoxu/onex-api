@@ -1,16 +1,14 @@
 package com.nb6868.onex.api.modules.msg.service;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
 import cn.binarywang.wx.miniapp.bean.WxMaSubscribeMessage;
-import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.text.StrSplitter;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.nb6868.onex.api.common.util.TemplateUtils;
+import com.nb6868.onex.api.util.TemplateUtils;
 import com.nb6868.onex.api.modules.msg.MsgConst;
 import com.nb6868.onex.api.modules.msg.dao.MailLogDao;
 import com.nb6868.onex.api.modules.msg.dto.MailLogDTO;
@@ -29,10 +27,8 @@ import com.nb6868.onex.common.wechat.WechatMaPropsConfig;
 import com.nb6868.onex.common.wechat.WechatMpPropsConfig;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
-import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

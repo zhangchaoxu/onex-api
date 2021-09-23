@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.aspect;
+package com.nb6868.onex.api.aspect;
 
 import com.nb6868.onex.api.modules.log.entity.LoginEntity;
 import com.nb6868.onex.api.modules.log.service.LoginService;

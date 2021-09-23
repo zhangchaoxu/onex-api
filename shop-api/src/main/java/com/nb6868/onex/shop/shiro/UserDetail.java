@@ -18,7 +18,7 @@ public class UserDetail implements Serializable {
     private Long id;
     private String username;
     private String realName;
-    private String headUrl;
+    private String avatar;
     private Integer gender;
     private String email;
     private String mobile;

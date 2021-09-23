@@ -1,14 +1,13 @@
-package com.nb6868.onex.shop.modules.uc.dao;
+package com.nb6868.onex.shop.shiro;
 
 import com.nb6868.onex.shop.modules.uc.UcConst;
-import com.nb6868.onex.shop.modules.uc.entity.TokenEntity;
-import com.nb6868.onex.shop.modules.uc.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 授权相关
@@ -16,7 +15,7 @@ import java.util.List;
  * @author Charles zhangchaoxu@gmail.com
  */
 @Mapper
-public interface AuthDao {
+public interface ShiroDao {
 
     /**
      * 获得用户角色列表
@@ -39,11 +38,12 @@ public interface AuthDao {
      * 通过id获得用户
      */
     @Select("select * from " + UcConst.TABLE_USER + " where deleted = 0 and id = #{id} limit 1")
-    UserEntity getUserById(@Param("id") Long id);
+    Map<String, Object> getUserById(@Param("id") Long id);
 
-    @Select("select * from " + UcConst.TABLE_TOKEN + " where deleted = 0 and token = #{token} and expire_time > now() limit 1")
-    TokenEntity getUserTokenByToken(@Param("token") String token);
+    @Select("select type, user_id from " + UcConst.TABLE_TOKEN + " where deleted = 0 and token = #{token} and expire_time > now() limit 1")
+    Map<String, Object> getUserTokenByToken(@Param("token") String token);
 
     @Update("update " + UcConst.TABLE_TOKEN + " set expire_time = DATE_ADD(NOW(), interval #{expireTime} second) where deleted = 0 and token = #{token}")
     boolean updateTokenExpireTime(@Param("token") String token, @Param("expireTime") Integer expireTime);
+
 }

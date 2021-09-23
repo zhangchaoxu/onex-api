@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.interceptor;
+package com.nb6868.onex.api.interceptor;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;

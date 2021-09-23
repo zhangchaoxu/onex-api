@@ -1,19 +1,21 @@
-package com.nb6868.onex.shop.aspect;
+package com.nb6868.onex.api.aspect;
 
 import cn.hutool.core.util.StrUtil;
+import com.nb6868.onex.api.modules.uc.UcConst;
+import com.nb6868.onex.api.modules.uc.user.SecurityUser;
+import com.nb6868.onex.api.modules.uc.user.UserDetail;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.shop.shiro.SecurityUser;
-import com.nb6868.onex.shop.shiro.UserDetail;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -41,11 +43,16 @@ public class DataFilterAspect {
         if (params instanceof Map) {
             UserDetail user = SecurityUser.getUser();
 
+            // 如果是超级管理员，则不进行数据过滤
+            if (user.getType() <= UcConst.UserTypeEnum.SYSADMIN.value()) {
+                return;
+            }
+
             try {
                 //否则进行数据过滤
                 Map map = (Map) params;
                 String sqlFilter = getSqlFilter(user, point);
-                map.put(Const.SQL_FILTER, sqlFilter);
+                map.put(Const.SQL_FILTER, new DataScope(sqlFilter));
             } catch (Exception e) {
 
             }
@@ -63,7 +70,7 @@ public class DataFilterAspect {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = point.getTarget().getClass().getDeclaredMethod(signature.getName(), signature.getParameterTypes());
         DataSqlScope dataFilter = method.getAnnotation(DataSqlScope.class);
-        if (dataFilter.creatorFilter() || dataFilter.deptFilter() || dataFilter.userFilter()) {
+        if (dataFilter.creatorFilter() || dataFilter.tenantFilter() || dataFilter.deptFilter() || dataFilter.userFilter()) {
             // 有开启的过滤器
             // 获取表的别名
             String tableAlias = dataFilter.tableAlias();
@@ -77,6 +84,10 @@ public class DataFilterAspect {
                 sqlFilter.append(" ").append(prefix);
             }
             sqlFilter.append(" (");
+            // 过滤租户
+            if (dataFilter.tenantFilter() && !ObjectUtils.isEmpty(user.getTenantId())) {
+                sqlFilter.append(tableAlias).append(dataFilter.tenantId()).append("=").append(user.getTenantId());
+            }
             // 过滤用户
             if (dataFilter.userFilter()) {
                 sqlFilter.append(tableAlias).append(dataFilter.userId()).append("=").append(user.getId());

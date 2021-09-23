@@ -3,7 +3,7 @@ package com.nb6868.onex.api.modules.crm.controller;
 import com.nb6868.onex.api.modules.crm.service.ContractProductService;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.common.util.ExcelUtils;
+import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.modules.crm.dto.ContractProductDTO;
 import com.nb6868.onex.api.modules.crm.excel.ContractProductExcel;
 import com.nb6868.onex.common.pojo.PageData;

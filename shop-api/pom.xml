@@ -12,7 +12,7 @@
     <artifactId>shop-api</artifactId>
 
     <properties>
-        <onex-common.version>1.9.29</onex-common.version>
+        <onex-common.version>1.9.31</onex-common.version>
         <dynamic.datasource.version>3.4.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
         <aliyun.oss.version>3.13.1</aliyun.oss.version>

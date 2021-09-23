@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.modules.uc.user;
+package com.nb6868.onex.api.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -40,20 +40,6 @@ public class SecurityUser {
      */
     public static Long getUserId() {
         return getUser().getId();
-    }
-
-    /**
-     * 获取部门ID
-     */
-    public static Long getDeptId() {
-        return getUser().getDeptId();
-    }
-
-    /**
-     * 获取租户ID
-     */
-    public static Long getTenantId() {
-        return getUser().getTenantId();
     }
 
 }

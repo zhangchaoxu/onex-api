@@ -2,7 +2,7 @@ package com.nb6868.onex.api.modules.msg.controller;
 
 import com.nb6868.onex.api.modules.msg.service.NoticeTplService;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.common.util.ExcelUtils;
+import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.modules.msg.dto.NoticeTplDTO;
 import com.nb6868.onex.api.modules.msg.excel.NoticeTplExcel;
 import com.nb6868.onex.common.exception.ErrorCode;

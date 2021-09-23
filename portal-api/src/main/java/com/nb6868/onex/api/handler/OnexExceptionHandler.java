@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.handler;
+package com.nb6868.onex.api.handler;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.json.JSONUtil;

@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.util;
+package com.nb6868.onex.api.util;
 
 import cn.hutool.core.util.StrUtil;
 import freemarker.template.Configuration;

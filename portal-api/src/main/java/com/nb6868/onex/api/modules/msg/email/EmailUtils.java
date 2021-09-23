@@ -2,12 +2,11 @@ package com.nb6868.onex.api.modules.msg.email;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.text.StrSplitter;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nb6868.onex.api.modules.msg.entity.MailLogEntity;
 import com.nb6868.onex.api.modules.msg.entity.MailTplEntity;
 import com.nb6868.onex.api.modules.msg.service.MailLogService;
-import com.nb6868.onex.api.common.util.TemplateUtils;
+import com.nb6868.onex.api.util.TemplateUtils;
 import com.nb6868.onex.api.modules.msg.dto.MailSendRequest;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.JacksonUtils;

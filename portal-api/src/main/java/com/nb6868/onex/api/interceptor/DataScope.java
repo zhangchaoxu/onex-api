@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.interceptor;
+package com.nb6868.onex.api.interceptor;
 
 /**
  * 数据范围

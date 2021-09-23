@@ -1,3 +1,12 @@
+# Tomcat
+server:
+  tomcat:
+    # 配置tomcat的临时目录
+    basedir: /www/wwwroot/onex/shop-api/temp
+  port: 19003
+  servlet:
+    context-path: /onex-shop-api
+
 spring:
   datasource:
     dynamic:

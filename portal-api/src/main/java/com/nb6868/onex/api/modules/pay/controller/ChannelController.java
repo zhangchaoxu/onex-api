@@ -1,7 +1,7 @@
 package com.nb6868.onex.api.modules.pay.controller;
 
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.common.util.ExcelUtils;
+import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.modules.pay.dto.ChannelDTO;
 import com.nb6868.onex.api.modules.pay.excel.ChannelExcel;
 import com.nb6868.onex.api.modules.pay.service.ChannelService;

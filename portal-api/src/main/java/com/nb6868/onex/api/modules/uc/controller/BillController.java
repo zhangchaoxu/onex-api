@@ -2,7 +2,7 @@ package com.nb6868.onex.api.modules.uc.controller;
 
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.common.util.ExcelUtils;
+import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.modules.uc.dto.BillDTO;
 import com.nb6868.onex.api.modules.uc.excel.BillExcel;
 import com.nb6868.onex.api.modules.uc.service.BillService;

@@ -2,7 +2,7 @@ package com.nb6868.onex.api.modules.shop.controller;
 
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.common.util.ExcelUtils;
+import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.modules.shop.dto.SupplierDTO;
 import com.nb6868.onex.api.modules.shop.excel.SupplierExcel;
 import com.nb6868.onex.api.modules.shop.service.SupplierService;

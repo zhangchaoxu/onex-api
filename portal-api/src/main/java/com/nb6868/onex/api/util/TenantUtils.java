@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.common.util;
+package com.nb6868.onex.api.util;
 
 import com.nb6868.onex.api.modules.uc.UcConst;
 import com.nb6868.onex.api.modules.uc.user.SecurityUser;

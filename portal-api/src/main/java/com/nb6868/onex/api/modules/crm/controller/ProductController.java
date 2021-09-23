@@ -5,7 +5,7 @@ import com.nb6868.onex.api.modules.crm.service.ProductCategoryService;
 import com.nb6868.onex.api.modules.crm.service.ProductService;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.common.util.ExcelUtils;
+import com.nb6868.onex.api.util.ExcelUtils;
 import com.nb6868.onex.api.modules.crm.dto.ProductDTO;
 import com.nb6868.onex.api.modules.crm.excel.ProductExcel;
 import com.nb6868.onex.api.modules.uc.user.SecurityUser;
