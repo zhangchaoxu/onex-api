@@ -3,7 +3,9 @@ package com.nb6868.onex.shop.aspect;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
@@ -89,8 +91,18 @@ public class LogOperationAspect {
         }
 
         // 登录用户信息
-        UserDetail user = SecurityUser.getUser();
-        logEntity.setCreateName(user.getUsername());
+        if ("login".equalsIgnoreCase(logType)) {
+            // 登录
+            JSONObject loginRequest = JSONUtil.parseObj(requestParam);
+            logEntity.setCreateName(MapUtil.getStr(loginRequest, "username"));
+            // 移除登录密码,否则会导致密码泄露
+            loginRequest.remove("password");
+            logEntity.setParams(JSONUtil.toJsonStr(loginRequest));
+        } else {
+            UserDetail user = SecurityUser.getUser();
+            logEntity.setCreateName(user.getUsername());
+            logEntity.setParams(requestParam);
+        }
         logEntity.setState(state);
         logEntity.setRequestTime(time);
         logEntity.setType(logType);
@@ -103,7 +115,6 @@ public class LogOperationAspect {
             logEntity.setUri(request.getRequestURI());
             logEntity.setMethod(request.getMethod());
         }
-        logEntity.setParams(requestParam);
         if ("db".equalsIgnoreCase(logStoreType)) {
             logService.save(logEntity);
         } else {
