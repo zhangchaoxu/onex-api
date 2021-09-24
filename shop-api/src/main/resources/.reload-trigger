@@ -1,0 +1,5 @@
+# 热部署触发文件,随意修改本文件内容,即会触发热部署
+# 需要打开IDEA中Compiler->Build project automatically和Allow auto-make to start even if developed application is currently running
+# 需要设置spring.devtools.restart.trigger-file: .reload-trigger
+
+

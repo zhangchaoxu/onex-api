@@ -1,4 +1,10 @@
 spring:
+  devtools:
+    restart:
+      # 开启热部署
+      enabled: true
+      # 热部署触发文件
+      trigger-file: .reload-trigger
   datasource:
     dynamic:
       datasource:
@@ -9,7 +15,6 @@ spring:
           password: CWCPxhpp67yaErnn
           druid:
             initial-size: 5
-
 
 # mybatis plus
 # see {https://mybatis.plus/config/}

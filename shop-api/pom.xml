@@ -20,6 +20,13 @@
     </properties>
 
     <dependencies>
+        <!-- devtools -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+            <scope>runtime</scope>
+        </dependency>
         <!-- common -->
         <dependency>
             <groupId>com.nb6868.onex</groupId>
@@ -72,6 +79,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
+                    <!-- devtools依赖此配置（否则，devtools不生效）。 -->
+                    <fork>true</fork>
                 </configuration>
             </plugin>
             <plugin>

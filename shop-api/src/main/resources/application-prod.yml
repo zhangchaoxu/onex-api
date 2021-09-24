@@ -5,7 +5,7 @@ server:
     basedir: /www/wwwroot/onex/shop-api/temp
   port: 19003
   servlet:
-    context-path: /onex-shop-api
+    context-path: /shop-api
 
 knife4j:
   # 生产环境开启访问认证
