@@ -3,17 +3,18 @@ package com.nb6868.onex.api.modules.crm.controller;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.nb6868.onex.api.modules.crm.service.ProductCategoryService;
 import com.nb6868.onex.api.modules.crm.service.ProductService;
+import com.nb6868.onex.api.shiro.SecurityUser;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.api.modules.crm.dto.ProductDTO;
 import com.nb6868.onex.api.modules.crm.excel.ProductExcel;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.pojo.MsgResult;
 import com.nb6868.onex.common.pojo.PageData;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.ConvertUtils;
+import com.nb6868.onex.common.util.ExcelUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
@@ -147,7 +148,7 @@ public class ProductController {
         List<MsgResult> result = new ArrayList<>();
         for (ProductExcel item : list) {
             ProductDTO dto = ConvertUtils.sourceToTarget(item, ProductDTO.class);
-            ProductCategoryEntity productCategory = productCategoryService.getByName(dto.getCategoryName(), SecurityUser.getTenantId());
+            ProductCategoryEntity productCategory = productCategoryService.getByName(dto.getCategoryName(), SecurityUser.getUser().getTenantCode());
             if (null == productCategory) {
                 result.add(new MsgResult().error(ErrorCode.ERROR_REQUEST, "未找到产品分类:" + dto.getCategoryName()));
             } else {

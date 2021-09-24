@@ -53,8 +53,8 @@ public class ProductCategoryService extends DtoService<ProductCategoryDao, Produ
     /**
      * 通过名字获取
      */
-    public ProductCategoryEntity getByName(String name, Long tenantId) {
-        return query().eq("name", name).eq("tenant_id", tenantId).last(Const.LIMIT_ONE).one();
+    public ProductCategoryEntity getByName(String name, String tenantCode) {
+        return query().eq("name", name).eq("tenant_code", tenantCode).last(Const.LIMIT_ONE).one();
     }
 
 }

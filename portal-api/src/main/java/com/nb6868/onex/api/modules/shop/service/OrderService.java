@@ -220,8 +220,8 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         order.setOrderTime(DateUtil.date());
         order.setGoodsDetail(goods.getName() + request.getQty());
         order.setUserId(SecurityUser.getUserId());
-        order.setTenantId(goods.getTenantId());
-        order.setTenantName(goods.getTenantName());
+        /*order.setTenantId(goods.getTenantId());
+        order.setTenantName(goods.getTenantName());*/
         order.setGoodsDiscountPrice(new BigDecimal("0"));
         save(order);
 
@@ -234,8 +234,8 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         orderItem.setGoodsPrice(goods.getSalePrice());
         orderItem.setGoodTotalPrice(goods.getSalePrice().multiply(request.getQty()));
         orderItem.setOrderId(order.getId());
-        orderItem.setTenantId(goods.getTenantId());
-        orderItem.setTenantName(goods.getTenantName());
+        /*orderItem.setTenantId(goods.getTenantId());
+        orderItem.setTenantName(goods.getTenantName());*/
         orderItem.setGoodsDiscountPrice(new BigDecimal("0"));
         orderItem.setGoodsTotalDiscountPrice(new BigDecimal("0"));
         orderItemService.save(orderItem);
@@ -246,8 +246,8 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         orderLog.setOrderNo(order.getNo());
         orderLog.setType(1);
         orderLog.setContent("一键下单");
-        orderLog.setTenantId(goods.getTenantId());
-        orderLog.setTenantName(goods.getTenantName());
+        /*orderLog.setTenantId(goods.getTenantId());
+        orderLog.setTenantName(goods.getTenantName());*/
         orderLogService.save(orderLog);
 
         return order;
@@ -264,7 +264,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         AssertUtils.isFalse(order.getPayState() == ShopConst.OrderPayStateEnum.NO_PAY.value(), "订单支付状态不允许支付");
 
         // 支付渠道
-        ChannelEntity channel = channelService.getByTenantIdAndPayType(order.getTenantId(), payRequest.getPayType());
+        ChannelEntity channel = null;//channelService.getByTenantIdAndPayType(order.getTenantId(), payRequest.getPayType());
         AssertUtils.isNull(channel, "不支持该支付渠道");
 
         // 存入PayOrder
@@ -278,8 +278,8 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
             payOrder.setOrderNo(order.getNo());
             payOrder.setOrderTable("shop_order");
             payOrder.setNotifyUrl(channel.getNotifyUrl());
-            payOrder.setTenantId(order.getTenantId());
-            payOrder.setTenantName(order.getTenantName());
+           /* payOrder.setTenantId(order.getTenantId());
+            payOrder.setTenantName(order.getTenantName());*/
             payOrder.setState(0);
             payOrderService.save(payOrder);
         }

@@ -52,9 +52,9 @@ public class StockLogService extends DtoService<StockLogDao, StockLogEntity, Sto
 
         toSaveEntity.setGoodsId(goods.getId());
         toSaveEntity.setGoodsName(goods.getName());
-        toSaveEntity.setTenantId(goods.getTenantId());
+        /*toSaveEntity.setTenantId(goods.getTenantId());
         toSaveEntity.setTenantName(goods.getTenantName());
-
+*/
         if (dto.getType() == 0) {
             // 入库
             toSaveEntity.setOutQty(new BigDecimal(0));

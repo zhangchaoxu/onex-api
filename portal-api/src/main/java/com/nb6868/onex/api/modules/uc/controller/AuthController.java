@@ -13,7 +13,6 @@ import com.nb6868.onex.api.modules.msg.MsgConst;
 import com.nb6868.onex.api.modules.msg.dto.MailSendRequest;
 import com.nb6868.onex.api.modules.msg.service.MailLogService;
 import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.LogLogin;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.api.modules.uc.UcConst;
 import com.nb6868.onex.api.modules.uc.dto.*;
@@ -100,7 +99,7 @@ public class AuthController {
 
     @PostMapping("login")
     @ApiOperation(value = "登录")
-    @LogLogin
+    @LogOperation(value = "登录", type = "login")
     public Result<?> login(@Validated(value = {DefaultGroup.class}) @RequestBody LoginRequest loginRequest) {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(loginRequest.getType());
@@ -118,7 +117,7 @@ public class AuthController {
     @SneakyThrows
     @PostMapping("loginEncrypt")
     @ApiOperation(value = "加密登录")
-    @LogLogin
+    @LogOperation(value = "加密登录", type = "login")
     public Result<?> loginEncrypt(@RequestBody String loginEncrypted) {
         // 密文->urldecode->base64解码->aes解码->原明文->json转实体
         LoginRequest loginRequest = JacksonUtils.jsonToPojo(SecureUtil.aes(Const.AES_KEY.getBytes()).decryptStr(Base64.decodeStr(URLUtil.decode(loginEncrypted))), LoginRequest.class);
@@ -138,7 +137,7 @@ public class AuthController {
     @Deprecated
     @PostMapping("/wxMaLoginByCodeAndUserInfo")
     @ApiOperation("Oauth授权登录")
-    @LogLogin
+    @LogOperation(value = "Oauth授权登录", type = "login")
     public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoRequest request) throws WxErrorException {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
@@ -179,7 +178,7 @@ public class AuthController {
 
     @PostMapping("/wxMaLoginByCode")
     @ApiOperation("Oauth微信小程序授权登录")
-    @LogLogin
+    @LogOperation(value = "Oauth微信小程序授权登录", type = "login")
     public Result<?> wxMaLoginByCode(@Validated @RequestBody OauthLoginByCodeRequest request) throws WxErrorException {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
@@ -212,7 +211,7 @@ public class AuthController {
 
     @PostMapping("/wxMaLoginByPhone")
     @ApiOperation("Oauth微信小程序手机号授权登录")
-    @LogLogin
+    @LogOperation(value = "Oauth微信小程序手机号授权登录", type = "login")
     public Result<?> wxMaLoginByPhone(@Validated @RequestBody OauthWxMaLoginByCodeAndPhone request) throws WxErrorException {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
@@ -248,7 +247,7 @@ public class AuthController {
      */
     @PostMapping("/dingtalkLoginByCode")
     @ApiOperation("钉钉扫码授权登录")
-    @LogLogin
+    @LogOperation(value = "钉钉扫码授权登录", type = "login")
     public Result<?> dingtalkLoginByCode(@Validated @RequestBody OauthLoginByCodeRequest request) {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());

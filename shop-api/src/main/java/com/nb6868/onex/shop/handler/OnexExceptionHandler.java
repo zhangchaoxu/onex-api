@@ -53,7 +53,6 @@ public class OnexExceptionHandler {
      */
     @Value("${spring.profiles.active}")
     private String env;
-
     @Autowired
     private LogService logService;
 

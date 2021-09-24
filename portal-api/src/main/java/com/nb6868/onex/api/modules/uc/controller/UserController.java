@@ -2,10 +2,10 @@ package com.nb6868.onex.api.modules.uc.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.nb6868.onex.api.shiro.SecurityUser;
 import com.nb6868.onex.common.pojo.*;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.DataSqlScope;
-import com.nb6868.onex.common.annotation.LogLogin;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.api.modules.uc.UcConst;
 import com.nb6868.onex.api.modules.uc.dto.ChangePasswordByMailCodeRequest;
@@ -16,9 +16,9 @@ import com.nb6868.onex.api.modules.uc.excel.UserExcel;
 import com.nb6868.onex.api.modules.uc.service.DeptService;
 import com.nb6868.onex.api.modules.uc.service.RoleService;
 import com.nb6868.onex.api.modules.uc.service.UserService;
-import com.nb6868.onex.api.modules.uc.user.SecurityUser;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.util.ConvertUtils;
+import com.nb6868.onex.common.util.ExcelUtils;
 import com.nb6868.onex.common.util.HttpContextUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.ValidatorUtils;
@@ -188,7 +188,7 @@ public class UserController {
 
     @PostMapping("logout")
     @ApiOperation(value = "退出")
-    @LogLogin(type = "LOGOUT")
+    @LogOperation(value = "退出", type = "logout")
     public Result<?> logout(HttpServletRequest request) {
         String token = HttpContextUtils.getRequestParameter(request, UcConst.TOKEN_HEADER);
         userService.logout(token);
