@@ -2,6 +2,7 @@ package com.nb6868.onex.api;
 
 import com.nb6868.onex.common.config.WebSocketConfig;
 import com.nb6868.onex.common.util.SpringBeanNameGenerator;
+import com.nb6868.onex.common.wechat.WechatMaPropsConfig;
 import com.nb6868.onex.common.wechat.WechatMpPropsConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
         // 排除指定类
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
                 WechatMpPropsConfig.class,
+                WechatMaPropsConfig.class,
                 WebSocketConfig.class
         })
 )

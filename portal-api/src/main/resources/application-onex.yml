@@ -1,0 +1,40 @@
+## swagger
+knife4j:
+  enable: true
+  title: Onex-Portal-API
+  description: Onex 管理后台接口
+  setting:
+    enableFooter: false
+    enableFooterCustom: true
+    footerCustomContent: Copyright  2021-[nb6868](https://www.nb6868.com/)
+
+## onex
+onex:
+  # 登录配置
+  auth:
+    ## 权限控制扫描包
+    access-scan-package: com.nb6868.onex.api.modules
+    settings:
+      admin:
+        register: false
+        forget-password: false
+        types:
+          - ADMIN_USERNAME_PASSWORD
+    configs:
+      ## 后台-帐号密码登录
+      ADMIN_USERNAME_PASSWORD:
+        type: ADMIN_USERNAME_PASSWORD
+        multi-login: true
+        token-policy: jwt
+  # 存储配置
+  oss:
+    configs:
+      OSS_PUBLIC:
+        type: aliyun
+        domain: https://xxx.oss-cn-hangzhou.aliyuncs.com/
+        prefix: xxx
+        endPoint: http://oss-cn-hangzhou.aliyuncs.com/
+        accessKeyId: xxx
+        accessKeySecret: xxx
+        bucketName: xxx
+        keepFileName: false

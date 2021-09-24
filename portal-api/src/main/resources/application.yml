@@ -17,7 +17,7 @@ server:
 spring:
   # 环境 dev|test|prod
   profiles:
-    active: dev
+    active: onex,dev
   messages:
     encoding: UTF-8
     basename: i18n/messages
