@@ -2,7 +2,7 @@ spring:
   devtools:
     restart:
       # 开启热部署
-      enabled: true
+      enabled: false
       # 热部署触发文件
       trigger-file: .reload-trigger
   datasource:

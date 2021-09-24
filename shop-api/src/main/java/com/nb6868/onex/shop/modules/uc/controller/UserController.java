@@ -33,7 +33,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/wxMaLoginByPhone")
-    @ApiOperation(value = "微信小程序手机号授权登录", position = 10)
+    @ApiOperation(value = "微信小程序手机号授权登录")
     @AccessControl("/wxMaLoginByPhone")
     @LogOperation(value = "微信小程序手机号授权登录", type = "login")
     public Result<Dict> wxMaLoginByPhone(@Validated(value = {DefaultGroup.class}) @RequestBody OauthWxMaLoginByCodeAndPhone request) {

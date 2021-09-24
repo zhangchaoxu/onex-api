@@ -147,4 +147,307 @@ public class GoodsDTO extends BaseTenantDTO {
 	@ApiModelProperty(value = "销量")
 	private Integer salesVolume;
 
+	public Long getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(Long brandId) {
+		this.brandId = brandId;
+	}
+
+	public Long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public Long getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public String getSupplierName() {
+		return supplierName;
+	}
+
+	public void setSupplierName(String supplierName) {
+		this.supplierName = supplierName;
+	}
+
+	public Integer getSort() {
+		return sort;
+	}
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+
+	public String getSn() {
+		return sn;
+	}
+
+	public void setSn(String sn) {
+		this.sn = sn;
+	}
+
+	public Integer getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(Integer delivery) {
+		this.delivery = delivery;
+	}
+
+	public Integer getMarketable() {
+		return marketable;
+	}
+
+	public void setMarketable(Integer marketable) {
+		this.marketable = marketable;
+	}
+
+	public Integer getTop() {
+		return top;
+	}
+
+	public void setTop(Integer top) {
+		this.top = top;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public Integer getLimitType() {
+		return limitType;
+	}
+
+	public void setLimitType(Integer limitType) {
+		this.limitType = limitType;
+	}
+
+	public Integer getLimitCount() {
+		return limitCount;
+	}
+
+	public void setLimitCount(Integer limitCount) {
+		this.limitCount = limitCount;
+	}
+
+	public Integer getMemberDiscount() {
+		return memberDiscount;
+	}
+
+	public void setMemberDiscount(Integer memberDiscount) {
+		this.memberDiscount = memberDiscount;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public BigDecimal getMarketPrice() {
+		return marketPrice;
+	}
+
+	public void setMarketPrice(BigDecimal marketPrice) {
+		this.marketPrice = marketPrice;
+	}
+
+	public BigDecimal getSalePrice() {
+		return salePrice;
+	}
+
+	public void setSalePrice(BigDecimal salePrice) {
+		this.salePrice = salePrice;
+	}
+
+	public String getAttrs() {
+		return attrs;
+	}
+
+	public void setAttrs(String attrs) {
+		this.attrs = attrs;
+	}
+
+	public Integer getSpecType() {
+		return specType;
+	}
+
+	public void setSpecType(Integer specType) {
+		this.specType = specType;
+	}
+
+	public String getSpecs() {
+		return specs;
+	}
+
+	public void setSpecs(String specs) {
+		this.specs = specs;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public Integer getHits() {
+		return hits;
+	}
+
+	public void setHits(Integer hits) {
+		this.hits = hits;
+	}
+
+	public String getImgs() {
+		return imgs;
+	}
+
+	public void setImgs(String imgs) {
+		this.imgs = imgs;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public Float getScore() {
+		return score;
+	}
+
+	public void setScore(Float score) {
+		this.score = score;
+	}
+
+	public BigDecimal getDistScale() {
+		return distScale;
+	}
+
+	public void setDistScale(BigDecimal distScale) {
+		this.distScale = distScale;
+	}
+
+	public BigDecimal getDistMaxVal() {
+		return distMaxVal;
+	}
+
+	public void setDistMaxVal(BigDecimal distMaxVal) {
+		this.distMaxVal = distMaxVal;
+	}
+
+	public BigDecimal getDistMinVal() {
+		return distMinVal;
+	}
+
+	public void setDistMinVal(BigDecimal distMinVal) {
+		this.distMinVal = distMinVal;
+	}
+
+	public BigDecimal getDistVal() {
+		return distVal;
+	}
+
+	public void setDistVal(BigDecimal distVal) {
+		this.distVal = distVal;
+	}
+
+	public BigDecimal getStock() {
+		return stock;
+	}
+
+	public void setStock(BigDecimal stock) {
+		this.stock = stock;
+	}
+
+	public Integer getCartable() {
+		return cartable;
+	}
+
+	public void setCartable(Integer cartable) {
+		this.cartable = cartable;
+	}
+
+	public BigDecimal getQtyMin() {
+		return qtyMin;
+	}
+
+	public void setQtyMin(BigDecimal qtyMin) {
+		this.qtyMin = qtyMin;
+	}
+
+	public BigDecimal getQtyMax() {
+		return qtyMax;
+	}
+
+	public void setQtyMax(BigDecimal qtyMax) {
+		this.qtyMax = qtyMax;
+	}
+
+	public Date getValidStartTime() {
+		return validStartTime;
+	}
+
+	public void setValidStartTime(Date validStartTime) {
+		this.validStartTime = validStartTime;
+	}
+
+	public Date getValidEndTime() {
+		return validEndTime;
+	}
+
+	public void setValidEndTime(Date validEndTime) {
+		this.validEndTime = validEndTime;
+	}
+
+	public Integer getDistType() {
+		return distType;
+	}
+
+	public void setDistType(Integer distType) {
+		this.distType = distType;
+	}
+
+	public Integer getSalesVolume() {
+		return salesVolume;
+	}
+
+	public void setSalesVolume(Integer salesVolume) {
+		this.salesVolume = salesVolume;
+	}
 }

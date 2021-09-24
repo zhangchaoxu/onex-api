@@ -2,6 +2,7 @@ package com.nb6868.onex.shop.modules.sys.controller;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.system.SystemUtil;
+import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.pojo.Result;
 import io.swagger.annotations.Api;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 @Validated
 @Api(tags = "首页")
+@ApiSupport(order = 0)
 @Slf4j
 public class IndexController {
 

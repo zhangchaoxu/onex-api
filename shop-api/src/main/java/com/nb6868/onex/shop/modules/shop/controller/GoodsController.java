@@ -2,18 +2,14 @@ package com.nb6868.onex.shop.modules.shop.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.PageData;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.shop.modules.shop.dao.GoodsDao;
 import com.nb6868.onex.shop.modules.shop.dto.GoodsDTO;
-import com.nb6868.onex.shop.modules.shop.dto.ReceiverDTO;
 import com.nb6868.onex.shop.modules.shop.entity.GoodsEntity;
 import com.nb6868.onex.shop.modules.shop.service.GoodsService;
-import com.nb6868.onex.shop.shiro.SecurityUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -60,13 +56,13 @@ public class GoodsController {
     @GetMapping("/info")
     @AccessControl("/info")
     @ApiOperation("信息")
-    public Result<?> info(@NotNull(message = "{id.require}") @RequestParam Long id) {
+    public Result<GoodsDTO> info(@NotNull(message = "{id.require}") @RequestParam Long id) {
         GoodsEntity entity = goodsService.getById(id);
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);
         // 转成dto
         GoodsDTO dto = ConvertUtils.sourceToTarget(entity, GoodsDTO.class);
 
-        return new Result<>().success(dto);
+        return new Result<GoodsDTO>().success(dto);
     }
 
 }

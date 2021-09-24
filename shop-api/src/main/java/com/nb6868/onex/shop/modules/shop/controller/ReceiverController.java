@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping("/shop/receiver")
 @Validated
 @Slf4j
-@Api(tags="收货地址")
+@Api(tags = "收货地址")
 @ApiSupport(order = 160)
 public class ReceiverController {
 
@@ -50,21 +50,21 @@ public class ReceiverController {
 
     @GetMapping("info")
     @ApiOperation(value = "信息", position = 20)
-    public Result<?> info(@NotNull(message = "{id.require}") @RequestParam Long id) {
+    public ReceiverDTO info(@NotNull(message = "{id.require}") @RequestParam Long id) {
         ReceiverEntity entity = receiverService.getByIdAndUserId(id, SecurityUser.getUserId());
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);
         // 转成dto
         ReceiverDTO dto = ConvertUtils.sourceToTarget(entity, ReceiverDTO.class);
 
-        return new Result<>().success(dto);
+        return dto;
     }
 
     @PostMapping("save")
     @ApiOperation(value = "保存", position = 30)
     @LogOperation("保存")
-    public Result<?> save(@Validated(value = {DefaultGroup.class, AddGroup.class}) @RequestBody ReceiverDTO dto) {
+    public Result<ReceiverDTO> save(@Validated(value = {DefaultGroup.class, AddGroup.class}) @RequestBody ReceiverDTO dto) {
         // todo 注意. 检查内容以及默认项
-        return new Result<>().success();
+        return new Result<ReceiverDTO>().success(dto);
     }
 
     @PutMapping("update")

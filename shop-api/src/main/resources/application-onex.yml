@@ -4,6 +4,8 @@ knife4j:
   title: Onex-Shop-API
   description: Onex商城接口
   setting:
+    enableGroup: false
+    enableSwaggerModels: true
     enableFooter: false
     enableFooterCustom: true
     footerCustomContent: Copyright  2021-[nb6868](https://www.nb6868.com/)

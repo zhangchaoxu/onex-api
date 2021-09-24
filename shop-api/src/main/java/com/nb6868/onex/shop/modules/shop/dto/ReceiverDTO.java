@@ -1,19 +1,12 @@
 package com.nb6868.onex.shop.modules.shop.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-@ApiModel(value = "收货地址DTO")
-public class ReceiverDTO implements Serializable {
-    private static final long serialVersionUID = 1L;
+// @ApiModel(value = "收货地址")
+public class ReceiverDTO {
 
     @ApiModelProperty(value = "ID")
     private Long id;
@@ -55,4 +48,92 @@ public class ReceiverDTO implements Serializable {
     @ApiModelProperty(value = "是否默认", required = true)
     @NotNull(message = "是否默认不能为空")
     private Integer defaultItem;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    public String getAreaCode() {
+        return areaCode;
+    }
+
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getAddressDetail() {
+        return addressDetail;
+    }
+
+    public void setAddressDetail(String addressDetail) {
+        this.addressDetail = addressDetail;
+    }
+
+    public Integer getDefaultItem() {
+        return defaultItem;
+    }
+
+    public void setDefaultItem(Integer defaultItem) {
+        this.defaultItem = defaultItem;
+    }
 }
