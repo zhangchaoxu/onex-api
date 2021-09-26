@@ -4,12 +4,14 @@ knife4j:
   title: Onex-Shop-API
   description: Onex商城接口
   setting:
+    enableHomeCustom: true
+    homeCustomLocation: classpath:markdown/home.md
     enableGroup: false
     enableSwaggerModels: true
     # 自定义footer
     enableFooter: false
     enableFooterCustom: true
-    footerCustomContent: Copyright  2021-[nb6868](https://www.nb6868.com/)
+    footerCustomContent: Copyright  2021-current [nb6868](https://www.nb6868.com/)
     # 自定义首页
     enableHomeCustom: true
     homeCustomLocation: classpath:README.md

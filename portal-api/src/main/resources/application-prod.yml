@@ -1,3 +1,19 @@
+# Tomcat
+server:
+  tomcat:
+    # 配置tomcat的临时目录
+    basedir: /www/wwwroot/onex/portal-api/temp
+  port: 19004
+  servlet:
+    context-path: /portal-api
+
+knife4j:
+  # 生产环境开启访问认证
+  basic:
+    enable: true
+    username: portal-api
+    password: portal-api@2021
+
 spring:
   ## 定时任务
   quartz:

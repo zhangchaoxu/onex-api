@@ -14,9 +14,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.core.env.Environment;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @ComponentScan(nameGenerator = SpringBeanNameGenerator.class,
         // 扫描包
@@ -30,19 +27,20 @@ import java.net.UnknownHostException;
 @Slf4j
 public class ShopApiApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args) throws UnknownHostException  {
+    public static void main(String[] args) {
         ConfigurableApplicationContext app = SpringApplication.run(ShopApiApplication.class, args);
+
         Environment env = app.getEnvironment();
-        log.info("\n----------------------------------------------------------\n\t" +
-                        "Application '{}' is running! Access URLs:\n\t" +
-                        "External: \thttp://{}:{}\n\t"+
-                        "Doc: \thttp://{}:{}/doc.html\n"+
-                        "----------------------------------------------------------",
+        log.info("\n################## {} Running ##################\n" +
+                        ":: Link ::\thttp://127.0.0.1:{}{}\n" +
+                        ":: Doc ::\thttp://127.0.0.1:{}{}/doc.html\n" +
+                        "################## {} Running ##################",
                 env.getProperty("spring.application.name"),
-                InetAddress.getLocalHost().getHostAddress(),
                 env.getProperty("server.port"),
-                InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port"));
+                env.getProperty("server.servlet.context-path"),
+                env.getProperty("server.port"),
+                env.getProperty("server.servlet.context-path"),
+                env.getProperty("spring.application.name"));
     }
 
     @Override

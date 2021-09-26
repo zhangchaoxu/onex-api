@@ -9,12 +9,14 @@ server:
       min-spare: 30
   port: 18181
   servlet:
-    context-path: /onex-boot-api
+    context-path: /portal-api
     session:
       cookie:
         http-only: true
 
 spring:
+  application:
+    name: portal-api
   # 环境 dev|test|prod
   profiles:
     active: onex,dev
