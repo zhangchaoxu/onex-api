@@ -6,9 +6,13 @@ knife4j:
   setting:
     enableGroup: false
     enableSwaggerModels: true
+    # 自定义footer
     enableFooter: false
     enableFooterCustom: true
     footerCustomContent: Copyright  2021-[nb6868](https://www.nb6868.com/)
+    # 自定义首页
+    enableHomeCustom: true
+    homeCustomLocation: classpath:README.md
 
 ## onex
 onex:

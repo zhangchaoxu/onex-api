@@ -1,7 +1,6 @@
 package com.nb6868.onex.shop.modules.sys.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.lang.Dict;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.exception.ErrorCode;
@@ -41,8 +40,8 @@ public class OssController {
     @PostMapping("upload")
     @ApiOperation(value = "上传单文件")
     @LogOperation("上传单文件")
-    public Result<?> upload(@RequestParam(required = false, defaultValue = "OSS_PUBLIC", name = "OSS配置参数") String paramCode,
-                            @RequestParam("file") MultipartFile file,
+    public Result<String> upload(@RequestParam("file") MultipartFile file,
+                            @RequestParam(required = false, defaultValue = "OSS_PUBLIC", name = "存储配置") String paramCode,
                             @RequestParam(required = false, name = "路径前缀") String prefix) {
         AssertUtils.isTrue(file.isEmpty(), ErrorCode.UPLOAD_FILE_EMPTY);
 
@@ -56,15 +55,15 @@ public class OssController {
         oss.setContentType(file.getContentType());
         ossService.save(oss);
 
-        return new Result<>().success(Dict.create().set("src", url).set("oss", oss));
+        return new Result<String>().success(url);
     }
 
     @PostMapping("uploadBase64")
     @ApiOperation(value = "上传单文件base64")
     @LogOperation("上传单文件base64")
-    public Result<?> uploadBase64(@RequestParam(required = false, defaultValue = "OSS_PUBLIC", name = "OSS配置参数") String paramCode,
-                                  @RequestParam(name = "文件base64") String fileBase64,
-                                  @RequestParam(required = false, name = "路径前缀") String prefix) {
+    public Result<String> uploadBase64(@RequestParam(name = "文件base64") String fileBase64,
+            @RequestParam(required = false, defaultValue = "OSS_PUBLIC", name = "配置参数") String paramCode,
+            @RequestParam(required = false, name = "路径前缀") String prefix) {
         // 将base64转成file
         MultipartFile file = MultipartFileUtils.base64ToMultipartFile(fileBase64);
         AssertUtils.isTrue(file.isEmpty(), ErrorCode.UPLOAD_FILE_EMPTY);
@@ -79,17 +78,16 @@ public class OssController {
         oss.setContentType(file.getContentType());
         ossService.save(oss);
 
-        return new Result<>().success(Dict.create().set("src", url).set("oss", oss));
+        return new Result<String>().success(url);
     }
 
     @PostMapping("uploadMulti")
     @ApiOperation(value = "上传多文件")
     @LogOperation("上传多文件")
-    public Result<?> uploadMulti(@RequestParam(required = false, defaultValue = "OSS_PUBLIC", name = "OSS配置参数") String paramCode,
+    public Result<String> uploadMulti(@RequestParam(required = false, defaultValue = "OSS_PUBLIC", name = "配置参数") String paramCode,
                                  @RequestParam("file") @NotEmpty(message = "文件不能为空") MultipartFile[] files,
                                  @RequestParam(required = false, name = "路径前缀") String prefix) {
         List<String> srcList = new ArrayList<>();
-        List<OssEntity> ossList = new ArrayList<>();
         AbstractOssService abstractOssService = OssPropsConfig.getService(paramCode);
         for (MultipartFile file : files) {
             // 上传文件
@@ -102,10 +100,8 @@ public class OssController {
             oss.setContentType(file.getContentType());
             ossService.save(oss);
             srcList.add(url);
-            ossList.add(oss);
         }
-
-        return new Result<>().success(Dict.create().set("src", CollUtil.join(srcList, ",")).set("oss", ossList));
+        return new Result<String>().success(CollUtil.join(srcList, ","));
     }
 
 }

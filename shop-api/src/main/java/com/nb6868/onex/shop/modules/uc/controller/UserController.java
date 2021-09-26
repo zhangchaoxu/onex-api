@@ -79,12 +79,12 @@ public class UserController {
     @GetMapping("userInfo")
     @ApiOperation(value = "登录用户信息", position = 100)
     @LogOperation(value = "登录用户信息")
-    public Result<?> userInfo() {
+    public Result<UserDTO> userInfo() {
         UserEntity entity = userService.getById(SecurityUser.getUserId());
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);
         // 转换成dto
         UserDTO dto = ConvertUtils.sourceToTarget(entity, UserDTO.class);
-        return new Result<>().success(dto);
+        return new Result<UserDTO>().success(dto);
     }
 
 }
