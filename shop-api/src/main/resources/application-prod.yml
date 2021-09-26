@@ -10,7 +10,7 @@ server:
 knife4j:
   # 生产环境开启访问认证
   basic:
-    enable: true
+    enable: false
     username: shop-api
     password: shop-api@2021
 
