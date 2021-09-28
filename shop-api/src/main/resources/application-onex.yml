@@ -1,11 +1,7 @@
 ## swagger
 knife4j:
   enable: true
-  title: Onex-Shop-API
-  description: Onex商城接口
   setting:
-    enableHomeCustom: true
-    homeCustomLocation: classpath:markdown/home.md
     enableGroup: false
     enableSwaggerModels: true
     # 自定义footer

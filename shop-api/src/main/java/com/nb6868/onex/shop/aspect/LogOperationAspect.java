@@ -4,14 +4,14 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.HttpContextUtils;
 import com.nb6868.onex.common.util.JacksonUtils;
-import com.nb6868.onex.shop.modules.sys.dao.LogDao;
+import com.nb6868.onex.shop.config.EventHandler;
+import com.nb6868.onex.shop.config.LogEvent;
 import com.nb6868.onex.shop.modules.sys.entity.LogEntity;
 import com.nb6868.onex.shop.modules.sys.service.LogService;
 import com.nb6868.onex.shop.shiro.SecurityUser;
@@ -32,7 +32,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 操作日志，切面处理类
@@ -46,6 +48,9 @@ public class LogOperationAspect {
 
     @Autowired
     private LogService logService;
+
+    @Autowired
+    private EventHandler eventHandler;
 
     @Pointcut("@annotation(com.nb6868.onex.common.annotation.LogOperation)")
     public void pointcut() {
@@ -120,6 +125,9 @@ public class LogOperationAspect {
         } else {
             log.info(JSONUtil.toJsonStr(logEntity));
         }
+        LogEvent logEvent = new LogEvent();
+        logEvent.setName("sssss");
+        eventHandler.eventPost(logEvent);
     }
 
     /**

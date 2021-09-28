@@ -1,8 +1,6 @@
 ## swagger
 knife4j:
   enable: true
-  title: Onex-Portal-API
-  description: Onex 管理后台接口
   setting:
     enableFooter: false
     enableFooterCustom: true
