@@ -27,20 +27,7 @@ public class CalendarEntity implements Serializable {
 	private Date dayDate;
 
     /**
-     * 年
-     */
-	private Integer year;
-    /**
-     * 月
-     */
-	private Integer month;
-    /**
-     * 日
-     */
-	private Integer day;
-    /**
-     * 类型:
-0 节假日调班，1节假日休息，2正常工作日，3正常周末
+     * 类型:0工作日/1周末/2节日/3调休
      */
 	private Integer type;
     /**

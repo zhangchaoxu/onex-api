@@ -1,11 +1,11 @@
 package com.nb6868.onex.api.modules.sys.dto;
 
-import com.nb6868.onex.common.pojo.BaseDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,19 +16,13 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "万年历")
-public class CalendarDTO extends BaseDTO {
+public class CalendarDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-	@ApiModelProperty(value = "年")
-	private Integer year;
+	@ApiModelProperty(value = "日期")
+	private Date dayDate;
 
-	@ApiModelProperty(value = "月")
-	private Integer month;
-
-	@ApiModelProperty(value = "日")
-	private Integer day;
-
-	@ApiModelProperty(value = "类型")
+	@ApiModelProperty(value = "类型:0工作日/1周末/2节日/3调休")
 	private Integer type;
 
 	@ApiModelProperty(value = "星期")
@@ -51,8 +45,5 @@ public class CalendarDTO extends BaseDTO {
 
 	@ApiModelProperty(value = "星座")
 	private String star;
-
-	@ApiModelProperty(value = "日期")
-	private Date dayDate;
 
 }
