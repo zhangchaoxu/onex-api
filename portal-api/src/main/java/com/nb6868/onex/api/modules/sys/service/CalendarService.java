@@ -30,6 +30,7 @@ public class CalendarService extends EntityService<CalendarDao, CalendarEntity> 
 
     /**
      * 用接口同步
+     * http://timor.tech/api/holiday/
      */
     public boolean syncWithApi(Date startDay, Date endDay) {
         // 日期列表

@@ -21,7 +21,7 @@ public class CalendarTest {
     @Test
     @DisplayName("从接口获取数据")
     public void syncHoliday() {
-        calendarService.syncWithApi(DateUtil.parseDate("2020-01-01"), DateUtil.parseDate("2020-12-31"));
+        calendarService.syncWithApi(DateUtil.parseDate("2022-01-01"), DateUtil.parseDate("2022-12-31"));
     }
 
 }

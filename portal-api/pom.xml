@@ -23,6 +23,7 @@
         <weixin.version>4.1.0</weixin.version>
         <jpush.version>3.4.9</jpush.version>
         <zxing.version>3.4.1</zxing.version>
+        <skipTests>true</skipTests>
     </properties>
 
     <dependencies>
@@ -164,7 +165,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <skipTests>${skipTests}</skipTests>
                 </configuration>
             </plugin>
         </plugins>
