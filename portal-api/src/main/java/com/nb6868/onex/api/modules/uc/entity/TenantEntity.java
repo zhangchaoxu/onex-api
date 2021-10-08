@@ -16,8 +16,13 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @TableName("uc_tenant")
 public class TenantEntity extends BaseEntity {
+
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 编码
+	 */
+	private String code;
     /**
      * 名称
      */
