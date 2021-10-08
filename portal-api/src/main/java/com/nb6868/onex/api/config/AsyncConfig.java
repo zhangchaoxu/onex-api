@@ -7,6 +7,7 @@ import com.nb6868.onex.api.modules.sys.service.LogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -23,6 +24,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author Charles zhangchaoxu@gmail.com
  */
 @Configuration
+@ConditionalOnProperty(name = "onex.async.enable", havingValue = "true")
 @EnableAsync
 @Slf4j
 public class AsyncConfig implements AsyncConfigurer {

@@ -2,12 +2,14 @@ package com.nb6868.onex.api.modules.uc.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nb6868.onex.api.modules.uc.dao.TokenDao;
 import com.nb6868.onex.api.modules.uc.entity.TokenEntity;
+import com.nb6868.onex.api.modules.uc.entity.UserEntity;
 import com.nb6868.onex.common.auth.AuthProps;
-import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.EntityService;
+import com.nb6868.onex.common.pojo.Const;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -43,34 +45,62 @@ public class TokenService extends EntityService<TokenDao, TokenEntity> {
     /**
      * 生成token
      *
-     * @param userId      用户ID
-     * @param loginConfig 登录配置
+     * @param user       用户
+     * @param loginProps 登录配置
      * @return result
      */
-    public String createToken(Long userId, AuthProps.Config loginConfig) {
-        // 当前时间
-        Date now = new Date();
-        // 过期时间
-        Date expireTime = DateUtil.offsetSecond(now, loginConfig.getTokenExpire().intValue());
-        // 生成的token
-        if (loginConfig.isMultiLogin()) {
-            // 支持多点登录
+    public String createToken(UserEntity user, AuthProps.Config loginProps) {
+        if ("full".equalsIgnoreCase(loginProps.getVerifyType())) {
+            // 当前时间
+            Date now = new Date();
+            // 过期时间
+            Date expireTime = DateUtil.offsetSecond(now, loginProps.getTokenExpire());
+            // 生成的token
+            if (loginProps.isMultiLogin()) {
+                // 支持多点登录
+            } else {
+                // 不支持多点登录,注销该用户所有token
+                deleteTokenByUserId(user.getId(), loginProps.getType());
+            }
+            // 不管逻辑，永远都是重新生成一个token
+            TokenEntity tokenEntity = new TokenEntity();
+            tokenEntity.setUserId(user.getId());
+            if ("uuid".equalsIgnoreCase(loginProps.getTokenPolicy())) {
+                tokenEntity.setToken(IdUtil.simpleUUID());
+            } else {
+                String jwtToken = JWT.create()
+                        .setPayload("id", user.getId())
+                        .setPayload("username", user.getUsername())
+                        .setPayload("realName", user.getRealName())
+                        .setSubject(loginProps.getType())
+                        .setKey(loginProps.getTokenKey().getBytes())
+                        .setExpiresAt(DateUtil.offsetSecond(new Date(), loginProps.getTokenExpire()))
+                        .sign();
+                tokenEntity.setToken(jwtToken);
+            }
+            tokenEntity.setUpdateTime(now);
+            tokenEntity.setExpireTime(expireTime);
+            tokenEntity.setType(loginProps.getType());
+
+            // 保存token
+            this.save(tokenEntity);
+
+            return tokenEntity.getToken();
         } else {
-            // 不支持多点登录,注销该用户所有token
-            deleteTokenByUserId(userId, loginConfig.getType());
+            // 不存数据库
+            if ("uuid".equalsIgnoreCase(loginProps.getTokenPolicy())) {
+                return IdUtil.simpleUUID();
+            } else {
+                return JWT.create()
+                        .setPayload("id", user.getId())
+                        .setPayload("username", user.getUsername())
+                        .setPayload("realName", user.getRealName())
+                        .setSubject(loginProps.getType())
+                        .setKey(loginProps.getTokenKey().getBytes())
+                        .setExpiresAt(DateUtil.offsetSecond(new Date(), loginProps.getTokenExpire()))
+                        .sign();
+            }
         }
-        // 不管逻辑，永远都是重新生成一个token
-        TokenEntity tokenEntity = new TokenEntity();
-        tokenEntity.setUserId(userId);
-        tokenEntity.setToken(IdUtil.simpleUUID());
-        tokenEntity.setUpdateTime(now);
-        tokenEntity.setExpireTime(expireTime);
-        tokenEntity.setType(loginConfig.getType());
-
-        // 保存token
-        this.save(tokenEntity);
-
-        return tokenEntity.getToken();
     }
 
     /**
@@ -107,6 +137,7 @@ public class TokenService extends EntityService<TokenDao, TokenEntity> {
 
     /**
      * 删除用户token
+     *
      * @param userIds 用户ID数组
      * @return result
      */

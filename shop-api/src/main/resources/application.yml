@@ -76,7 +76,7 @@ mybatis-plus:
   # 实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: com.nb6868.onex.modules.*.entity,com.nb6868.onex.shop.modules.*.entity
   # 枚举扫描
-  # typeEnumsPackage: com.govsz.plus.modules.*.enums
+  # typeEnumsPackage: com.nb6868.onex.modules.*.enums
   global-config:
     # 数据库相关配置
     db-config:

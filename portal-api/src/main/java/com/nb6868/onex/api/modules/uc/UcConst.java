@@ -25,7 +25,7 @@ public interface UcConst {
     /**
      * token header
      */
-    String TOKEN_HEADER = "token";
+    String TOKEN_HEADER = "auth-token";
 
     /**
      * 微信公众号配置项默认key

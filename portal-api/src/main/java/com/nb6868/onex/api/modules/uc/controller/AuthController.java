@@ -109,7 +109,8 @@ public class AuthController {
 
         // 登录成功
         Dict dict = Dict.create();
-        dict.set(UcConst.TOKEN_HEADER, tokenService.createToken(user.getId(), loginConfig));
+        dict.set("tokenKey", UcConst.TOKEN_HEADER);
+        dict.set("token", tokenService.createToken(user, loginConfig));
         dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
         return new Result<>().success(dict);
     }
@@ -171,7 +172,8 @@ public class AuthController {
         }
         // 登录成功
         Dict dict = Dict.create();
-        dict.set(UcConst.TOKEN_HEADER, tokenService.createToken(user.getId(), loginConfig));
+        dict.set("tokenKey", UcConst.TOKEN_HEADER);
+        dict.set("token", tokenService.createToken(user, loginConfig));
         dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
         return new Result<>().success(dict);
     }
@@ -204,7 +206,8 @@ public class AuthController {
         }
         // 登录成功
         Dict dict = Dict.create();
-        dict.set(UcConst.TOKEN_HEADER, tokenService.createToken(user.getId(), loginConfig));
+        dict.set("tokenKey", UcConst.TOKEN_HEADER);
+        dict.set("token", tokenService.createToken(user, loginConfig));
         dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
         return new Result<>().success(dict);
     }
@@ -236,7 +239,8 @@ public class AuthController {
         }
         // 登录成功
         Dict dict = Dict.create();
-        dict.set(UcConst.TOKEN_HEADER, tokenService.createToken(user.getId(), loginConfig));
+        dict.set("tokenKey", UcConst.TOKEN_HEADER);
+        dict.set("token", tokenService.createToken(user, loginConfig));
         dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
         return new Result<>().success(dict);
     }
