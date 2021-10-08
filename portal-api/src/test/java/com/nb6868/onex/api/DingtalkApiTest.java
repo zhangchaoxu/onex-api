@@ -17,7 +17,7 @@ public class DingtalkApiTest {
         dict.set("msgtype", "text")
                 .set("text", Dict.create().set("content", "测试消息内容"))
                 .set("at", Dict.create().set("atMobiles", new String[]{"13012345678"}));
-        BaseResponse response = DingTalkApi.sendRobotMsg("", "", dict);
+        BaseResponse response = DingTalkApi.sendRobotMsg("",  dict);
         System.out.println(response);
     }
 
