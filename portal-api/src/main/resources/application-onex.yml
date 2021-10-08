@@ -8,6 +8,24 @@ knife4j:
 
 ## onex
 onex:
+  # 过滤器
+  filter:
+    enable: true
+  # mybatis
+  mybatisplus:
+    enable: true
+  # swagger
+  swagger:
+    enable: true
+  # WebMVC
+  webmvc:
+    enable: true
+  # WebSocket
+  websocket:
+    enable: true
+  # async
+  async:
+    enable: true
   # 登录配置
   auth:
     ## 权限控制扫描包
@@ -26,6 +44,7 @@ onex:
         token-policy: jwt
   # 存储配置
   oss:
+    enable: true
     configs:
       OSS_PUBLIC:
         type: aliyun
