@@ -24,7 +24,7 @@ public class WebSocketServer {
 
     // 线程安全Set，存放每个客户端对应的MyWebSocket对象
     private final static CopyOnWriteArraySet<WebSocketServer> webSockets = new CopyOnWriteArraySet<>();
-    private final static Map<Long, Session> sessionPool = new HashMap<>();
+    private final static Map<String, Session> sessionPool = new HashMap<>();
 
     // 与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
@@ -33,11 +33,13 @@ public class WebSocketServer {
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "sid") Long sid) {
+    public void onOpen(Session session, @PathParam(value = "sid") String sid) {
         this.session = session;
         webSockets.add(this);
         sessionPool.put(sid, session);
         log.debug("[websocket]" + sid + "接入,当前总数为:" + webSockets.size());
+        // 发送反馈消息
+        sendOneMessage(sid, "connect success [" + sid + "]");
     }
 
     /**
@@ -51,11 +53,13 @@ public class WebSocketServer {
 
     /**
      * 收到客户端消息后调用的方法
-     * @ Param message 客户端发送过来的消息
+     * @param message 客户端发送过来的消息
      */
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(String message, @PathParam(value = "sid") String sid) {
         log.debug("[websocket]" + "收到客户端消息:" + message);
+        // 发送反馈消息
+        sendOneMessage(sid, "message received [" + sid + "]");
     }
 
     @OnError
@@ -64,30 +68,27 @@ public class WebSocketServer {
         error.printStackTrace();
     }
 
-
     /**
      * 发送广播消息
-     * @param message
+     * @param message 广播的消息
      */
-    public void sendAllMessage(String message) {
-        for (WebSocketServer webSocket : webSockets) {
+    public void sendBroadcast(String message) {
+        webSockets.forEach(webSocketServer -> {
             log.debug("[websocket]" + "广播消息:" + message);
             try {
-                webSocket.session.getAsyncRemote().sendText(message);
+                webSocketServer.session.getAsyncRemote().sendText(message);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 
     /**
      * 发送单点消息
-     * @param userId
-     * @param message
      */
-    public void sendOneMessage(Long userId, String message) {
+    public void sendOneMessage(String sid, String message) {
         log.debug("[websocket]" + "单点消息:" + message);
-        Session session = sessionPool.get(userId);
+        Session session = sessionPool.get(sid);
         if (session != null) {
             try {
                 session.getAsyncRemote().sendText(message);
@@ -99,13 +100,11 @@ public class WebSocketServer {
 
     /**
      * 发送多点消息
-     * @param userIdList
-     * @param message
      */
-    public void sendMultiMessage(List<Long> userIdList, String message) {
+    public void sendMultiMessage(List<String> sidList, String message) {
         log.debug("[websocket]" + "单点消息:" + message);
-        for (Long userId : userIdList) {
-            Session session = sessionPool.get(userId);
+        sidList.forEach(sid -> {
+            Session session = sessionPool.get(sid);
             if (session != null) {
                 try {
                     session.getAsyncRemote().sendText(message);
@@ -113,7 +112,7 @@ public class WebSocketServer {
                     e.printStackTrace();
                 }
             }
-        }
+        });
     }
 
 }

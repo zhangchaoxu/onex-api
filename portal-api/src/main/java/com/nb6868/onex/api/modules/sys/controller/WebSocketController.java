@@ -6,9 +6,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.Map;
 
 /**
  * WebSocket
@@ -26,14 +23,15 @@ public class WebSocketController {
 
     @GetMapping("getOpenSockets")
     @ApiOperation("获得目前连接的Socket")
-    public Result<?> getOpenSockets(@ApiIgnore @RequestParam Map<String, Object> params) {
+    public Result<?> getOpenSockets() {
         return new Result<>();
     }
 
     @PostMapping("sendOneMessage")
     @ApiOperation("发送单点消息")
-    public Result<?> sendOneMessage(@RequestParam Long id, @RequestParam String content) {
-        webSocketServer.sendOneMessage(id, content);
+    public Result<?> sendOneMessage(@RequestParam String sid, @RequestParam String content) {
+        webSocketServer.sendOneMessage(sid, content);
         return new Result<>();
     }
+
 }
