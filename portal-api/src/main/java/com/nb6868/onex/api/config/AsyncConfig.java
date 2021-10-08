@@ -33,6 +33,7 @@ public class AsyncConfig implements AsyncConfigurer {
     private LogService logService;
 
     @Override
+    // 可以在@Async注解指定Executor
     @Bean(name = "taskExecutor")
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
@@ -41,8 +42,17 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.setQueueCapacity(1000); //队列大小
         executor.setKeepAliveSeconds(300); //线程最大空闲时间
         executor.setThreadNamePrefix("onex-AsyncExecutor-");
+        /**
+         * 当线程池的任务缓存队列已满，并且线程池中的线程数目达到maximumPoolSize,如果还有任务到来就会采取任务拒绝策略
+         * 通常有以下四种策略:
+         * ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。
+         * ThreadPoolExecutor.DiscardPolicy: 也是丢弃任务，但是不抛出异常。
+         * ThreadPoolExecutor.DiscardOldestPolicy: 丢弃队列最前面的任务，然后重新尝试执行任务(重复此过程)
+         * ThreadPoolExecutor.CallerRunsPolicy:重试添加当前的任务，自动重复调用execute()方法，直到成功
+         */
         // 拒绝策略
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.initialize();
         return executor;
     }
 
@@ -66,7 +76,8 @@ public class AsyncConfig implements AsyncConfigurer {
             log.error("Async Exception message=", throwable);
             // 异常信息
             LogEntity logEntity = new LogEntity();
-            logEntity.setType("error.async");
+            logEntity.setType("error");
+            logEntity.setOperation("asyncTask");
             logEntity.setState(0);
             logEntity.setUri(method.getDeclaringClass().getName() + "." + method.getName());
             logEntity.setContent(ExceptionUtil.stacktraceToString(throwable));
