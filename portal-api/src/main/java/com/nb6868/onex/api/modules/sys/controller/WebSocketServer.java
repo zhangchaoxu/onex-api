@@ -22,12 +22,19 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/ws/{sid}")
 public class WebSocketServer {
 
-    // 线程安全Set，存放每个客户端对应的MyWebSocket对象
+    // 线程安全Set，存放每个客户端对应的WebSocketServer对象
     private final static CopyOnWriteArraySet<WebSocketServer> webSockets = new CopyOnWriteArraySet<>();
     private final static Map<String, Session> sessionPool = new HashMap<>();
 
     // 与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
+
+    /**
+     * 获得session pool
+     */
+    public Map<String, Session> getSessionPool() {
+        return sessionPool;
+    }
 
     /**
      * 连接建立成功调用的方法
@@ -46,7 +53,8 @@ public class WebSocketServer {
      * 连接关闭调用的方法
      */
     @OnClose
-    public void onClose() {
+    public void onClose(@PathParam(value = "sid") String sid) {
+        sessionPool.remove(sid);
         webSockets.remove(this);
         log.debug("[websocket]" + "连接断开,当前总数为:" + webSockets.size());
     }
@@ -86,15 +94,19 @@ public class WebSocketServer {
     /**
      * 发送单点消息
      */
-    public void sendOneMessage(String sid, String message) {
+    public boolean sendOneMessage(String sid, String message) {
         log.debug("[websocket]" + "单点消息:" + message);
         Session session = sessionPool.get(sid);
         if (session != null) {
             try {
                 session.getAsyncRemote().sendText(message);
+                return true;
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
+        } else {
+            return false;
         }
     }
 
