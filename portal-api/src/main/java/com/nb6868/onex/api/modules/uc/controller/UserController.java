@@ -1,12 +1,6 @@
 package com.nb6868.onex.api.modules.uc.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
-import cn.hutool.crypto.digest.DigestUtil;
-import com.nb6868.onex.api.shiro.SecurityUser;
-import com.nb6868.onex.common.pojo.*;
-import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.DataSqlScope;
-import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.api.modules.uc.UcConst;
 import com.nb6868.onex.api.modules.uc.dto.ChangePasswordByMailCodeRequest;
 import com.nb6868.onex.api.modules.uc.dto.PasswordDTO;
@@ -16,10 +10,16 @@ import com.nb6868.onex.api.modules.uc.excel.UserExcel;
 import com.nb6868.onex.api.modules.uc.service.DeptService;
 import com.nb6868.onex.api.modules.uc.service.RoleService;
 import com.nb6868.onex.api.modules.uc.service.UserService;
+import com.nb6868.onex.api.shiro.SecurityUser;
+import com.nb6868.onex.common.annotation.AccessControl;
+import com.nb6868.onex.common.annotation.DataSqlScope;
+import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.exception.ErrorCode;
+import com.nb6868.onex.common.pojo.*;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.util.ExcelUtils;
 import com.nb6868.onex.common.util.HttpContextUtils;
+import com.nb6868.onex.common.util.PasswordUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
@@ -108,10 +108,9 @@ public class UserController {
         UserEntity data = userService.getById(SecurityUser.getUserId());
         AssertUtils.isNull(data, ErrorCode.DB_RECORD_NOT_EXISTED);
         // 校验原密码
-        AssertUtils.isFalse(DigestUtil.bcryptCheck(dto.getPassword(), data.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);
+        AssertUtils.isFalse(PasswordUtils.verify(dto.getPassword(), data.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);
 
         userService.updatePassword(data.getId(), dto.getNewPassword());
-
         return new Result<>();
     }
 

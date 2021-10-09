@@ -1,7 +1,6 @@
 package com.nb6868.onex.api.modules.uc.service;
 
 import cn.hutool.core.text.StrSplitter;
-import cn.hutool.crypto.digest.DigestUtil;
 import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nb6868.onex.api.modules.msg.MsgConst;
@@ -18,6 +17,7 @@ import com.nb6868.onex.common.auth.AuthProps;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.util.JacksonUtils;
+import com.nb6868.onex.common.util.PasswordUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,7 +131,7 @@ public class AuthService {
             user = userService.getOneByColumn("username", loginRequest.getUsername());
             AssertUtils.isNull(user, ErrorCode.ACCOUNT_NOT_EXIST);
             AssertUtils.isFalse(user.getState() == UcConst.UserStateEnum.ENABLED.value(), ErrorCode.ACCOUNT_DISABLE);
-            AssertUtils.isFalse(DigestUtil.bcryptCheck(loginRequest.getPassword(), user.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);
+            AssertUtils.isFalse(PasswordUtils.verify(loginRequest.getPassword(), user.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);
         } else if (UcConst.LoginTypeEnum.ADMIN_MOBILE_SMSCODE.name().equalsIgnoreCase(loginRequest.getType()) || UcConst.LoginTypeEnum.APP_MOBILE_SMS.name().equalsIgnoreCase(loginRequest.getType())) {
             // 手机号验证码登录
             ValidatorUtils.validateEntity(loginRequest, LoginRequest.MobileSmsCodeGroup.class);

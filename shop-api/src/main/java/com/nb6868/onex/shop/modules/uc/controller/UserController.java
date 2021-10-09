@@ -57,7 +57,7 @@ public class UserController {
             user = new UserEntity();
             user.setMobile(phoneNumberInfo.getPurePhoneNumber());
             user.setUsername(phoneNumberInfo.getPurePhoneNumber());
-            user.setPassword(DigestUtil.bcrypt(phoneNumberInfo.getPurePhoneNumber()));
+            user.setPassword(PasswordUtils.encode(phoneNumberInfo.getPurePhoneNumber()));
             user.setState(UcConst.UserStateEnum.ENABLED.value());
             user.setType(UcConst.UserTypeEnum.USER.value());
             userService.save(user);
