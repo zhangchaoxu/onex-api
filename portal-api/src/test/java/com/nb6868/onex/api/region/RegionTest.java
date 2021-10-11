@@ -10,7 +10,6 @@ import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * see {https://github.com/xiangyuecn/AreaCity-JsSpider-StatsGov/}
@@ -72,6 +70,28 @@ public class RegionTest {
      */
     @Test
     public void importGeo() {
+        // 先清空数据
+        //regionDao.update(new RegionEntity(), new UpdateWrapper<RegionEntity>().set("geo", null).set("polygon", null));
+        /*String sql = "select * from ok_geo";
+        List<Map<String, Object>> list = dbUtils.executeQuerySql(sql);
+        log.info("list size = " + list.size());
+        list.forEach(item -> {
+            log.info(item.toString());
+            regionService.update().set("geo", item.get("geo").toString().trim().replaceAll(" ", ","))
+                    .set("polygon", item.get("polygon").toString().trim().replaceAll(",", "_").replaceAll(" ", ","))
+                    .eq("id", item.get("id")).update();
+        });
+        regionService.update().set("geo", null).eq("geo", "EMPTY").update();
+        regionService.update().set("polygon", null).eq("polygon", "EMPTY").update();
+        log.info("3级区域数据边界-更新完成");*/
+    }
+
+    /**
+     * 站点地址：http://datav.aliyun.com/tools/atlas/index.html
+     */
+    @Test
+    @DisplayName("下载json文件")
+    public void downloadRegionJson() {
         // 先清空数据
         //regionDao.update(new RegionEntity(), new UpdateWrapper<RegionEntity>().set("geo", null).set("polygon", null));
         /*String sql = "select * from ok_geo";
