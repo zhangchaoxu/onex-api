@@ -61,13 +61,13 @@ onex:
         keepFileName: false
   # 微信配置
   wechat:
-    enable: true
     ## 小程序配置
     ma:
+      enable: true
       # 配置
       configs:
         # 小程序配置
         WX_MA:
-          type: MA
-          appid: xxx
-          secret: xxx
+          type: WX_MA
+          appid: wx999720391e07ccb3
+          secret: f6561995a20508d43ee90a1982345545

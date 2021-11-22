@@ -12,12 +12,11 @@
     <artifactId>shop-api</artifactId>
 
     <properties>
-        <onex-common.version>1.9.46</onex-common.version>
+        <onex-common.version>2.1.1</onex-common.version>
         <dynamic.datasource.version>3.4.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
-        <aliyun.oss.version>3.13.1</aliyun.oss.version>
-        <weixin.version>4.1.0</weixin.version>
-        <eventbus.version>3.2.0</eventbus.version>
+        <aliyun.oss.version>3.13.2</aliyun.oss.version>
+        <weixin.version>4.2.0</weixin.version>
         <skipTests>true</skipTests>
     </properties>
 
@@ -69,12 +68,6 @@
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun.oss.version}</version>
-        </dependency>
-        <!-- eventbus -->
-        <dependency>
-            <groupId>org.greenrobot</groupId>
-            <artifactId>eventbus</artifactId>
-            <version>${eventbus.version}</version>
         </dependency>
     </dependencies>
 

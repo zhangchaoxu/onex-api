@@ -12,7 +12,8 @@ import com.nb6868.onex.api.modules.msg.MsgConst;
 import com.nb6868.onex.api.modules.msg.dto.MailSendRequest;
 import com.nb6868.onex.api.modules.msg.service.MailLogService;
 import com.nb6868.onex.api.modules.uc.UcConst;
-import com.nb6868.onex.api.modules.uc.dto.*;
+import com.nb6868.onex.api.modules.uc.dto.RegisterRequest;
+import com.nb6868.onex.api.modules.uc.dto.UserDTO;
 import com.nb6868.onex.api.modules.uc.entity.UserEntity;
 import com.nb6868.onex.api.modules.uc.entity.UserOauthEntity;
 import com.nb6868.onex.api.modules.uc.service.AuthService;
@@ -21,7 +22,7 @@ import com.nb6868.onex.api.modules.uc.service.UserOauthService;
 import com.nb6868.onex.api.modules.uc.service.UserService;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.common.auth.AuthProps;
+import com.nb6868.onex.common.auth.*;
 import com.nb6868.onex.common.dingtalk.DingTalkApi;
 import com.nb6868.onex.common.dingtalk.GetUserInfoByCodeResponse;
 import com.nb6868.onex.common.exception.ErrorCode;
@@ -205,10 +206,10 @@ public class AuthController {
             return new Result<>().error(ErrorCode.OAUTH_NOT_BIND_ERROR);
         }
         // 登录成功
-        Dict dict = Dict.create();
-        dict.set("tokenKey", UcConst.TOKEN_HEADER);
-        dict.set("token", tokenService.createToken(user, loginConfig));
-        dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
+        Dict dict = Dict.create()
+                .set("tokenKey", UcConst.TOKEN_HEADER)
+                .set("token", tokenService.createToken(user, loginConfig))
+                .set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
         return new Result<>().success(dict);
     }
 
@@ -238,10 +239,10 @@ public class AuthController {
             userService.save(user);
         }
         // 登录成功
-        Dict dict = Dict.create();
-        dict.set("tokenKey", UcConst.TOKEN_HEADER);
-        dict.set("token", tokenService.createToken(user, loginConfig));
-        dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
+        Dict dict = Dict.create()
+                .set("tokenKey", UcConst.TOKEN_HEADER)
+                .set("token", tokenService.createToken(user, loginConfig))
+                .set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
         return new Result<>().success(dict);
     }
 

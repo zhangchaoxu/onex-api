@@ -10,20 +10,6 @@ spring:
     ## 启动开关
     auto-startup: false
   datasource:
-    druid:
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        #login-username: admin
-        #login-password: admin
-      filter:
-        stat:
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: false
-        wall:
-          config:
-            multi-statement-allow: true
     dynamic:
       druid:
         filters: stat

@@ -10,8 +10,6 @@ import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.HttpContextUtils;
 import com.nb6868.onex.common.util.JacksonUtils;
-import com.nb6868.onex.shop.config.EventHandler;
-import com.nb6868.onex.shop.config.LogEvent;
 import com.nb6868.onex.shop.modules.sys.entity.LogEntity;
 import com.nb6868.onex.shop.modules.sys.service.LogService;
 import com.nb6868.onex.shop.shiro.SecurityUser;
@@ -48,9 +46,6 @@ public class LogOperationAspect {
 
     @Autowired
     private LogService logService;
-
-    @Autowired
-    private EventHandler eventHandler;
 
     @Pointcut("@annotation(com.nb6868.onex.common.annotation.LogOperation)")
     public void pointcut() {
@@ -125,9 +120,6 @@ public class LogOperationAspect {
         } else {
             log.info(JSONUtil.toJsonStr(logEntity));
         }
-        LogEvent logEvent = new LogEvent();
-        logEvent.setName("sssss");
-        eventHandler.eventPost(logEvent);
     }
 
     /**

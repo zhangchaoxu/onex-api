@@ -13,14 +13,16 @@
     <packaging>jar</packaging>
 
     <properties>
-        <onex-common.version>1.9.46</onex-common.version>
-        <onex-coder.version>1.9.29</onex-coder.version>
+        <onex-common.version>2.1.1</onex-common.version>
+        <onex-sched.version>2.1.1</onex-sched.version>
+        <onex-msg.version>2.1.1</onex-msg.version>
+        <onex-coder.version>2.1.1</onex-coder.version>
         <dynamic.datasource.version>3.4.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
         <easy.captcha.version>1.6.2</easy.captcha.version>
         <easypoi.version>4.4.0</easypoi.version>
-        <aliyun.oss.version>3.13.1</aliyun.oss.version>
-        <weixin.version>4.1.0</weixin.version>
+        <aliyun.oss.version>3.13.2</aliyun.oss.version>
+        <weixin.version>4.2.0</weixin.version>
         <jpush.version>3.4.9</jpush.version>
         <zxing.version>3.4.1</zxing.version>
         <skipTests>true</skipTests>
@@ -32,6 +34,18 @@
             <groupId>com.nb6868.onex</groupId>
             <artifactId>common</artifactId>
             <version>${onex-common.version}</version>
+        </dependency>
+        <!-- sched -->
+        <dependency>
+            <groupId>com.nb6868.onex</groupId>
+            <artifactId>sched</artifactId>
+            <version>${onex-sched.version}</version>
+        </dependency>
+        <!-- msg -->
+        <dependency>
+            <groupId>com.nb6868.onex</groupId>
+            <artifactId>msg</artifactId>
+            <version>${onex-msg.version}</version>
         </dependency>
         <!-- coder -->
         <dependency>

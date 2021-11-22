@@ -1,15 +1,22 @@
 package com.nb6868.onex.shop.modules.uc.controller;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
 import cn.hutool.core.lang.Dict;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.LogOperation;
+import com.nb6868.onex.common.auth.AuthProps;
 import com.nb6868.onex.common.auth.OauthWxMaLoginByCodeAndPhone;
+import com.nb6868.onex.common.auth.OauthWxMaLoginByCodeAndUserInfoRequest;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
+import com.nb6868.onex.common.wechat.WechatMaPropsConfig;
 import com.nb6868.onex.shop.modules.uc.dto.UserDTO;
 import com.nb6868.onex.shop.modules.uc.entity.UserEntity;
 import com.nb6868.onex.shop.modules.uc.service.UserService;
@@ -17,10 +24,14 @@ import com.nb6868.onex.shop.shiro.SecurityUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ *
+ */
 @RestController("UcUserController")
 @RequestMapping("/uc/user")
 @Validated
@@ -30,14 +41,42 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private AuthProps authProps;
+    @Autowired
+    private UserService userService;
+
+    /**
+     * 微信登录调整 https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801
+     */
+    @PostMapping("/wxMaLoginByCodeAndUserInfo")
+    @AccessControl("/wxMaLoginByCodeAndUserInfo")
+    @ApiOperation(value = "微信小程序用户信息授权登录", notes = "注意,wx.getUserProfile/wx.getUserInfo放在wx.login之前会偶发解密失败")
+    @LogOperation(value = "微信小程序用户信息授权登录", type = "login")
+    public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoRequest request) {
+        // 获得登录配置
+        AuthProps.Config loginConfig = authProps.getConfigs().get("SHOP_WXMA_PHONE");
+        AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
+
+        // 微信登录
+        WxMaService wxService = WechatMaPropsConfig.getService(request.getType());
+        WxMaJscode2SessionResult jscode2SessionResult = wxService.getUserService().getSessionInfo(request.getCode());
+
+        // 用户信息校验
+        if (!wxService.getUserService().checkUserInfo(jscode2SessionResult.getSessionKey(), request.getRawData(), request.getSignature())) {
+            return new Result<>().error(ErrorCode.WX_API_ERROR, "user check failed");
+        }
+        // 解密用户信息
+        WxMaUserInfo userInfo = wxService.getUserService().getUserInfo(jscode2SessionResult.getSessionKey(), request.getEncryptedData(), request.getIv());
+        // openid和unionid从WxMaJscode2SessionResult获取
+        return new Result<>().success(userInfo);
+    }
 
     @PostMapping("/wxMaLoginByPhone")
-    @ApiOperation(value = "微信小程序手机号授权登录")
     @AccessControl("/wxMaLoginByPhone")
+    @ApiOperation(value = "微信小程序手机号授权登录")
     @LogOperation(value = "微信小程序手机号授权登录", type = "login")
     public Result<Dict> wxMaLoginByPhone(@Validated(value = {DefaultGroup.class}) @RequestBody OauthWxMaLoginByCodeAndPhone request) {
-        /*AuthProps.Config loginProps = authService.getLoginConfig(request.getType());
+        AuthProps.Config loginProps = authProps.getConfigs().get("SHOP_WXMA_PHONE");
         AssertUtils.isNull(loginProps, ErrorCode.UNKNOWN_LOGIN_TYPE);
 
         // 微信登录(小程序)
@@ -51,33 +90,11 @@ public class UserController {
         }
         // 解密用户手机号
         WxMaPhoneNumberInfo phoneNumberInfo = wxService.getUserService().getPhoneNoInfo(jscode2SessionResult.getSessionKey(), request.getEncryptedData(), request.getIv());
-        UserEntity user = userService.getByMobile(phoneNumberInfo.getPurePhoneNumber());
-        if (user == null) {
-            // 用户不存在,按照实际业务需求创建用户
-            user = new UserEntity();
-            user.setMobile(phoneNumberInfo.getPurePhoneNumber());
-            user.setUsername(phoneNumberInfo.getPurePhoneNumber());
-            user.setPassword(PasswordUtils.encode(phoneNumberInfo.getPurePhoneNumber()));
-            user.setState(UcConst.UserStateEnum.ENABLED.value());
-            user.setType(UcConst.UserTypeEnum.USER.value());
-            userService.save(user);
-            // 插入对应用户角色
-            roleUserService.saveOrUpdateByUserIdAndRoleIds(user.getId(), Collections.singletonList(UcConst.ROLE_ID_WECHAT));
-        } else {
-            // 更新用户中的部分信息
-            // 更新角色信息
-            roleUserService.addByUserIdAndRoleIds(user.getId(), Collections.singletonList(UcConst.ROLE_ID_WECHAT));
-        }
-        // 登录成功
-        Dict dict = Dict.create();
-        dict.set(UcConst.TOKEN_HEADER, tokenService.createToken(user, loginProps));
-        dict.set("user", ConvertUtils.sourceToTarget(user, UserDTO.class));
-        return new Result<Dict>().success(dict);*/
         return null;
     }
 
     @GetMapping("userInfo")
-    @ApiOperation(value = "登录用户信息", position = 100)
+    @ApiOperation(value = "登录用户信息")
     @LogOperation(value = "登录用户信息")
     public Result<UserDTO> userInfo() {
         UserEntity entity = userService.getById(SecurityUser.getUserId());

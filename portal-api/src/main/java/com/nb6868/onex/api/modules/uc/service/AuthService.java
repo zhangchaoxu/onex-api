@@ -7,7 +7,6 @@ import com.nb6868.onex.api.modules.msg.MsgConst;
 import com.nb6868.onex.api.modules.msg.entity.MailLogEntity;
 import com.nb6868.onex.api.modules.msg.service.MailLogService;
 import com.nb6868.onex.api.modules.uc.UcConst;
-import com.nb6868.onex.api.modules.uc.dto.LoginRequest;
 import com.nb6868.onex.api.modules.uc.entity.MenuEntity;
 import com.nb6868.onex.api.modules.uc.entity.TokenEntity;
 import com.nb6868.onex.api.modules.uc.entity.UserEntity;
