@@ -5,6 +5,9 @@ import com.nb6868.onex.api.modules.sys.dao.LogDao;
 import com.nb6868.onex.api.modules.sys.dto.LogDTO;
 import com.nb6868.onex.api.modules.sys.entity.LogEntity;
 import com.nb6868.onex.common.jpa.DtoService;
+import com.nb6868.onex.common.log.BaseLogService;
+import com.nb6868.onex.common.log.LogBody;
+import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.util.WrapperUtils;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ import java.util.Map;
  * @author Charles zhangchaoxu@gmail.com
  */
 @Service
-public class LogService extends DtoService<LogDao, LogEntity, LogDTO> {
+public class LogService extends DtoService<LogDao, LogEntity, LogDTO> implements BaseLogService {
 
     @Override
     public QueryWrapper<LogEntity> getWrapper(String method, Map<String, Object> params) {
@@ -35,4 +38,9 @@ public class LogService extends DtoService<LogDao, LogEntity, LogDTO> {
                 .getQueryWrapper();
     }
 
+    @Override
+    public void saveToDb(LogBody log) {
+        LogEntity logEntity = ConvertUtils.sourceToTarget(log, LogEntity.class);
+        save(logEntity);
+    }
 }

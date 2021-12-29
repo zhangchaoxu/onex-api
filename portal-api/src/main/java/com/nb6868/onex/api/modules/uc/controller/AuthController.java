@@ -8,9 +8,6 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.SecureUtil;
-import com.nb6868.onex.api.modules.msg.MsgConst;
-import com.nb6868.onex.api.modules.msg.dto.MailSendRequest;
-import com.nb6868.onex.api.modules.msg.service.MailLogService;
 import com.nb6868.onex.api.modules.uc.UcConst;
 import com.nb6868.onex.api.modules.uc.dto.RegisterRequest;
 import com.nb6868.onex.api.modules.uc.dto.UserDTO;
@@ -36,6 +33,9 @@ import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.nb6868.onex.common.wechat.WechatMaPropsConfig;
+import com.nb6868.onex.msg.MsgConst;
+import com.nb6868.onex.msg.dto.MailSendRequest;
+import com.nb6868.onex.msg.service.MailLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
@@ -103,7 +103,7 @@ public class AuthController {
     @LogOperation(value = "登录", type = "login")
     public Result<?> login(@Validated(value = {DefaultGroup.class}) @RequestBody LoginRequest loginRequest) {
         // 获得登录配置
-        AuthProps.Config loginConfig = authService.getLoginConfig(loginRequest.getType());
+        AuthProps.Config loginConfig = authService.getLoginConfig(loginRequest.getAuthConfigType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
 
         UserEntity user = authService.login(loginRequest, loginConfig);
@@ -142,11 +142,11 @@ public class AuthController {
     @LogOperation(value = "Oauth授权登录", type = "login")
     public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoRequest request) throws WxErrorException {
         // 获得登录配置
-        AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
+        AuthProps.Config loginConfig = authService.getLoginConfig(request.getAuthConfigType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
 
         // 微信登录
-        WxMaService wxService = WechatMaPropsConfig.getService(request.getType());
+        WxMaService wxService = WechatMaPropsConfig.getService(request.getAuthConfigType());
         WxMaJscode2SessionResult jscode2SessionResult = wxService.getUserService().getSessionInfo(request.getCode());
 
         // 用户信息校验
@@ -218,11 +218,11 @@ public class AuthController {
     @LogOperation(value = "Oauth微信小程序手机号授权登录", type = "login")
     public Result<?> wxMaLoginByPhone(@Validated @RequestBody OauthWxMaLoginByCodeAndPhone request) throws WxErrorException {
         // 获得登录配置
-        AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
+        AuthProps.Config loginConfig = authService.getLoginConfig(request.getAuthConfigType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
 
         // 微信登录(小程序)
-        WxMaService wxService = WechatMaPropsConfig.getService(request.getType());
+        WxMaService wxService = WechatMaPropsConfig.getService(request.getWechatMaConfigType());
         WxMaJscode2SessionResult jscode2SessionResult = wxService.getUserService().getSessionInfo(request.getCode());
         // 解密用户手机号
         WxMaPhoneNumberInfo phoneNumberInfo = wxService.getUserService().getPhoneNoInfo(jscode2SessionResult.getSessionKey(), request.getEncryptedData(), request.getIv());

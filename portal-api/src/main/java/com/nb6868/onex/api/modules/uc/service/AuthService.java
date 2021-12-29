@@ -3,9 +3,6 @@ package com.nb6868.onex.api.modules.uc.service;
 import cn.hutool.core.text.StrSplitter;
 import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.nb6868.onex.api.modules.msg.MsgConst;
-import com.nb6868.onex.api.modules.msg.entity.MailLogEntity;
-import com.nb6868.onex.api.modules.msg.service.MailLogService;
 import com.nb6868.onex.api.modules.uc.UcConst;
 import com.nb6868.onex.api.modules.uc.entity.MenuEntity;
 import com.nb6868.onex.api.modules.uc.entity.TokenEntity;
@@ -13,12 +10,16 @@ import com.nb6868.onex.api.modules.uc.entity.UserEntity;
 import com.nb6868.onex.api.modules.uc.entity.UserOauthEntity;
 import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.auth.AuthProps;
+import com.nb6868.onex.common.auth.LoginRequest;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.util.JacksonUtils;
 import com.nb6868.onex.common.util.PasswordUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.ValidatorUtils;
+import com.nb6868.onex.msg.MsgConst;
+import com.nb6868.onex.msg.entity.MailLogEntity;
+import com.nb6868.onex.msg.service.MailLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -124,14 +125,14 @@ public class AuthService {
 
         // 登录用户
         UserEntity user;
-        if (UcConst.LoginTypeEnum.ADMIN_USERNAME_PASSWORD.name().equalsIgnoreCase(loginRequest.getType()) || UcConst.LoginTypeEnum.APP_USER_PWD.name().equalsIgnoreCase(loginRequest.getType())) {
+        if (UcConst.LoginTypeEnum.ADMIN_USERNAME_PASSWORD.name().equalsIgnoreCase(loginRequest.getAuthConfigType()) || UcConst.LoginTypeEnum.APP_USER_PWD.name().equalsIgnoreCase(loginRequest.getAuthConfigType())) {
             // 帐号密码登录
             ValidatorUtils.validateEntity(loginRequest, LoginRequest.UsernamePasswordGroup.class);
             user = userService.getOneByColumn("username", loginRequest.getUsername());
             AssertUtils.isNull(user, ErrorCode.ACCOUNT_NOT_EXIST);
             AssertUtils.isFalse(user.getState() == UcConst.UserStateEnum.ENABLED.value(), ErrorCode.ACCOUNT_DISABLE);
             AssertUtils.isFalse(PasswordUtils.verify(loginRequest.getPassword(), user.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);
-        } else if (UcConst.LoginTypeEnum.ADMIN_MOBILE_SMSCODE.name().equalsIgnoreCase(loginRequest.getType()) || UcConst.LoginTypeEnum.APP_MOBILE_SMS.name().equalsIgnoreCase(loginRequest.getType())) {
+        } else if (UcConst.LoginTypeEnum.ADMIN_MOBILE_SMSCODE.name().equalsIgnoreCase(loginRequest.getAuthConfigType()) || UcConst.LoginTypeEnum.APP_MOBILE_SMS.name().equalsIgnoreCase(loginRequest.getAuthConfigType())) {
             // 手机号验证码登录
             ValidatorUtils.validateEntity(loginRequest, LoginRequest.MobileSmsCodeGroup.class);
             user = userService.getOneByColumn("mobile", loginRequest.getMobile());
@@ -151,7 +152,7 @@ public class AuthService {
                 // 将短信消费掉
                 mailLogService.consumeById(lastSmsLog.getId());
             }
-        } else if (UcConst.LoginTypeEnum.APP_APPLE.name().equalsIgnoreCase(loginRequest.getType())) {
+        } else if (UcConst.LoginTypeEnum.APP_APPLE.name().equalsIgnoreCase(loginRequest.getAuthConfigType())) {
             // 苹果登录
             ValidatorUtils.validateEntity(loginRequest, LoginRequest.AppleGroup.class);
             // jwt解析identityToken, 获取userIdentifier

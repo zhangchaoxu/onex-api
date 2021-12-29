@@ -52,13 +52,13 @@ public class UserController {
     @AccessControl("/wxMaLoginByCodeAndUserInfo")
     @ApiOperation(value = "微信小程序用户信息授权登录", notes = "注意,wx.getUserProfile/wx.getUserInfo放在wx.login之前会偶发解密失败")
     @LogOperation(value = "微信小程序用户信息授权登录", type = "login")
-    public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoRequest request) {
+    public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoRequest request) throws WxErrorException{
         // 获得登录配置
         AuthProps.Config loginConfig = authProps.getConfigs().get("SHOP_WXMA_PHONE");
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
 
         // 微信登录
-        WxMaService wxService = WechatMaPropsConfig.getService(request.getType());
+        WxMaService wxService = WechatMaPropsConfig.getService(request.getWechatMaConfigType());
         WxMaJscode2SessionResult jscode2SessionResult = wxService.getUserService().getSessionInfo(request.getCode());
 
         // 用户信息校验
@@ -80,7 +80,7 @@ public class UserController {
         AssertUtils.isNull(loginProps, ErrorCode.UNKNOWN_LOGIN_TYPE);
 
         // 微信登录(小程序)
-        WxMaService wxService = WechatMaPropsConfig.getService(request.getType());
+        WxMaService wxService = WechatMaPropsConfig.getService(request.getWechatMaConfigType());
         WxMaJscode2SessionResult jscode2SessionResult;
         try {
             jscode2SessionResult = wxService.getUserService().getSessionInfo(request.getCode());

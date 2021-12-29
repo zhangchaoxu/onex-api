@@ -1,8 +1,15 @@
 package com.nb6868.onex.api;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TimeInterval;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.RuntimeUtil;
+import cn.hutool.db.Db;
+import cn.hutool.db.Entity;
+import cn.hutool.db.ds.simple.SimpleDataSource;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.nb6868.onex.api.modules.sys.dao.TableSchemaDao;
 import com.nb6868.onex.coder.entity.CodeGenerateConfig;
 import com.nb6868.onex.coder.utils.GenUtils;
@@ -12,8 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
@@ -43,31 +50,33 @@ public class CoderTest {
     @Test
     @DisplayName("生成代码")
     void generateCode() throws Exception {
+        DynamicDataSourceContextHolder.push("master");//手动切换
+        TimeInterval timeInterval = DateUtil.timer();
+        String tableNames = "guochou_hccz";
+        String path = "C:\\Workspaces\\coderTest\\";
+        String zipFile = path + tableNames + "-" + DateUtil.current() + ".zip";
         CodeGenerateConfig config = new CodeGenerateConfig();
         config.setAuthorEmail("zhangchaoxu@gmail.com");
         config.setAuthorName("Charles");
-        config.setModuleName("cms");
-        config.setPackageName("com.govsz.plus");
-        config.setTablePrefix("cms");
+        config.setModuleName("guochou");
+        config.setPackageName("com.govsz.fsi");
+        config.setTablePrefix("guochou");
         config.setVersion("1.0.0");
-        String tableNameSearch = "cms";
         // 获取表列表
-        List<Map<String, Object>> tableList = tableSchemaDao.queryTable(tableNameSearch);
-        FileUtil.touch("c:\\Workspaces\\test.zip");
-        ZipOutputStream zip = new ZipOutputStream(new FileOutputStream("c:\\Workspaces\\test.zip"));
+        DataSource ds = new SimpleDataSource("jdbc:mysql://127.0.0.1:3306/test", "root", "123456");
+        List<Entity> tableList = Db.use(ds).query("SELECT table_name as table_name, engine as engine, table_comment as table_comment, create_time as create_time FROM information_schema.tables WHERE table_schema = (select database()) and table_name like ?", "%" + tableNames + "%");
+        FileUtil.touch(zipFile);
+        ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
         for (Map<String, Object> tableMap : tableList) {
             String tableName = MapUtil.getStr(tableMap, "table_name");
             // 查询列信息
-            List<Map<String, Object>> columns = tableSchemaDao.queryColumns(tableName);
+            List<Entity> columns = Db.use(ds).query("SELECT column_name as column_name, data_type as data_type, column_comment as column_comment, column_key as column_key, extra as extra FROM information_schema.columns WHERE table_schema = (select database()) and table_name = ? order by ordinal_position", tableName);
             // 生成代码
             GenUtils.generatorCode(tableMap, columns, config, zip);
         }
-        try {
-            zip.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        log.error("完成");
+        zip.close();
+        log.debug("代码生成执行完成,timeInterval={}", timeInterval.intervalSecond());
+        RuntimeUtil.exec("cmd /c start explorer " + path);
     }
 
 }

@@ -11,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@MapperScan(nameGenerator = SpringBeanNameGenerator.class, basePackages = {"com.nb6868.onex.**.dao"})
+@MapperScan(nameGenerator = SpringBeanNameGenerator.class, basePackages = {"com.nb6868.onex.**.dao", "com.nb6868.onex.api.**"})
 @ComponentScan(nameGenerator = SpringBeanNameGenerator.class, basePackages = {"com.nb6868.onex.**"})
 @Slf4j
 public class PortalApiApplication extends BaseApplication {

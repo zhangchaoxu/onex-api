@@ -17,7 +17,7 @@ onex:
   # 过滤器
   filter:
     enable: true
-  # mybatis
+  # mybatis配置
   mybatisplus:
     enable: true
   # swagger
