@@ -3,7 +3,6 @@ server:
   tomcat:
     # 配置tomcat的临时目录
     basedir: /home/onex/temp
-    uri-encoding: UTF-8
   port: 18181
   servlet:
     context-path: /portal-api
@@ -13,7 +12,7 @@ spring:
     name: portal-api
   # 环境 dev|test|prod
   profiles:
-    active: common,onex,dev
+    active: common,sched,onex,dev
 
 # mybatis plus
 # see {https://mybatis.plus/config/}
