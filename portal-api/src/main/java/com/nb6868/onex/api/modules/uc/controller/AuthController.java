@@ -4,7 +4,6 @@ import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.SecureUtil;
@@ -24,6 +23,7 @@ import com.nb6868.onex.common.dingtalk.DingTalkApi;
 import com.nb6868.onex.common.dingtalk.GetUserInfoByCodeResponse;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.Const;
+import com.nb6868.onex.common.pojo.EncryptForm;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.util.JacksonUtils;
@@ -120,9 +120,10 @@ public class AuthController {
     @PostMapping("loginEncrypt")
     @ApiOperation(value = "加密登录")
     @LogOperation(value = "加密登录", type = "login")
-    public Result<?> loginEncrypt(@RequestBody String loginEncrypted) {
-        // 密文->urldecode->base64解码->aes解码->原明文->json转实体
-        LoginRequest loginRequest = JacksonUtils.jsonToPojo(SecureUtil.aes(Const.AES_KEY.getBytes()).decryptStr(Base64.decodeStr(URLUtil.decode(loginEncrypted))), LoginRequest.class);
+    public Result<?> loginEncrypt(@RequestBody EncryptForm form) {
+        // 密文->urldecode->aes解码->原明文->json转实体
+        String json = SecureUtil.aes(Const.AES_KEY.getBytes()).decryptStr(URLUtil.decode(form.getBody()));
+        LoginRequest loginRequest = JacksonUtils.jsonToPojo(json, LoginRequest.class);
         // 效验数据
         ValidatorUtils.validateEntity(loginRequest, DefaultGroup.class);
         return login(loginRequest);
