@@ -51,6 +51,7 @@ public class CalendarService extends EntityService<CalendarDao, CalendarEntity> 
                 JSONObject jsonType = jsonResult.getJSONObject("type");
                 CalendarEntity calendar = new CalendarEntity();
                 calendar.setWeek(jsonType.getInt("week"));
+                // 节假日类型，分别表示 工作日、周末、节日、调休
                 calendar.setType(jsonType.getInt("type"));
                 JSONObject workholiday = jsonResult.getJSONObject("holiday");
                 if (workholiday == null) {
