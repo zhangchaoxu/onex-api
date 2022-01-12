@@ -52,18 +52,18 @@ public class CoderTest {
     void generateCode() throws Exception {
         DynamicDataSourceContextHolder.push("master");//手动切换
         TimeInterval timeInterval = DateUtil.timer();
-        String tableNames = "guochou_hccz";
+        String tableNames = "uc_user_param";
         String path = "C:\\Workspaces\\coderTest\\";
         String zipFile = path + tableNames + "-" + DateUtil.current() + ".zip";
         CodeGenerateConfig config = new CodeGenerateConfig();
         config.setAuthorEmail("zhangchaoxu@gmail.com");
         config.setAuthorName("Charles");
-        config.setModuleName("guochou");
-        config.setPackageName("com.govsz.fsi");
-        config.setTablePrefix("guochou");
+        config.setModuleName("uc");
+        config.setPackageName("com.nb6868.onex.api");
+        config.setTablePrefix("uc");
         config.setVersion("1.0.0");
         // 获取表列表
-        DataSource ds = new SimpleDataSource("jdbc:mysql://127.0.0.1:3306/test", "root", "123456");
+        DataSource ds = new SimpleDataSource("jdbc:mysql://hw3.nb6868.com:3306/onex", "onex", "CWCPxhpp67yaErnn");
         List<Entity> tableList = Db.use(ds).query("SELECT table_name as table_name, engine as engine, table_comment as table_comment, create_time as create_time FROM information_schema.tables WHERE table_schema = (select database()) and table_name like ?", "%" + tableNames + "%");
         FileUtil.touch(zipFile);
         ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
