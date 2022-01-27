@@ -42,13 +42,15 @@ public class CaptchaController {
      * 包含uuid和图片信息
      */
     @GetMapping("base64")
-    @ApiOperation(value = "图形验证码(base64)")
-   public Result<?> base64(@RequestParam(required = false, defaultValue = "150", name = "图片宽度") int width, @RequestParam(required = false, defaultValue = "50", name = "图片高度") int height) {
-        String uuid = IdUtil.randomUUID();
+    @ApiOperation(value = "图形验证码(base64)", notes = "验证时需将uuid和验证码内容一起提交")
+   public Result<?> base64(@RequestParam(required = false, defaultValue = "150", name = "图片宽度") int width,
+                           @RequestParam(required = false, defaultValue = "50", name = "图片高度") int height) {
+        String uuid = IdUtil.fastSimpleUUID();
         // 随机arithmetic/spec
         Captcha captcha = captchaService.createCaptcha(uuid, width, height, RandomUtil.randomEle(new String[]{"arithmetic", "spec"}));
         // 将uuid和图片base64返回给前端
-        return new Result<>().success(Dict.create().set("uuid", uuid).set("image", captcha.toBase64()));
+        Dict result = Dict.create().set("uuid", uuid).set("image", captcha.toBase64());
+        return new Result<>().success(result);
     }
 
     @Deprecated

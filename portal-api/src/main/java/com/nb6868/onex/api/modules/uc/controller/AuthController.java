@@ -34,7 +34,7 @@ import com.nb6868.onex.common.validator.group.AddGroup;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.nb6868.onex.common.wechat.WechatMaPropsConfig;
 import com.nb6868.onex.msg.MsgConst;
-import com.nb6868.onex.msg.dto.MailSendRequest;
+import com.nb6868.onex.msg.dto.MailSendForm;
 import com.nb6868.onex.msg.service.MailLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -88,7 +88,7 @@ public class AuthController {
     @PostMapping("sendLoginCode")
     @ApiOperation("发送登录验证码消息")
     @LogOperation("发送登录验证码消息")
-    public Result<?> sendLoginCode(@Validated(value = {AddGroup.class}) @RequestBody MailSendRequest dto) {
+    public Result<?> sendLoginCode(@Validated(value = {AddGroup.class}) @RequestBody MailSendForm dto) {
         // 只允许发送CODE_开头的模板
         AssertUtils.isFalse(dto.getTplCode().startsWith(MsgConst.SMS_CODE_TPL_PREFIX), "只支持" + MsgConst.SMS_CODE_TPL_PREFIX + "类型模板发送");
         boolean flag = mailLogService.send(dto);

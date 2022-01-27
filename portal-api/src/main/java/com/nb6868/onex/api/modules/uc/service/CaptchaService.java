@@ -1,12 +1,12 @@
 package com.nb6868.onex.api.modules.uc.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.nb6868.onex.common.exception.OnexException;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 /**
  * 验证码
@@ -65,7 +65,7 @@ public class CaptchaService {
     public boolean validate(String uuid, String code) {
         // 从缓存获取验证码
         String captcha = captchaCache.get(uuid, String.class);
-        if (ObjectUtils.isEmpty(captcha)) {
+        if (StrUtil.isBlank(captcha)) {
             return false;
         }
         // 取出后,从缓存中删除

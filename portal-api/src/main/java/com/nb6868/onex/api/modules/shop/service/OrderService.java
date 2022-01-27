@@ -33,7 +33,7 @@ import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.util.HttpContextUtils;
 import com.nb6868.onex.common.util.WrapperUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.msg.dto.MailSendRequest;
+import com.nb6868.onex.msg.dto.MailSendForm;
 import com.nb6868.onex.msg.service.MailLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -379,7 +379,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         OrderEntity orderEntity = getById(payOrder.getOrderId());
         if (orderEntity != null && orderEntity.getPayState() == ShopConst.OrderPayStateEnum.NO_PAY.value()) {
             // 短信下发
-            MailSendRequest smsSendRequest = new MailSendRequest();
+            MailSendForm smsSendRequest = new MailSendForm();
             smsSendRequest.setMailTo(orderEntity.getReceiverMobile());
             smsSendRequest.setTplCode("FISH_ORDER");
             smsSendRequest.setContentParam("{\"code\":\"" + orderEntity.getNo() + "\",\"user\":\"" + orderEntity.getReceiverConsignee() + "\"}");
