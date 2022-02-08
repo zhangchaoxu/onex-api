@@ -1,4 +1,4 @@
-package com.nb6868.onex.api.region;
+package com.nb6868.onex.api;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.map.MapUtil;
