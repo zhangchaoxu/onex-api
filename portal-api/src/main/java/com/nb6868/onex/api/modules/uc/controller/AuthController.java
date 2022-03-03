@@ -101,7 +101,7 @@ public class AuthController {
     @PostMapping("login")
     @ApiOperation(value = "登录")
     @LogOperation(value = "登录", type = "login")
-    public Result<?> login(@Validated(value = {DefaultGroup.class}) @RequestBody LoginRequest loginRequest) {
+    public Result<?> login(@Validated(value = {DefaultGroup.class}) @RequestBody LoginForm loginRequest) {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(loginRequest.getAuthConfigType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
@@ -123,7 +123,7 @@ public class AuthController {
     public Result<?> loginEncrypt(@RequestBody EncryptForm form) {
         // 密文->urldecode->aes解码->原明文->json转实体
         String json = SecureUtil.aes(Const.AES_KEY.getBytes()).decryptStr(URLUtil.decode(form.getBody()));
-        LoginRequest loginRequest = JacksonUtils.jsonToPojo(json, LoginRequest.class);
+        LoginForm loginRequest = JacksonUtils.jsonToPojo(json, LoginForm.class);
         // 效验数据
         ValidatorUtils.validateEntity(loginRequest, DefaultGroup.class);
         return login(loginRequest);
@@ -141,7 +141,7 @@ public class AuthController {
     @PostMapping("/wxMaLoginByCodeAndUserInfo")
     @ApiOperation("Oauth授权登录")
     @LogOperation(value = "Oauth授权登录", type = "login")
-    public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoRequest request) throws WxErrorException {
+    public Result<?> wxMaLoginByCodeAndUserInfo(@Validated @RequestBody OauthWxMaLoginByCodeAndUserInfoForm request) throws WxErrorException {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getAuthConfigType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
@@ -183,7 +183,7 @@ public class AuthController {
     @PostMapping("/wxMaLoginByCode")
     @ApiOperation("Oauth微信小程序授权登录")
     @LogOperation(value = "Oauth微信小程序授权登录", type = "login")
-    public Result<?> wxMaLoginByCode(@Validated @RequestBody OauthLoginByCodeRequest request) throws WxErrorException {
+    public Result<?> wxMaLoginByCode(@Validated @RequestBody OauthLoginByCodeForm request) throws WxErrorException {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
@@ -217,7 +217,7 @@ public class AuthController {
     @PostMapping("/wxMaLoginByPhone")
     @ApiOperation("Oauth微信小程序手机号授权登录")
     @LogOperation(value = "Oauth微信小程序手机号授权登录", type = "login")
-    public Result<?> wxMaLoginByPhone(@Validated @RequestBody OauthWxMaLoginByCodeAndPhone request) throws WxErrorException {
+    public Result<?> wxMaLoginByPhone(@Validated @RequestBody OauthWxMaLoginByCodeAndPhoneForm request) throws WxErrorException {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getAuthConfigType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);
@@ -254,7 +254,7 @@ public class AuthController {
     @PostMapping("/dingtalkLoginByCode")
     @ApiOperation("钉钉扫码授权登录")
     @LogOperation(value = "钉钉扫码授权登录", type = "login")
-    public Result<?> dingtalkLoginByCode(@Validated @RequestBody OauthLoginByCodeRequest request) {
+    public Result<?> dingtalkLoginByCode(@Validated @RequestBody OauthLoginByCodeForm request) {
         // 获得登录配置
         AuthProps.Config loginConfig = authService.getLoginConfig(request.getType());
         AssertUtils.isNull(loginConfig, ErrorCode.UNKNOWN_LOGIN_TYPE);

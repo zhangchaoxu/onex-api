@@ -10,7 +10,7 @@ import com.nb6868.onex.api.modules.uc.entity.UserEntity;
 import com.nb6868.onex.api.modules.uc.entity.UserOauthEntity;
 import com.nb6868.onex.api.shiro.UserDetail;
 import com.nb6868.onex.common.auth.AuthProps;
-import com.nb6868.onex.common.auth.LoginRequest;
+import com.nb6868.onex.common.auth.LoginForm;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.util.JacksonUtils;
@@ -115,10 +115,10 @@ public class AuthService {
         return loginProps.getSettings().get(type);
     }
 
-    public UserEntity login(LoginRequest loginRequest, AuthProps.Config loginProps) {
+    public UserEntity login(LoginForm loginRequest, AuthProps.Config loginProps) {
         // 校验验证码
         if (loginProps.isCaptcha()) {
-            ValidatorUtils.validateEntity(loginRequest, LoginRequest.CaptchaGroup.class);
+            ValidatorUtils.validateEntity(loginRequest, LoginForm.CaptchaGroup.class);
             boolean validateCaptcha = loginRequest.getCaptcha().equalsIgnoreCase(loginProps.getMagicCaptcha()) || captchaService.validate(loginRequest.getUuid(), loginRequest.getCaptcha());
             AssertUtils.isFalse(validateCaptcha, ErrorCode.CAPTCHA_ERROR);
         }
@@ -127,14 +127,14 @@ public class AuthService {
         UserEntity user;
         if (UcConst.LoginTypeEnum.ADMIN_USERNAME_PASSWORD.name().equalsIgnoreCase(loginRequest.getAuthConfigType()) || UcConst.LoginTypeEnum.APP_USER_PWD.name().equalsIgnoreCase(loginRequest.getAuthConfigType())) {
             // 帐号密码登录
-            ValidatorUtils.validateEntity(loginRequest, LoginRequest.UsernamePasswordGroup.class);
+            ValidatorUtils.validateEntity(loginRequest, LoginForm.UsernamePasswordGroup.class);
             user = userService.getOneByColumn("username", loginRequest.getUsername());
             AssertUtils.isNull(user, ErrorCode.ACCOUNT_NOT_EXIST);
             AssertUtils.isFalse(user.getState() == UcConst.UserStateEnum.ENABLED.value(), ErrorCode.ACCOUNT_DISABLE);
             AssertUtils.isFalse(PasswordUtils.verify(loginRequest.getPassword(), user.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);
         } else if (UcConst.LoginTypeEnum.ADMIN_MOBILE_SMSCODE.name().equalsIgnoreCase(loginRequest.getAuthConfigType()) || UcConst.LoginTypeEnum.APP_MOBILE_SMS.name().equalsIgnoreCase(loginRequest.getAuthConfigType())) {
             // 手机号验证码登录
-            ValidatorUtils.validateEntity(loginRequest, LoginRequest.MobileSmsCodeGroup.class);
+            ValidatorUtils.validateEntity(loginRequest, LoginForm.MobileSmsCodeGroup.class);
             user = userService.getOneByColumn("mobile", loginRequest.getMobile());
             AssertUtils.isNull(user, ErrorCode.ACCOUNT_NOT_EXIST);
             AssertUtils.isFalse(user.getState() == UcConst.UserStateEnum.ENABLED.value(), ErrorCode.ACCOUNT_DISABLE);
@@ -154,7 +154,7 @@ public class AuthService {
             }
         } else if (UcConst.LoginTypeEnum.APP_APPLE.name().equalsIgnoreCase(loginRequest.getAuthConfigType())) {
             // 苹果登录
-            ValidatorUtils.validateEntity(loginRequest, LoginRequest.AppleGroup.class);
+            ValidatorUtils.validateEntity(loginRequest, LoginForm.AppleGroup.class);
             // jwt解析identityToken, 获取userIdentifier
             JWT jwt = JWT.of(loginRequest.getAppleIdentityToken());
             // app包名

@@ -13,11 +13,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <onex-common.version>2.2.1</onex-common.version>
-        <onex-sched.version>2.2.1</onex-sched.version>
-        <onex-msg.version>2.2.1</onex-msg.version>
-        <onex-coder.version>2.2.1</onex-coder.version>
-        <dynamic.datasource.version>3.5.0</dynamic.datasource.version>
+        <onex-common.version>2.2.3</onex-common.version>
+        <onex-sched.version>2.2.3</onex-sched.version>
+        <onex-msg.version>2.2.3</onex-msg.version>
+        <onex-coder.version>2.2.3</onex-coder.version>
+        <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
         <easy.captcha.version>1.6.2</easy.captcha.version>
         <easypoi.version>4.4.0</easypoi.version>

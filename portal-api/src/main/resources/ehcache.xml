@@ -13,5 +13,4 @@
     -->
     <diskStore path="java.io.tmpdir" />
 
-
 </ehcache>
