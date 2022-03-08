@@ -1,13 +1,13 @@
 package com.nb6868.onex.shop.handler;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.text.StrJoiner;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.util.HttpContextUtils;
 import com.nb6868.onex.common.util.JacksonUtils;
 import com.nb6868.onex.common.util.MessageUtils;
-import com.nb6868.onex.shop.modules.sys.dao.LogDao;
 import com.nb6868.onex.shop.modules.sys.entity.LogEntity;
 import com.nb6868.onex.shop.modules.sys.service.LogService;
 import lombok.extern.slf4j.Slf4j;
@@ -179,8 +179,8 @@ public class OnexExceptionHandler {
         // 需要在Controller中加上Validated注解,需要在接口方法参数中加上NotNull NotEmpty等校验注解
         Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
         // 返回所有错误;分割
-        StringJoiner errorMsg = new StringJoiner(";");
-        constraintViolations.forEach(objectConstraintViolation -> errorMsg.add(objectConstraintViolation.getMessage()));
+        StrJoiner errorMsg = new StrJoiner(";");
+        constraintViolations.forEach(objectConstraintViolation -> errorMsg.append(objectConstraintViolation.getMessage()));
         return handleExceptionResult(request, ErrorCode.ERROR_REQUEST, errorMsg.toString());
     }
 
@@ -198,8 +198,8 @@ public class OnexExceptionHandler {
         // 获取所有的错误
         List<ObjectError> errors = e.getBindingResult().getAllErrors();
         // 返回所有错误;分割
-        StringJoiner errorMsg = new StringJoiner(";");
-        errors.forEach(x -> errorMsg.add(x.getDefaultMessage()));
+        StrJoiner errorMsg = new StrJoiner(";");
+        errors.forEach(x -> errorMsg.append(x.getDefaultMessage()));
         return handleExceptionResult(request, ErrorCode.ERROR_REQUEST, errorMsg.toString());
     }
 

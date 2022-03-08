@@ -5,7 +5,7 @@
     <parent>
         <artifactId>onex-api</artifactId>
         <groupId>com.nb6868.onex</groupId>
-        <version>2.1.0</version>
+        <version>3.0.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -13,10 +13,11 @@
     <packaging>jar</packaging>
 
     <properties>
-        <onex-common.version>2.2.3</onex-common.version>
-        <onex-sched.version>2.2.3</onex-sched.version>
-        <onex-msg.version>2.2.3</onex-msg.version>
-        <onex-coder.version>2.2.3</onex-coder.version>
+        <onex-common.version>3.0.0</onex-common.version>
+        <onex-websocket.version>3.0.0</onex-websocket.version>
+        <onex-sched.version>3.0.0</onex-sched.version>
+        <onex-msg.version>3.0.0</onex-msg.version>
+        <onex-coder.version>3.0.0</onex-coder.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
         <easy.captcha.version>1.6.2</easy.captcha.version>
@@ -34,6 +35,12 @@
             <groupId>com.nb6868.onex</groupId>
             <artifactId>common</artifactId>
             <version>${onex-common.version}</version>
+        </dependency>
+        <!-- websocket -->
+        <dependency>
+            <groupId>com.nb6868.onex</groupId>
+            <artifactId>websocket</artifactId>
+            <version>${onex-websocket.version}</version>
         </dependency>
         <!-- sched -->
         <dependency>
@@ -53,16 +60,6 @@
             <artifactId>coder</artifactId>
             <version>${onex-coder.version}</version>
             <scope>test</scope>
-        </dependency>
-        <!-- spring-boot-websocket -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
-        </dependency>
-        <!-- quartz -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
         <!-- springboot cache -->
         <dependency>

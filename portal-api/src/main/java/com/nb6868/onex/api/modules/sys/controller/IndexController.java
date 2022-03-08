@@ -3,16 +3,18 @@ package com.nb6868.onex.api.modules.sys.controller;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Dict;
 import com.nb6868.onex.common.annotation.AccessControl;
+import com.nb6868.onex.common.annotation.LogOperation;
+import com.nb6868.onex.common.pojo.CommonForm;
 import com.nb6868.onex.common.pojo.Result;
+import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.sun.management.OperatingSystemMXBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -33,7 +35,25 @@ public class IndexController {
     @ApiOperation("首页")
     @AccessControl
     public Result<?> index() {
-        log.info("index log");
+        return new Result<>().success("api success");
+    }
+
+    @GetMapping("/logTest/{path}")
+    @ApiOperation("日志测试")
+    @LogOperation("日志测试")
+    @AccessControl("logTest/**")
+    public Result<?> logTest(@PathVariable String path, @NotNull(message = "{pid.require}") Long id1, @NotNull(message = "{id.require}") Long id2) {
+        log.info("index logTest");
+        return new Result<>().success("api success");
+    }
+
+    @PostMapping("/logPostTest/{path}")
+    @ApiOperation("日志测试Post")
+    @LogOperation("日志测试Post")
+    @AccessControl("logPostTest/**")
+    public Result<?> logPostTest(@PathVariable String path, @RequestBody CommonForm form) {
+        ValidatorUtils.validateEntity(form, CommonForm.ListGroup.class, CommonForm.OneGroup.class);
+        log.info("index logTest");
         return new Result<>().success("api success");
     }
 

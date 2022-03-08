@@ -1,5 +1,6 @@
 package com.nb6868.onex.api.modules.sys.entity;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.nb6868.onex.common.pojo.BaseEntity;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("sys_log")
+@TableName(value = "sys_log", autoResultMap = true)
 public class LogEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
@@ -29,14 +30,6 @@ public class LogEntity extends BaseEntity {
      */
     private String operation;
     /**
-     * 请求URI
-     */
-    private String uri;
-    /**
-     * 请求方式
-     */
-    private String method;
-    /**
      * 请求参数
      */
     private String params;
@@ -45,13 +38,9 @@ public class LogEntity extends BaseEntity {
      */
     private Long requestTime;
     /**
-     * 用户代理
+     * 请求参数
      */
-    private String userAgent;
-    /**
-     * 操作IP
-     */
-    private String ip;
+    private JSONObject requestParams;
     /**
      * 状态  0：失败   1：成功
      */

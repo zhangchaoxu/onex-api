@@ -8,13 +8,10 @@ onex:
     enable: true
   # swagger
   swagger:
-    enable: true
+    enable: false
   # WebMVC
   webmvc:
     enable: true
-  # WebSocket
-  websocket:
-    enable: false
   # async
   async:
     enable: false
