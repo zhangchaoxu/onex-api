@@ -2,18 +2,24 @@ package com.nb6868.onex.api.modules.sys.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.lang.Dict;
+import com.nb6868.onex.api.modules.sys.dto.TestForm;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.common.pojo.CommonForm;
 import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.validator.ValidatorUtils;
+import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.sun.management.OperatingSystemMXBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import java.lang.management.ManagementFactory;
 import java.math.BigDecimal;
@@ -31,30 +37,55 @@ import java.math.RoundingMode;
 @Slf4j
 public class IndexController {
 
+    @Autowired
+    private Environment env;
+
     @GetMapping("/")
-    @ApiOperation("首页")
-    @AccessControl
+    @ApiOperation("index")
+    @AccessControl("/")
     public Result<?> index() {
-        return new Result<>().success("api success");
+        Dict result = Dict.create()
+                .set("onex", Dict.create()
+                        .set("parent-artifact-id", env.getProperty("onex.parent-artifact-id"))
+                        .set("artifact-id", env.getProperty("onex.artifact-id"))
+                        .set("version", env.getProperty("onex.version"))
+                        .set("build-time", env.getProperty("onex.build-time")))
+                .set("app", Dict.create()
+                        .set("parent-artifact-id", env.getProperty("onex.app.parent-artifact-id"))
+                        .set("artifact-id", env.getProperty("onex.app.artifact-id"))
+                        .set("version", env.getProperty("onex.app.version"))
+                        .set("build-time", env.getProperty("onex.app.build-time")));
+        return new Result<>().success(result);
     }
 
-    @GetMapping("/logTest/{path}")
+    @GetMapping("/logGetTest")
+    @ApiOperation("日志测试Get")
+    @LogOperation("日志测试Get")
+    @AccessControl("logGetTest")
+    public Result<?> logTest(@ApiParam(value = "xx的id", required = false) @Max(value = 10, message = "不允许超过10") @RequestParam Long id1,
+                             @ApiParam(value = "xx的id2", required = true) @NotNull(message = "{pid.require}") @RequestParam(required = false) Long id2) {
+        // todo 业务逻辑
+        return new Result<>();
+    }
+
+    @GetMapping("/logMapTest")
     @ApiOperation("日志测试")
     @LogOperation("日志测试")
-    @AccessControl("logTest/**")
-    public Result<?> logTest(@PathVariable String path, @NotNull(message = "{pid.require}") Long id1, @NotNull(message = "{id.require}") Long id2) {
-        log.info("index logTest");
+    @AccessControl("logMapTest")
+    public Result<?> logMapTest(@ApiIgnore TestForm form) {
+        ValidatorUtils.validateEntity(form, DefaultGroup.class);
+
         return new Result<>().success("api success");
     }
 
-    @PostMapping("/logPostTest/{path}")
+    @PostMapping("/logPostTest")
     @ApiOperation("日志测试Post")
     @LogOperation("日志测试Post")
-    @AccessControl("logPostTest/**")
-    public Result<?> logPostTest(@PathVariable String path, @RequestBody CommonForm form) {
-        ValidatorUtils.validateEntity(form, CommonForm.ListGroup.class, CommonForm.OneGroup.class);
-        log.info("index logTest");
-        return new Result<>().success("api success");
+    @AccessControl("logPostTest")
+    public Result<?> logPostTest(@RequestBody @Validated TestForm form) {
+        ValidatorUtils.validateEntity(form);
+        // todo 业务逻辑
+        return new Result<>();
     }
 
     @GetMapping("sys/info")

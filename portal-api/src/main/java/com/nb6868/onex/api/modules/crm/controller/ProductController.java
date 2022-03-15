@@ -1,14 +1,20 @@
 package com.nb6868.onex.api.modules.crm.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.api.modules.crm.dto.ProductDTO;
+import com.nb6868.onex.api.modules.crm.dto.ProductQueryFrom;
+import com.nb6868.onex.api.modules.crm.entity.ProductCategoryEntity;
+import com.nb6868.onex.api.modules.crm.entity.ProductEntity;
+import com.nb6868.onex.api.modules.crm.excel.ProductExcel;
 import com.nb6868.onex.api.modules.crm.service.ProductCategoryService;
 import com.nb6868.onex.api.modules.crm.service.ProductService;
 import com.nb6868.onex.api.shiro.SecurityUser;
+import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.api.modules.crm.dto.ProductDTO;
-import com.nb6868.onex.api.modules.crm.excel.ProductExcel;
 import com.nb6868.onex.common.exception.ErrorCode;
+import com.nb6868.onex.common.jpa.QueryHelpPlus;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.pojo.MsgResult;
 import com.nb6868.onex.common.pojo.PageData;
@@ -20,7 +26,6 @@ import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.nb6868.onex.common.validator.group.UpdateGroup;
-import com.nb6868.onex.api.modules.crm.entity.ProductCategoryEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -43,7 +48,7 @@ import java.util.Map;
  * @author Charles zhangchaoxu@gmail.com
  */
 @RestController
-@RequestMapping("/crm/product")
+@RequestMapping("/crm/product/")
 @Validated
 @Api(tags = "CRM产品")
 public class ProductController {
@@ -52,12 +57,13 @@ public class ProductController {
     @Autowired
     private ProductCategoryService productCategoryService;
 
-    @DataSqlScope(tableAlias = "crm_product", tenantFilter = true)
-    @GetMapping("list")
+    @PostMapping("list")
     @ApiOperation("列表")
-    @RequiresPermissions("crm:product:list")
-    public Result<?> list(@ApiIgnore @RequestParam Map<String, Object> params) {
-        List<ProductDTO> list = productService.listDto(params);
+    // @RequiresPermissions("crm:product:list")
+    @AccessControl("list")
+    public Result<?> list(@RequestBody ProductQueryFrom from) {
+        QueryWrapper<ProductEntity> queryWrapper = QueryHelpPlus.getPredicate(ProductEntity.class, from);
+        List<ProductDTO> list = productService.listDto(queryWrapper);
 
         return new Result<>().success(list);
     }

@@ -13,11 +13,14 @@
     <packaging>jar</packaging>
 
     <properties>
-        <onex-common.version>3.0.0</onex-common.version>
-        <onex-websocket.version>3.0.0</onex-websocket.version>
-        <onex-sched.version>3.0.0</onex-sched.version>
-        <onex-msg.version>3.0.0</onex-msg.version>
-        <onex-coder.version>3.0.0</onex-coder.version>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <skipTests>true</skipTests>
+        <!-- version -->
+        <onex-common.version>3.0.3</onex-common.version>
+        <onex-websocket.version>3.0.3</onex-websocket.version>
+        <onex-sched.version>3.0.3</onex-sched.version>
+        <onex-msg.version>3.0.3</onex-msg.version>
+        <onex-coder.version>3.0.3</onex-coder.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
         <easy.captcha.version>1.6.2</easy.captcha.version>
@@ -26,7 +29,6 @@
         <weixin.version>4.2.0</weixin.version>
         <jpush.version>3.4.9</jpush.version>
         <zxing.version>3.4.1</zxing.version>
-        <skipTests>true</skipTests>
     </properties>
 
     <dependencies>
@@ -76,13 +78,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-        <!-- devtools
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency> -->
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

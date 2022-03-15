@@ -1,7 +1,10 @@
 package com.nb6868.onex.api.modules.sys.entity;
 
-import cn.hutool.json.JSONObject;
+import cn.hutool.core.lang.Dict;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.nb6868.onex.common.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +19,11 @@ import lombok.EqualsAndHashCode;
 @TableName(value = "sys_log", autoResultMap = true)
 public class LogEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
+    /**
+     * 用户名
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private String createName;
 
     /**
      * 类型
@@ -30,23 +38,21 @@ public class LogEntity extends BaseEntity {
      */
     private String operation;
     /**
-     * 请求参数
-     */
-    private String params;
-    /**
      * 耗时(毫秒)
      */
     private Long requestTime;
     /**
+     * 请求URI
+     */
+    private String uri;
+    /**
      * 请求参数
      */
-    private JSONObject requestParams;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Dict requestParams;
     /**
      * 状态  0：失败   1：成功
      */
     private Integer state;
-    /**
-     * 用户名
-     */
-    private String createName;
+
 }

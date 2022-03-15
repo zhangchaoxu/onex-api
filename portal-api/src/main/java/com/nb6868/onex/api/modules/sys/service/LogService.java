@@ -39,8 +39,9 @@ public class LogService extends DtoService<LogDao, LogEntity, LogDTO> implements
     }
 
     @Override
-    public void saveToDb(LogBody log) {
+    public void saveLog(LogBody log) {
         LogEntity logEntity = ConvertUtils.sourceToTarget(log, LogEntity.class);
         save(logEntity);
     }
+
 }

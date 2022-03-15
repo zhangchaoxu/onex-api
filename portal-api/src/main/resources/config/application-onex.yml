@@ -1,5 +1,14 @@
 ## onex
 onex:
+  # App
+  app:
+    # 应用名称
+    parent-artifact-id: @project.parent.artifactId@
+    artifact-id: @project.artifactId@
+    # 版本号
+    version: @project.version@
+    # maven编译时间
+    build-time: @maven.build.timestamp@
   # 过滤器
   filter:
     enable: true
