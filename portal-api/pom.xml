@@ -16,10 +16,10 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <skipTests>true</skipTests>
         <!-- version -->
-        <onex-common.version>3.0.3</onex-common.version>
-        <onex-websocket.version>3.0.3</onex-websocket.version>
-        <onex-sched.version>3.0.3</onex-sched.version>
-        <onex-msg.version>3.0.3</onex-msg.version>
+        <onex-common.version>3.0.4</onex-common.version>
+        <onex-websocket.version>3.0.4</onex-websocket.version>
+        <onex-sched.version>3.0.4</onex-sched.version>
+        <onex-msg.version>3.0.4</onex-msg.version>
         <onex-coder.version>3.0.3</onex-coder.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
