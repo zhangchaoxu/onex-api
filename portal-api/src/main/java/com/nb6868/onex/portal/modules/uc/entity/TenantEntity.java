@@ -5,8 +5,6 @@ import com.nb6868.onex.common.pojo.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
 /**
  * 租户
  *
@@ -17,8 +15,6 @@ import java.util.Date;
 @TableName("uc_tenant")
 public class TenantEntity extends BaseEntity {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 编码
 	 */
@@ -27,14 +23,6 @@ public class TenantEntity extends BaseEntity {
      * 名称
      */
 	private String name;
-    /**
-     * 有效期开始
-     */
-	private Date validStartTime;
-    /**
-     * 有效期结束
-     */
-	private Date validEndTime;
     /**
      * 状态 0 无效 1 有效
      */
