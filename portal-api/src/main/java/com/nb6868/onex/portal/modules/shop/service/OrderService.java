@@ -8,6 +8,7 @@ import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.pay.PayConst;
 import com.nb6868.onex.portal.modules.pay.dto.PayRequest;
 import com.nb6868.onex.portal.modules.pay.entity.ChannelEntity;
@@ -23,7 +24,6 @@ import com.nb6868.onex.portal.modules.shop.entity.OrderItemEntity;
 import com.nb6868.onex.portal.modules.shop.entity.OrderLogEntity;
 import com.nb6868.onex.portal.modules.sys.service.ParamService;
 import com.nb6868.onex.portal.modules.uc.service.UserService;
-import com.nb6868.onex.portal.shiro.SecurityUser;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.jpa.DtoService;
@@ -219,7 +219,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         order.setPayType(request.getPayType());
         order.setOrderTime(DateUtil.date());
         order.setGoodsDetail(goods.getName() + request.getQty());
-        order.setUserId(SecurityUser.getUserId());
+        order.setUserId(ShiroUtils.getUserId());
         /*order.setTenantId(goods.getTenantId());
         order.setTenantName(goods.getTenantName());*/
         order.setGoodsDiscountPrice(new BigDecimal("0"));

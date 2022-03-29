@@ -1,8 +1,8 @@
 package com.nb6868.onex.portal.modules.sys.controller;
 
-import com.nb6868.onex.portal.shiro.SecurityUser;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.LogOperation;
+import com.nb6868.onex.common.shiro.ShiroUser;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.sys.entity.ShorturlEntity;
 import com.nb6868.onex.portal.modules.sys.service.ShorturlService;
 import io.swagger.annotations.Api;
@@ -30,7 +30,7 @@ public class TShorturlController {
     @ApiOperation("系统信息")
     @LogOperation("系统信息")
     public String redirect(@PathVariable("code") String code, HttpServletResponse response) {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         ShorturlEntity entity = shorturlService.getOneByColumn("code", code);
         if (null == entity) {
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());

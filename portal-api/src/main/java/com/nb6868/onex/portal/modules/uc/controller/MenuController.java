@@ -3,9 +3,9 @@ package com.nb6868.onex.portal.modules.uc.controller;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.text.StrSplitter;
 import cn.hutool.core.util.StrUtil;
-import com.nb6868.onex.portal.shiro.SecurityUser;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.LogOperation;
+import com.nb6868.onex.common.shiro.ShiroUser;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.uc.UcConst;
 import com.nb6868.onex.portal.modules.uc.dto.MenuDTO;
 import com.nb6868.onex.portal.modules.uc.dto.MenuTreeDTO;
@@ -53,7 +53,7 @@ public class MenuController {
     @GetMapping("scope")
     @ApiOperation("权限范围")
     public Result<?> scope() {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         // 获取该用户所有menu
         List<MenuEntity> allList = menuService.getListByUser(user, null);
         // 过滤出其中显示菜单
@@ -87,7 +87,7 @@ public class MenuController {
     @GetMapping("tree")
     @ApiOperation("登录用户菜单树")
     public Result<?> tree(@RequestParam(required = false, name = "菜单类型 0：菜单 1：按钮  null：全部") Integer type) {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         List<MenuEntity> entityList = menuService.getListByUser(user, type);
         List<MenuTreeDTO> dtoList = ConvertUtils.sourceToTarget(entityList, MenuTreeDTO.class);
         List<MenuTreeDTO> dtoTree = TreeUtils.build(dtoList);
@@ -98,7 +98,7 @@ public class MenuController {
     @GetMapping("permissions")
     @ApiOperation("登录用户权限范围")
     public Result<?> permissions() {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         Set<String> set = authService.getUserPermissions(user);
 
         return new Result<>().success(set);
@@ -107,7 +107,7 @@ public class MenuController {
     @GetMapping("roles")
     @ApiOperation("登录用户角色范围")
     public Result<?> roles() {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         Set<String> set = authService.getUserRoles(user);
 
         return new Result<>().success(set);

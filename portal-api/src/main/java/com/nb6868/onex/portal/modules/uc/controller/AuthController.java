@@ -50,7 +50,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Charles zhangchaoxu@gmail.com
  */
 @RestController
-@RequestMapping("/uc/auth")
+@RequestMapping("/uc/auth/")
 @AccessControl("/uc/auth/**")
 @Validated
 @Api(tags = "用户认证")

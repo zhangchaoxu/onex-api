@@ -1,12 +1,12 @@
 package com.nb6868.onex.portal.modules.uc.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.shiro.ShiroUser;
 import com.nb6868.onex.portal.modules.uc.UcConst;
 import com.nb6868.onex.portal.modules.uc.dao.MenuDao;
 import com.nb6868.onex.portal.modules.uc.dto.MenuDTO;
 import com.nb6868.onex.portal.modules.uc.entity.MenuEntity;
 import com.nb6868.onex.portal.modules.uc.entity.MenuScopeEntity;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
 import com.nb6868.onex.common.jpa.DtoService;
@@ -84,7 +84,7 @@ public class MenuService extends DtoService<MenuDao, MenuEntity, MenuDTO> {
      *
      * @param user 用户
      */
-    public List<MenuEntity> getListByUser(UserDetail user, Integer type) {
+    public List<MenuEntity> getListByUser(ShiroUser user, Integer type) {
         if (user.getType() == UcConst.UserTypeEnum.ADMIN.value()) {
             // 系统管理员,返回所有内容
             return query().eq(type != null, "type", type).orderByAsc("sort").list();

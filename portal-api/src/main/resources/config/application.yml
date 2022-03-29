@@ -19,6 +19,6 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   # 实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.nb6868.onex.api.modules.*.entity
+  typeAliasesPackage: com.nb6868.onex.portal.modules.*.entity
   # 枚举扫描
-  typeEnumsPackage: com.nb6868.onex.api.modules.*.enums
+  typeEnumsPackage: com.nb6868.onex.portal.modules.*.enums

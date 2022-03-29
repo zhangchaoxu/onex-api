@@ -1,9 +1,9 @@
 package com.nb6868.onex.portal.aspect;
 
 import cn.hutool.core.util.StrUtil;
+import com.nb6868.onex.common.shiro.ShiroUser;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.uc.UcConst;
-import com.nb6868.onex.portal.shiro.SecurityUser;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.exception.OnexException;
@@ -41,7 +41,7 @@ public class DataFilterAspect {
 
         Object params = point.getArgs()[0];
         if (params instanceof Map) {
-            UserDetail user = SecurityUser.getUser();
+            ShiroUser user = ShiroUtils.getUser();
 
             // 如果是超级管理员，则不进行数据过滤
             if (user.getType() <= UcConst.UserTypeEnum.SYSADMIN.value()) {
@@ -66,7 +66,7 @@ public class DataFilterAspect {
     /**
      * 获取数据过滤的SQL
      */
-    private String getSqlFilter(UserDetail user, JoinPoint point) throws Exception {
+    private String getSqlFilter(ShiroUser user, JoinPoint point) throws Exception {
         MethodSignature signature = (MethodSignature) point.getSignature();
         Method method = point.getTarget().getClass().getDeclaredMethod(signature.getName(), signature.getParameterTypes());
         DataSqlScope dataFilter = method.getAnnotation(DataSqlScope.class);

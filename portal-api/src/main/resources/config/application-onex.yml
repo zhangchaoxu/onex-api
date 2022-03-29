@@ -12,6 +12,9 @@ onex:
   # 过滤器
   filter:
     enable: true
+  # 过滤器
+  shiro:
+    enable: true
   # mybatis配置
   mybatisplus:
     enable: true
@@ -27,7 +30,7 @@ onex:
   # 登录配置
   auth:
     ## 权限控制扫描包
-    access-scan-package: com.nb6868.onex.api.modules
+    access-scan-package: com.nb6868.onex.portal.modules
     settings:
       admin:
         register: false

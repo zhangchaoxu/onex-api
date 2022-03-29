@@ -3,13 +3,13 @@ package com.nb6868.onex.portal.modules.uc.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.shiro.ShiroUser;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.uc.UcConst;
 import com.nb6868.onex.portal.modules.uc.dao.DeptDao;
 import com.nb6868.onex.portal.modules.uc.dto.DeptDTO;
 import com.nb6868.onex.portal.modules.uc.dto.DeptTreeDTO;
 import com.nb6868.onex.portal.modules.uc.entity.DeptEntity;
-import com.nb6868.onex.portal.shiro.SecurityUser;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.DtoService;
 import com.nb6868.onex.common.util.ConvertUtils;
@@ -56,9 +56,9 @@ public class DeptService extends DtoService<DeptDao, DeptEntity, DeptDTO> {
 	@Override
 	public List<DeptDTO> listDto(Map<String, Object> params) {
 		// 普通管理员，只能查询所属部门及子部门的数据
-		UserDetail user = SecurityUser.getUser();
+		ShiroUser user = ShiroUtils.getUser();
 		if (user.getType() > UcConst.UserTypeEnum.SYSADMIN.value()) {
-			params.put("deptIdList", getSubDeptIdList(user.getDeptId()));
+			// params.put("deptIdList", getSubDeptIdList(user.getDeptId()));
 		}
 
 		// 查询部门列表

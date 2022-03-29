@@ -1,8 +1,8 @@
 package com.nb6868.onex.portal.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.nb6868.onex.portal.shiro.SecurityUser;
-import com.nb6868.onex.portal.shiro.UserDetail;
+import com.nb6868.onex.common.shiro.ShiroUser;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
@@ -59,15 +59,15 @@ public class AutoFillMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         Date date = new Date();
 
         strictInsertFill(metaObject, DELETED, Integer.class, 0);
         strictInsertFill(metaObject, CREATE_TIME, Date.class, date);
         strictInsertFill(metaObject, UPDATE_TIME, Date.class, date);
-        if (metaObject.hasGetter(DEPT_ID) && metaObject.getValue(DEPT_ID) == null && user.getDeptId() != null) {
+        /*if (metaObject.hasGetter(DEPT_ID) && metaObject.getValue(DEPT_ID) == null && user.getDeptId() != null) {
             strictInsertFill(metaObject, DEPT_ID, Long.class, user.getDeptId());
-        }
+        }*/
         if (metaObject.hasGetter(TENANT_CODE) && metaObject.getValue(TENANT_CODE) == null && user.getTenantCode() != null) {
             strictInsertFill(metaObject, TENANT_CODE, String.class, user.getTenantCode());
         }
@@ -82,7 +82,7 @@ public class AutoFillMetaObjectHandler implements MetaObjectHandler {
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         Date date = new Date();
         strictUpdateFill(metaObject, UPDATE_TIME, Date.class, date);
         strictUpdateFill(metaObject, UPDATE_ID, Long.class, user.getId());

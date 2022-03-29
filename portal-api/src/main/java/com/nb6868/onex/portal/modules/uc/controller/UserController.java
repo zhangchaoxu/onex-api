@@ -1,21 +1,12 @@
 package com.nb6868.onex.portal.modules.uc.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
-import com.nb6868.onex.portal.modules.uc.UcConst;
-import com.nb6868.onex.portal.modules.uc.dto.ChangePasswordByMailCodeRequest;
-import com.nb6868.onex.portal.modules.uc.dto.PasswordDTO;
-import com.nb6868.onex.portal.modules.uc.dto.UserDTO;
-import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
-import com.nb6868.onex.portal.modules.uc.excel.UserExcel;
-import com.nb6868.onex.portal.modules.uc.service.DeptService;
-import com.nb6868.onex.portal.modules.uc.service.RoleService;
-import com.nb6868.onex.portal.modules.uc.service.UserService;
-import com.nb6868.onex.portal.shiro.SecurityUser;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.*;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.util.ExcelUtils;
 import com.nb6868.onex.common.util.HttpContextUtils;
@@ -25,6 +16,15 @@ import com.nb6868.onex.common.validator.ValidatorUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.nb6868.onex.common.validator.group.UpdateGroup;
+import com.nb6868.onex.portal.modules.uc.UcConst;
+import com.nb6868.onex.portal.modules.uc.dto.ChangePasswordByMailCodeRequest;
+import com.nb6868.onex.portal.modules.uc.dto.PasswordDTO;
+import com.nb6868.onex.portal.modules.uc.dto.UserDTO;
+import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
+import com.nb6868.onex.portal.modules.uc.excel.UserExcel;
+import com.nb6868.onex.portal.modules.uc.service.DeptService;
+import com.nb6868.onex.portal.modules.uc.service.RoleService;
+import com.nb6868.onex.portal.modules.uc.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -96,7 +96,7 @@ public class UserController {
     @GetMapping("userInfo")
     @ApiOperation("登录用户信息")
     public Result<?> userInfo() {
-        UserDTO data = ConvertUtils.sourceToTarget(SecurityUser.getUser(), UserDTO.class);
+        UserDTO data = ConvertUtils.sourceToTarget(ShiroUtils.getUser(), UserDTO.class);
         return new Result<>().success(data);
     }
 
@@ -105,7 +105,7 @@ public class UserController {
     @LogOperation("修改密码")
     public Result<?> password(@Validated @RequestBody PasswordDTO dto) {
         // 获取数据库中的用户
-        UserEntity data = userService.getById(SecurityUser.getUserId());
+        UserEntity data = userService.getById(ShiroUtils.getUserId());
         AssertUtils.isNull(data, ErrorCode.DB_RECORD_NOT_EXISTED);
         // 校验原密码
         AssertUtils.isFalse(PasswordUtils.verify(dto.getPassword(), data.getPassword()), ErrorCode.ACCOUNT_PASSWORD_ERROR);

@@ -2,6 +2,7 @@ package com.nb6868.onex.portal.modules.crm.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.crm.dto.ProductDTO;
 import com.nb6868.onex.portal.modules.crm.dto.ProductQueryFrom;
 import com.nb6868.onex.portal.modules.crm.entity.ProductCategoryEntity;
@@ -9,7 +10,6 @@ import com.nb6868.onex.portal.modules.crm.entity.ProductEntity;
 import com.nb6868.onex.portal.modules.crm.excel.ProductExcel;
 import com.nb6868.onex.portal.modules.crm.service.ProductCategoryService;
 import com.nb6868.onex.portal.modules.crm.service.ProductService;
-import com.nb6868.onex.portal.shiro.SecurityUser;
 import com.nb6868.onex.common.annotation.AccessControl;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.exception.ErrorCode;
@@ -152,7 +152,7 @@ public class ProductController {
         List<MsgResult> result = new ArrayList<>();
         for (ProductExcel item : list) {
             ProductDTO dto = ConvertUtils.sourceToTarget(item, ProductDTO.class);
-            ProductCategoryEntity productCategory = productCategoryService.getByName(dto.getCategoryName(), SecurityUser.getUser().getTenantCode());
+            ProductCategoryEntity productCategory = productCategoryService.getByName(dto.getCategoryName(), ShiroUtils.getUser().getTenantCode());
             if (null == productCategory) {
                 result.add(new MsgResult().error(ErrorCode.ERROR_REQUEST, "未找到产品分类:" + dto.getCategoryName()));
             } else {

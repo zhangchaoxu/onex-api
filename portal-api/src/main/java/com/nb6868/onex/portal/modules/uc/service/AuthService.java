@@ -3,12 +3,12 @@ package com.nb6868.onex.portal.modules.uc.service;
 import cn.hutool.core.text.StrSplitter;
 import cn.hutool.jwt.JWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.shiro.ShiroUser;
 import com.nb6868.onex.portal.modules.uc.UcConst;
 import com.nb6868.onex.portal.modules.uc.entity.MenuEntity;
 import com.nb6868.onex.portal.modules.uc.entity.TokenEntity;
 import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
 import com.nb6868.onex.portal.modules.uc.entity.UserOauthEntity;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.auth.AuthProps;
 import com.nb6868.onex.common.auth.LoginForm;
 import com.nb6868.onex.common.exception.ErrorCode;
@@ -58,7 +58,7 @@ public class AuthService {
     /**
      * 获取用户权限列表
      */
-    public Set<String> getUserPermissions(UserDetail user) {
+    public Set<String> getUserPermissions(ShiroUser user) {
         // 系统管理员，拥有最高权限
         List<String> permissionsList = user.getType() == UcConst.UserTypeEnum.ADMIN.value() ? menuService.listObjs(new QueryWrapper<MenuEntity>().select("permissions")
                 .ne("permissions", "").isNotNull("permissions"), Object::toString) :
@@ -73,7 +73,7 @@ public class AuthService {
     /**
      * 获取用户角色列表
      */
-    public Set<String> getUserRoles(UserDetail user) {
+    public Set<String> getUserRoles(ShiroUser user) {
         List<Long> roleList = user.getType() == UcConst.UserTypeEnum.ADMIN.value() ? roleService.getRoleIdList() : roleService.getRoleIdListByUserId(user.getId());
         // 用户角色列表
         Set<String> set = new HashSet<>();

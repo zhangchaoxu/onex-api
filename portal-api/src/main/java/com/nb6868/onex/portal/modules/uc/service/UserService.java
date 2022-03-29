@@ -2,14 +2,14 @@ package com.nb6868.onex.portal.modules.uc.service;
 
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.shiro.ShiroUser;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.portal.modules.uc.UcConst;
 import com.nb6868.onex.portal.modules.uc.dao.UserDao;
 import com.nb6868.onex.portal.modules.uc.dto.ChangePasswordByMailCodeRequest;
 import com.nb6868.onex.portal.modules.uc.dto.RegisterRequest;
 import com.nb6868.onex.portal.modules.uc.dto.UserDTO;
 import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
-import com.nb6868.onex.portal.shiro.SecurityUser;
-import com.nb6868.onex.portal.shiro.UserDetail;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.jpa.DtoService;
 import com.nb6868.onex.common.pojo.ChangeStateRequest;
@@ -70,8 +70,8 @@ public class UserService extends DtoService<UserDao, UserEntity, UserDTO> {
                 .eq("uc_user.deleted", 0);
 
         // 普通管理员，只能查询所属部门及子部门的数据
-        UserDetail user = SecurityUser.getUser();
-        qw.in(user.getType() > UcConst.UserTypeEnum.SYSADMIN.value() && user.getDeptId() != null, "uc_user.dept_id", deptService.getSubDeptIdList(user.getDeptId()));
+        ShiroUser user = ShiroUtils.getUser();
+        //qw.in(user.getType() > UcConst.UserTypeEnum.SYSADMIN.value() && user.getDeptId() != null, "uc_user.dept_id", deptService.getSubDeptIdList(user.getDeptId()));
         // 角色
         String[] roleIds = MapUtil.getStr(params, "roleIds", "").split(",");
         qw.and(roleIds.length > 0, queryWrapper -> {
@@ -85,10 +85,10 @@ public class UserService extends DtoService<UserDao, UserEntity, UserDTO> {
     @Override
     protected void beforeSaveOrUpdateDto(UserDTO dto, UserEntity toSaveEntity, int type) {
         // 检查用户权限
-        UserDetail user = SecurityUser.getUser();
+        ShiroUser user = ShiroUtils.getUser();
         AssertUtils.isTrue(user.getType() > dto.getType(), "无权创建高等级用户");
         AssertUtils.isTrue(dto.getType() == UcConst.UserTypeEnum.DEPTADMIN.value() && dto.getDeptId() == null, "单位管理员需指定所在单位");
-        AssertUtils.isTrue(user.getDeptId() != null && dto.getDeptId() == null, "需指定所在单位");
+        // AssertUtils.isTrue(user.getDeptId() != null && dto.getDeptId() == null, "需指定所在单位");
         AssertUtils.isTrue(hasDuplicated(dto.getId(), "username", dto.getUsername()), ErrorCode.ERROR_REQUEST, "用户名已存在");
         AssertUtils.isTrue(hasDuplicated(dto.getId(), "mobile", dto.getMobile()), ErrorCode.ERROR_REQUEST, "手机号已存在");
         if (type == 1) {
@@ -203,7 +203,7 @@ public class UserService extends DtoService<UserDao, UserEntity, UserDTO> {
     @Transactional(rollbackFor = Exception.class)
     public boolean changeMenuScope(List<Long> menuIds) {
         // 保存用户菜单关系
-        menuScopeService.saveOrUpdateByUserIdAndMenuIds(SecurityUser.getUserId(), menuIds);
+        menuScopeService.saveOrUpdateByUserIdAndMenuIds(ShiroUtils.getUserId(), menuIds);
         return true;
     }
 
