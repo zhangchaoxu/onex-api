@@ -27,31 +27,31 @@ onex:
   # async
   async:
     enable: false
+  # 自动填充
+  auto-fill:
+    enable: true
+  # 异常处理
+  exception-handler:
+    enable: true
+  # 日志
+  aspect:
+    log: true
+  log:
+    enable: true
+    # 存储方式
+    type: db
+  # 数据查询过滤
+  data-query-filter:
+    enable: true
   # 登录配置
   auth:
-    ## 权限控制扫描包
-    access-scan-package: com.nb6868.onex.portal.modules
-    settings:
-      admin:
-        register: false
-        forget-password: false
-        types:
-          - ADMIN_USERNAME_PASSWORD
+    # 访问控制
+    access-control:
+      enable: true
+      # 扫描包
+      scan-package: com.nb6868.onex.uc.controller, com.nb6868.onex.sys.controller,com.nb6868.onex.sched.controller,com.nb6868.onex.msg.controller,com.nb6868.onex.portal.modules
     configs:
       ## 后台-帐号密码登录
       ADMIN_USERNAME_PASSWORD:
         type: ADMIN_USERNAME_PASSWORD
         multi-login: true
-  # 存储配置
-  oss:
-    enable: true
-    configs:
-      OSS_PUBLIC:
-        type: aliyun
-        domain: https://xxx.oss-cn-hangzhou.aliyuncs.com/
-        prefix: xxx
-        endPoint: http://oss-cn-hangzhou.aliyuncs.com/
-        accessKeyId: xxx
-        accessKeySecret: xxx
-        bucketName: xxx
-        keepFileName: false

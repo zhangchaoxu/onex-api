@@ -1,16 +1,14 @@
 package com.nb6868.onex.portal.modules.shop.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.nb6868.onex.portal.modules.shop.entity.GoodsCategoryEntity;
-import com.nb6868.onex.portal.modules.shop.dao.GoodsCategoryDao;
-import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryDTO;
-import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryTreeDTO;
 import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.DtoService;
-import com.nb6868.onex.common.util.ConvertUtils;
+import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.WrapperUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
+import com.nb6868.onex.portal.modules.shop.dao.GoodsCategoryDao;
+import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryDTO;
+import com.nb6868.onex.portal.modules.shop.entity.GoodsCategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -77,13 +75,13 @@ public class GoodsCategoryService extends DtoService<GoodsCategoryDao, GoodsCate
     /**
      * 树状列表
      */
-    public List<GoodsCategoryTreeDTO> tree(Map<String, Object> params) {
+    /*public List<GoodsCategoryTreeDTO> tree(Map<String, Object> params) {
         List<GoodsCategoryEntity> entityList = getBaseMapper().selectList(getWrapper("tree", params));
 
         List<GoodsCategoryTreeDTO> dtoList = ConvertUtils.sourceToTarget(entityList, GoodsCategoryTreeDTO.class);
 
         return TreeUtils.build(dtoList);
-    }
+    }*/
 
     /**
      * 递归上级菜单列表

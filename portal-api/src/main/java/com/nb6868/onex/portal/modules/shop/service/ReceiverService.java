@@ -1,19 +1,19 @@
 package com.nb6868.onex.portal.modules.shop.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.exception.ErrorCode;
+import com.nb6868.onex.common.jpa.DtoService;
+import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.shiro.ShiroUser;
 import com.nb6868.onex.common.shiro.ShiroUtils;
+import com.nb6868.onex.common.util.WrapperUtils;
+import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.portal.modules.shop.dao.ReceiverDao;
 import com.nb6868.onex.portal.modules.shop.dto.AppReceiverRequest;
 import com.nb6868.onex.portal.modules.shop.dto.ReceiverDTO;
 import com.nb6868.onex.portal.modules.shop.entity.ReceiverEntity;
-import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
-import com.nb6868.onex.portal.modules.uc.service.UserService;
-import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.jpa.DtoService;
-import com.nb6868.onex.common.pojo.Const;
-import com.nb6868.onex.common.util.WrapperUtils;
-import com.nb6868.onex.common.validator.AssertUtils;
+import com.nb6868.onex.uc.entity.UserEntity;
+import com.nb6868.onex.uc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,13 +1,13 @@
 package com.nb6868.onex.portal.modules.shop.controller;
 
 import com.nb6868.onex.common.annotation.WxWebAuth;
-import com.nb6868.onex.portal.modules.uc.UcConst;
+import com.nb6868.onex.common.exception.ErrorCode;
+import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.portal.modules.shop.dto.GoodsDTO;
 import com.nb6868.onex.portal.modules.shop.dto.OrderDTO;
 import com.nb6868.onex.portal.modules.shop.service.GoodsService;
 import com.nb6868.onex.portal.modules.shop.service.OrderService;
-import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.validator.AssertUtils;
+import com.nb6868.onex.uc.UcConst;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class HtmlController {
         OrderDTO data = orderService.getDtoById(id);
         AssertUtils.isNull(data, ErrorCode.DB_RECORD_NOT_EXISTED);
 
-        map.put("openid", request.getSession().getAttribute(UcConst.WX_SESSION_OPEN_ID));
+        //map.put("openid", request.getSession().getAttribute(UcConst.WX_SESSION_OPEN_ID));
         map.put("data", data);
         return "shop/order-info";
     }

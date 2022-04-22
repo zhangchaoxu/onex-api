@@ -4,7 +4,6 @@ import cn.hutool.core.map.MapUtil;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryDTO;
-import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryTreeDTO;
 import com.nb6868.onex.portal.modules.shop.service.GoodsCategoryService;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.PageData;

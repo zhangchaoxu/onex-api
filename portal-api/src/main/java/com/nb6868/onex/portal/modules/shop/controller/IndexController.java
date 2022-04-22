@@ -1,10 +1,10 @@
 package com.nb6868.onex.portal.modules.shop.controller;
 
 import cn.hutool.core.lang.Dict;
-import com.nb6868.onex.portal.modules.uc.service.UserService;
+import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.portal.modules.shop.service.GoodsService;
 import com.nb6868.onex.portal.modules.shop.service.OrderService;
-import com.nb6868.onex.common.pojo.Result;
+import com.nb6868.onex.uc.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

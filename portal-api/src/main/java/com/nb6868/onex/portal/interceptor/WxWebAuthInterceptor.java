@@ -1,24 +1,10 @@
 package com.nb6868.onex.portal.interceptor;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.nb6868.onex.portal.modules.uc.UcConst;
-import com.nb6868.onex.common.annotation.WxWebAuth;
-import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.exception.OnexException;
-import com.nb6868.onex.common.util.HttpContextUtils;
-import com.nb6868.onex.common.wechat.WechatMpPropsConfig;
-import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
-import me.chanjar.weixin.common.error.WxErrorException;
-import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * 微信页面授权拦截器
@@ -32,7 +18,7 @@ public class WxWebAuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (handler instanceof HandlerMethod) {
+        /*if (handler instanceof HandlerMethod) {
             WxWebAuth annotation = ((HandlerMethod) handler).getMethodAnnotation(WxWebAuth.class);
             if (annotation != null) {
                 // 判断来源是否微信
@@ -92,7 +78,7 @@ public class WxWebAuthInterceptor implements HandlerInterceptor {
                     // todo 取出请求中的code和status
                 }
             }
-        }
+        }*/
         return true;
     }
 

@@ -8,7 +8,17 @@ import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.nb6868.onex.common.exception.ErrorCode;
+import com.nb6868.onex.common.exception.OnexException;
+import com.nb6868.onex.common.jpa.DtoService;
+import com.nb6868.onex.common.pojo.ChangeStateForm;
+import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.shiro.ShiroUtils;
+import com.nb6868.onex.common.util.ConvertUtils;
+import com.nb6868.onex.common.util.HttpContextUtils;
+import com.nb6868.onex.common.util.WrapperUtils;
+import com.nb6868.onex.common.validator.AssertUtils;
+import com.nb6868.onex.msg.service.MailLogService;
 import com.nb6868.onex.portal.modules.pay.PayConst;
 import com.nb6868.onex.portal.modules.pay.dto.PayRequest;
 import com.nb6868.onex.portal.modules.pay.entity.ChannelEntity;
@@ -22,16 +32,8 @@ import com.nb6868.onex.portal.modules.shop.entity.GoodsEntity;
 import com.nb6868.onex.portal.modules.shop.entity.OrderEntity;
 import com.nb6868.onex.portal.modules.shop.entity.OrderItemEntity;
 import com.nb6868.onex.portal.modules.shop.entity.OrderLogEntity;
-import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.exception.OnexException;
-import com.nb6868.onex.common.jpa.DtoService;
-import com.nb6868.onex.common.pojo.Const;
-import com.nb6868.onex.common.util.ConvertUtils;
-import com.nb6868.onex.common.util.HttpContextUtils;
-import com.nb6868.onex.common.util.WrapperUtils;
-import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.msg.dto.MailSendForm;
-import com.nb6868.onex.msg.service.MailLogService;
+import com.nb6868.onex.uc.service.ParamsService;
+import com.nb6868.onex.uc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +60,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
     @Autowired
     MailLogService mailLogService;
     @Autowired
-    ParamService paramService;
+    ParamsService paramsService;
     @Autowired
     com.nb6868.onex.portal.modules.pay.service.OrderService payOrderService;
     @Autowired
@@ -317,7 +319,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
     /**
      * 取消并退款
      */
-    public boolean cancelAndRefund(ChangeStateRequest request) {
+    public boolean cancelAndRefund(ChangeStateForm request) {
         OrderEntity order = getById(request.getId());
         AssertUtils.isNull(order, "订单不存在");
         AssertUtils.isFalse(order.isSysCancelable(), "订单不允许取消");
@@ -376,11 +378,11 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
         OrderEntity orderEntity = getById(payOrder.getOrderId());
         if (orderEntity != null && orderEntity.getPayState() == ShopConst.OrderPayStateEnum.NO_PAY.value()) {
             // 短信下发
-            MailSendForm smsSendRequest = new MailSendForm();
+            /*MailSendForm smsSendRequest = new MailSendForm();
             smsSendRequest.setMailTo(orderEntity.getReceiverMobile());
             smsSendRequest.setTplCode("FISH_ORDER");
-            smsSendRequest.setContentParam("{\"code\":\"" + orderEntity.getNo() + "\",\"user\":\"" + orderEntity.getReceiverConsignee() + "\"}");
-            mailLogService.send(smsSendRequest);
+            smsSendRequest.setContentParams(new JSONObject().set("code", orderEntity.getNo()).set("user", orderEntity.getReceiverConsignee()));
+            mailLogService.send(smsSendRequest);*/
 
             // 更新数据
             return update().set("state", ShopConst.OrderStateEnum.PAID.value())

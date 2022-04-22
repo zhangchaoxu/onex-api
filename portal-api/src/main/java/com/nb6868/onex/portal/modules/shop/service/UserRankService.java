@@ -1,14 +1,14 @@
 package com.nb6868.onex.portal.modules.shop.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.nb6868.onex.portal.modules.shop.entity.UserRankEntity;
-import com.nb6868.onex.portal.modules.uc.service.UserService;
-import com.nb6868.onex.portal.modules.shop.dao.UserRankDao;
-import com.nb6868.onex.portal.modules.shop.dto.UserRankDTO;
-import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.DtoService;
+import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.util.WrapperUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
+import com.nb6868.onex.portal.modules.shop.dao.UserRankDao;
+import com.nb6868.onex.portal.modules.shop.dto.UserRankDTO;
+import com.nb6868.onex.portal.modules.shop.entity.UserRankEntity;
+import com.nb6868.onex.uc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
