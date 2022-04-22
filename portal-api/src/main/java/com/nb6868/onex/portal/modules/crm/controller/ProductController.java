@@ -2,7 +2,23 @@ package com.nb6868.onex.portal.modules.crm.controller;
 
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.nb6868.onex.common.annotation.AccessControl;
+import com.nb6868.onex.common.annotation.LogOperation;
+import com.nb6868.onex.common.exception.ErrorCode;
+import com.nb6868.onex.common.jpa.QueryWrapperHelper;
+import com.nb6868.onex.common.pojo.Const;
+import com.nb6868.onex.common.pojo.MsgResult;
+import com.nb6868.onex.common.pojo.PageData;
+import com.nb6868.onex.common.pojo.Result;
 import com.nb6868.onex.common.shiro.ShiroUtils;
+import com.nb6868.onex.common.util.ConvertUtils;
+import com.nb6868.onex.common.util.ExcelUtils;
+import com.nb6868.onex.common.validator.AssertUtils;
+import com.nb6868.onex.common.validator.ValidatorUtils;
+import com.nb6868.onex.common.validator.group.AddGroup;
+import com.nb6868.onex.common.validator.group.DefaultGroup;
+import com.nb6868.onex.common.validator.group.PageGroup;
+import com.nb6868.onex.common.validator.group.UpdateGroup;
 import com.nb6868.onex.portal.modules.crm.dto.ProductDTO;
 import com.nb6868.onex.portal.modules.crm.dto.ProductQueryFrom;
 import com.nb6868.onex.portal.modules.crm.entity.ProductCategoryEntity;
@@ -10,18 +26,6 @@ import com.nb6868.onex.portal.modules.crm.entity.ProductEntity;
 import com.nb6868.onex.portal.modules.crm.excel.ProductExcel;
 import com.nb6868.onex.portal.modules.crm.service.ProductCategoryService;
 import com.nb6868.onex.portal.modules.crm.service.ProductService;
-import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.jpa.QueryWrapperHelper;
-import com.nb6868.onex.common.pojo.*;
-import com.nb6868.onex.common.util.ConvertUtils;
-import com.nb6868.onex.common.util.ExcelUtils;
-import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.common.validator.ValidatorUtils;
-import com.nb6868.onex.common.validator.group.AddGroup;
-import com.nb6868.onex.common.validator.group.DefaultGroup;
-import com.nb6868.onex.common.validator.group.UpdateGroup;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -68,7 +72,7 @@ public class ProductController {
     @ApiOperation("分页")
     @AccessControl("page")
     //@RequiresPermissions("crm:product:page")
-    public Result<?> page(@RequestBody @Validated(PageForm.PageGroup.class) ProductQueryFrom from) {
+    public Result<?> page(@RequestBody @Validated(PageGroup.class) ProductQueryFrom from) {
         QueryWrapper<ProductEntity> queryWrapper = QueryWrapperHelper.getPredicate(from);
         PageData<ProductDTO> page = productService.pageDto(from, queryWrapper);
 

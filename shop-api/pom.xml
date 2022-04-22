@@ -12,22 +12,17 @@
     <artifactId>shop-api</artifactId>
 
     <properties>
-        <onex-common.version>3.0.0</onex-common.version>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <skipTests>true</skipTests>
+        <!-- version -->
+        <onex-common.version>3.3.4</onex-common.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <shiro.version>1.8.0</shiro.version>
-        <aliyun.oss.version>3.13.2</aliyun.oss.version>
-        <weixin.version>4.2.0</weixin.version>
-        <skipTests>true</skipTests>
+        <aliyun.oss.version>3.14.1</aliyun.oss.version>
+        <weixin.version>4.3.0</weixin.version>
     </properties>
 
     <dependencies>
-        <!-- devtools
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
-            <scope>runtime</scope>
-        </dependency> -->
         <!-- common -->
         <dependency>
             <groupId>com.nb6868.onex</groupId>
@@ -39,12 +34,6 @@
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
             <version>${dynamic.datasource.version}</version>
-        </dependency>
-        <!-- mysql driver -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <!-- shiro -->
         <dependency>

@@ -16,14 +16,14 @@
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <skipTests>true</skipTests>
         <!-- version -->
-        <onex-common.version>3.4.3</onex-common.version>
-        <onex-uc.version>3.4.3</onex-uc.version>
-        <onex-websocket.version>3.4.3</onex-websocket.version>
-        <onex-sched.version>3.4.3</onex-sched.version>
-        <onex-msg.version>3.4.3</onex-msg.version>
-        <onex-coder.version>3.4.3</onex-coder.version>
+        <onex-common.version>3.4.4</onex-common.version>
+        <onex-uc.version>3.4.4</onex-uc.version>
+        <onex-websocket.version>3.4.4</onex-websocket.version>
+        <onex-sched.version>3.4.4</onex-sched.version>
+        <onex-msg.version>3.4.4</onex-msg.version>
+        <onex-coder.version>3.4.4</onex-coder.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
-        <aliyun.oss.version>3.14.0</aliyun.oss.version>
+        <aliyun.oss.version>3.14.1</aliyun.oss.version>
         <weixin.version>4.3.0</weixin.version>
         <jpush.version>3.4.9</jpush.version>
         <zxing.version>3.4.1</zxing.version>
@@ -71,11 +71,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <!-- mail -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
         <!-- freemarker -->
         <dependency>
@@ -128,12 +123,6 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
             <version>${zxing.version}</version>
-        </dependency>
-        <!-- mysql driver -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
