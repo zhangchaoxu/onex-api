@@ -1,15 +1,15 @@
 package com.nb6868.onex.portal.modules.uc.service;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.jwt.JWT;
+import cn.hutool.core.lang.Dict;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.nb6868.onex.portal.modules.uc.dao.TokenDao;
-import com.nb6868.onex.portal.modules.uc.entity.TokenEntity;
-import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
 import com.nb6868.onex.common.auth.AuthProps;
 import com.nb6868.onex.common.jpa.EntityService;
 import com.nb6868.onex.common.pojo.Const;
+import com.nb6868.onex.common.util.TokenUtils;
+import com.nb6868.onex.portal.modules.uc.dao.TokenDao;
+import com.nb6868.onex.portal.modules.uc.entity.TokenEntity;
+import com.nb6868.onex.portal.modules.uc.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -45,62 +45,32 @@ public class TokenService extends EntityService<TokenDao, TokenEntity> {
     /**
      * 生成token
      *
-     * @param user       用户
-     * @param loginProps 登录配置
+     * @param user        用户
+     * @param loginConfig 登录配置
      * @return result
      */
-    public String createToken(UserEntity user, AuthProps.Config loginProps) {
-        if ("full".equalsIgnoreCase(loginProps.getVerifyType())) {
-            // 当前时间
-            Date now = new Date();
-            // 过期时间
-            Date expireTime = DateUtil.offsetSecond(now, loginProps.getTokenExpire());
-            // 生成的token
-            if (loginProps.isMultiLogin()) {
-                // 支持多点登录
-            } else {
-                // 不支持多点登录,注销该用户所有token
-                deleteTokenByUserId(user.getId(), loginProps.getType());
+    public String createToken(UserEntity user, AuthProps.Config loginConfig) {
+        String jwtToken = TokenUtils.getToken(loginConfig, Dict.create().set("id", user.getId())
+                .set("tenantCode", user.getTenantCode())
+                .set("username", user.getUsername())
+                .set("realName", user.getRealName()));
+        if ("db".equalsIgnoreCase(loginConfig.getTokenStoreType())) {
+            // 在数据库中
+            if (!loginConfig.isMultiLogin()) {
+                // 不支持多端登录,注销该用户所有token
+                deleteTokenByUserId(user.getId(), loginConfig.getType());
             }
             // 不管逻辑，永远都是重新生成一个token
             TokenEntity tokenEntity = new TokenEntity();
             tokenEntity.setUserId(user.getId());
-            if ("uuid".equalsIgnoreCase(loginProps.getTokenPolicy())) {
-                tokenEntity.setToken(IdUtil.simpleUUID());
-            } else {
-                String jwtToken = JWT.create()
-                        .setPayload("id", user.getId())
-                        .setPayload("username", user.getUsername())
-                        .setPayload("realName", user.getRealName())
-                        .setSubject(loginProps.getType())
-                        .setKey(loginProps.getTokenKey().getBytes())
-                        .setExpiresAt(DateUtil.offsetSecond(new Date(), loginProps.getTokenExpire()))
-                        .sign();
-                tokenEntity.setToken(jwtToken);
-            }
-            tokenEntity.setUpdateTime(now);
-            tokenEntity.setExpireTime(expireTime);
-            tokenEntity.setType(loginProps.getType());
-
+            tokenEntity.setTenantCode(user.getTenantCode());
+            tokenEntity.setToken(jwtToken);
+            tokenEntity.setType(loginConfig.getType());
+            tokenEntity.setExpireTime(loginConfig.getTokenExpire() == -1 ? DateUtil.offsetMonth(new Date(), 12 * 99) : DateUtil.offsetSecond(new Date(), loginConfig.getTokenExpire()));
             // 保存token
             this.save(tokenEntity);
-
-            return tokenEntity.getToken();
-        } else {
-            // 不存数据库
-            if ("uuid".equalsIgnoreCase(loginProps.getTokenPolicy())) {
-                return IdUtil.simpleUUID();
-            } else {
-                return JWT.create()
-                        .setPayload("id", user.getId())
-                        .setPayload("username", user.getUsername())
-                        .setPayload("realName", user.getRealName())
-                        .setSubject(loginProps.getType())
-                        .setKey(loginProps.getTokenKey().getBytes())
-                        .setExpiresAt(DateUtil.offsetSecond(new Date(), loginProps.getTokenExpire()))
-                        .sign();
-            }
         }
+        return jwtToken;
     }
 
     /**

@@ -34,5 +34,8 @@ public class TokenEntity extends BaseEntity {
      * 类型
      */
     private String type;
-
+    /**
+     * 租户编码
+     */
+    private String tenantCode;
 }

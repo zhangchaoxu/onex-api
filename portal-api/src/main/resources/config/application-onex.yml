@@ -12,7 +12,7 @@ onex:
   # 过滤器
   filter:
     enable: true
-  # 过滤器
+  # shiro
   shiro:
     enable: true
   # mybatis配置
@@ -42,7 +42,6 @@ onex:
       ADMIN_USERNAME_PASSWORD:
         type: ADMIN_USERNAME_PASSWORD
         multi-login: true
-        token-policy: jwt
   # 存储配置
   oss:
     enable: true

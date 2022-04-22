@@ -9,10 +9,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@MapperScan(nameGenerator = SpringBeanNameGenerator.class, basePackages = {"com.nb6868.onex.**.dao", "com.nb6868.onex.portal.**"})
+@MapperScan(nameGenerator = SpringBeanNameGenerator.class, basePackages = {
+        "com.nb6868.onex.common.shiro",
+        "com.nb6868.onex.**.dao",
+        "com.nb6868.onex.portal.**.dao"
+})
 @ComponentScan(nameGenerator = SpringBeanNameGenerator.class, basePackages = {"com.nb6868.onex.**"})
+@EnableAspectJAutoProxy(exposeProxy = true)
 @Slf4j
 public class PortalApiApplication extends BaseApplication {
 
