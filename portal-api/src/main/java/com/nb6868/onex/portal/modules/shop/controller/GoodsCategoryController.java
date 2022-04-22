@@ -1,10 +1,7 @@
 package com.nb6868.onex.portal.modules.shop.controller;
 
-import cn.hutool.core.map.MapUtil;
 import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
-import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryDTO;
-import com.nb6868.onex.portal.modules.shop.service.GoodsCategoryService;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.PageData;
 import com.nb6868.onex.common.pojo.Result;
@@ -12,11 +9,12 @@ import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.nb6868.onex.common.validator.group.UpdateGroup;
+import com.nb6868.onex.portal.modules.shop.dto.GoodsCategoryDTO;
+import com.nb6868.onex.portal.modules.shop.service.GoodsCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -49,7 +47,7 @@ public class GoodsCategoryController {
         return new Result<>().success(list);
     }
 
-    @DataSqlScope(tableAlias = "shop_goods_category", tenantFilter = true)
+    /*@DataSqlScope(tableAlias = "shop_goods_category", tenantFilter = true)
     @GetMapping("tree")
     @ApiOperation("树表")
     @RequiresPermissions("shop:goodsCategory:list")
@@ -62,7 +60,7 @@ public class GoodsCategoryController {
         }
 
         return new Result<>().success(tree);
-    }
+    }*/
 
     @GetMapping("page")
     @ApiOperation("分页")
