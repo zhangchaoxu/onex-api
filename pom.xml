@@ -57,12 +57,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- mysql driver -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>

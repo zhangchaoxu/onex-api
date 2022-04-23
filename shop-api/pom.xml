@@ -16,8 +16,9 @@
         <skipTests>true</skipTests>
         <!-- version -->
         <onex-common.version>3.3.4</onex-common.version>
+        <onex-uc.version>3.3.4</onex-uc.version>
+        <onex-sys.version>3.3.4</onex-sys.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
-        <shiro.version>1.8.0</shiro.version>
         <aliyun.oss.version>3.14.1</aliyun.oss.version>
         <weixin.version>4.3.0</weixin.version>
     </properties>
@@ -29,22 +30,29 @@
             <artifactId>common</artifactId>
             <version>${onex-common.version}</version>
         </dependency>
+        <!-- uc -->
+        <dependency>
+            <groupId>com.nb6868.onex</groupId>
+            <artifactId>uc</artifactId>
+            <version>${onex-uc.version}</version>
+        </dependency>
+        <!-- sys -->
+        <dependency>
+            <groupId>com.nb6868.onex</groupId>
+            <artifactId>sys</artifactId>
+            <version>${onex-sys.version}</version>
+        </dependency>
+        <!-- mysql driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <!-- dynamic.datasource -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
             <version>${dynamic.datasource.version}</version>
-        </dependency>
-        <!-- shiro -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
         </dependency>
         <!-- wechat miniapp -->
         <dependency>
