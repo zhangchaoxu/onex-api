@@ -5,6 +5,7 @@ import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.pojo.Result;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
@@ -13,7 +14,6 @@ import com.nb6868.onex.common.validator.group.UpdateGroup;
 import com.nb6868.onex.shop.modules.shop.dto.ReceiverDTO;
 import com.nb6868.onex.shop.modules.shop.entity.ReceiverEntity;
 import com.nb6868.onex.shop.modules.shop.service.ReceiverService;
-import com.nb6868.onex.shop.shiro.SecurityUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class ReceiverController {
     public Result<?> list() {
         // 按条件获得列表
         List<ReceiverEntity> entityList = receiverService.query()
-                .eq("user_id", SecurityUser.getUserId())
+                .eq("user_id", ShiroUtils.getUserId())
                 .orderByDesc("create_time")
                 .list();
         // 转成dto
@@ -51,7 +51,7 @@ public class ReceiverController {
     @GetMapping("info")
     @ApiOperation(value = "信息", position = 20)
     public ReceiverDTO info(@NotNull(message = "{id.require}") @RequestParam Long id) {
-        ReceiverEntity entity = receiverService.getByIdAndUserId(id, SecurityUser.getUserId());
+        ReceiverEntity entity = receiverService.getByIdAndUserId(id, ShiroUtils.getUserId());
         AssertUtils.isNull(entity, ErrorCode.DB_RECORD_EXISTS);
         // 转成dto
         ReceiverDTO dto = ConvertUtils.sourceToTarget(entity, ReceiverDTO.class);
@@ -79,7 +79,7 @@ public class ReceiverController {
     @ApiOperation(value = "设为默认地址", position = 50)
     @LogOperation("设为默认地址")
     public Result<?> setDefaultItem(@NotNull(message = "{id.require}") @RequestParam Long id) {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 按条件获得数据
         ReceiverEntity entity = receiverService.getByIdAndUserId(id, userId);
         AssertUtils.isEmpty(entity, ErrorCode.DB_RECORD_NOT_EXISTED);
@@ -93,7 +93,7 @@ public class ReceiverController {
     @DeleteMapping("delete")
     @ApiOperation(value = "删除", position = 100)
     public Result<?> delete(@NotNull(message = "{id.require}") @RequestParam Long id) {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 按条件获得数据
         ReceiverEntity entity = receiverService.getByIdAndUserId(id, userId);
         AssertUtils.isEmpty(entity, ErrorCode.DB_RECORD_NOT_EXISTED);

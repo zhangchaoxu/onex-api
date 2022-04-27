@@ -6,6 +6,7 @@ import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.pojo.Result;
+import com.nb6868.onex.common.shiro.ShiroUtils;
 import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
@@ -15,7 +16,6 @@ import com.nb6868.onex.shop.modules.shop.dto.CartDTO;
 import com.nb6868.onex.shop.modules.shop.dto.CartQtyChangeRequest;
 import com.nb6868.onex.shop.modules.shop.entity.CartEntity;
 import com.nb6868.onex.shop.modules.shop.service.CartService;
-import com.nb6868.onex.shop.shiro.SecurityUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class CartController {
     @GetMapping("list")
     @ApiOperation(value = "列表", position = 10)
     public Result<?> list() {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 按条件获得列表
         List<CartEntity> entityList = cartService.query()
                 .eq("state", 1)
@@ -58,7 +58,7 @@ public class CartController {
     @GetMapping("count")
     @ApiOperation(value = "商品数量", position = 20)
     public Result<?> count() {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 按条件获得总数
         Long count = cartService.query()
                 .eq("state", 1)
@@ -71,7 +71,7 @@ public class CartController {
     @ApiOperation(value = "保存(加入购物车)", position = 30)
     @LogOperation("保存(加入购物车)")
     public Result<?> save(@Validated(value = {DefaultGroup.class, AddGroup.class}) @RequestBody CartDTO dto) {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 检查当前购物车中数量，避免购物车内数量过大
         Long count = cartService.count(userId);
         if (count >= ShopConst.CART_MAX_LIMIT) {
@@ -93,7 +93,7 @@ public class CartController {
     @ApiOperation(value = "批量删除(移出购物车)", position = 40)
     @LogOperation("批量删除(移出购物车)")
     public Result<?> deleteBatch(@NotEmpty(message = "{ids.require}") @RequestBody List<Long> ids) {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 不做检查,直接删除
         cartService.update()
                 .set("deleted", 1)
@@ -107,7 +107,7 @@ public class CartController {
     @PostMapping("checkedAll")
     @ApiOperation(value = "勾选所有", position = 50)
     public Result<?> checkedAll() {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         cartService.update()
                 .set("checked", 1)
                 .eq("checked", 0)
@@ -123,7 +123,7 @@ public class CartController {
     @PostMapping("uncheckedAll")
     @ApiOperation(value = "取消勾选所有", position = 60)
     public Result<?> uncheckedAll() {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         cartService.update().set("checked", 0)
                 .eq("checked", 1)
                 .eq("state", 0)
@@ -139,7 +139,7 @@ public class CartController {
     @PostMapping("changeQty")
     @ApiOperation(value = "修改数量", position = 70)
     public Result<?> changeQty(@Validated(value = {DefaultGroup.class}) @RequestBody CartQtyChangeRequest request) {
-        Long userId = SecurityUser.getUserId();
+        Long userId = ShiroUtils.getUserId();
         // 检查cart和商品是否存在
         CartEntity entity = cartService.query()
                 .eq("state", 0)

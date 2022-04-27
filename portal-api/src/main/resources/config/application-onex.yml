@@ -15,6 +15,7 @@ onex:
   # shiro
   shiro:
     enable: true
+    type: jwt
   # mybatis配置
   mybatisplus:
     enable: true

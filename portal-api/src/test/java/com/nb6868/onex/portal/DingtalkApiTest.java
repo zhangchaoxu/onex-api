@@ -1,6 +1,5 @@
 package com.nb6868.onex.portal;
 
-import cn.hutool.core.lang.Dict;
 import com.nb6868.onex.common.dingtalk.*;
 import org.junit.jupiter.api.Test;
 
@@ -13,12 +12,12 @@ public class DingtalkApiTest {
 
     @Test
     void sendRobotMsg() {
-        Dict dict = Dict.create();
+        /*Dict dict = Dict.create();
         dict.set("msgtype", "text")
                 .set("text", Dict.create().set("content", "测试消息内容"))
                 .set("at", Dict.create().set("atMobiles", new String[]{"13012345678"}));
         BaseResponse response = DingTalkApi.sendRobotMsg("",  dict);
-        System.out.println(response);
+        System.out.println(response);*/
     }
 
     @Test

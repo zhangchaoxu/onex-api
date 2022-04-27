@@ -1,33 +1,14 @@
 package com.nb6868.onex.shop.modules.uc.controller;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
-import cn.binarywang.wx.miniapp.bean.WxMaUserInfo;
-import cn.hutool.core.lang.Dict;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
-import com.nb6868.onex.common.annotation.AccessControl;
-import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.common.auth.AuthProps;
-import com.nb6868.onex.common.auth.OauthWxMaLoginByCodeAndPhone;
-import com.nb6868.onex.common.auth.OauthWxMaLoginByCodeAndUserInfoRequest;
-import com.nb6868.onex.common.exception.ErrorCode;
-import com.nb6868.onex.common.pojo.Result;
-import com.nb6868.onex.common.util.ConvertUtils;
-import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.common.validator.group.DefaultGroup;
-import com.nb6868.onex.common.wechat.WechatMaPropsConfig;
-import com.nb6868.onex.shop.modules.uc.dto.UserDTO;
-import com.nb6868.onex.shop.modules.uc.entity.UserEntity;
 import com.nb6868.onex.shop.modules.uc.service.UserService;
-import com.nb6868.onex.shop.shiro.SecurityUser;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
@@ -48,7 +29,7 @@ public class UserController {
     /**
      * 微信登录调整 https://developers.weixin.qq.com/community/develop/doc/000cacfa20ce88df04cb468bc52801
      */
-    @PostMapping("/wxMaLoginByCodeAndUserInfo")
+    /*@PostMapping("/wxMaLoginByCodeAndUserInfo")
     @AccessControl("/wxMaLoginByCodeAndUserInfo")
     @ApiOperation(value = "微信小程序用户信息授权登录", notes = "注意,wx.getUserProfile/wx.getUserInfo放在wx.login之前会偶发解密失败")
     @LogOperation(value = "微信小程序用户信息授权登录", type = "login")
@@ -102,6 +83,6 @@ public class UserController {
         // 转换成dto
         UserDTO dto = ConvertUtils.sourceToTarget(entity, UserDTO.class);
         return new Result<UserDTO>().success(dto);
-    }
+    }*/
 
 }

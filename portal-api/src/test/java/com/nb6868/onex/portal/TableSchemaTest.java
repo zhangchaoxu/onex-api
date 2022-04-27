@@ -1,6 +1,6 @@
 package com.nb6868.onex.portal;
 
-import com.nb6868.onex.portal.modules.sys.dao.TableSchemaDao;
+import com.nb6868.onex.sys.dao.TableSchemaDao;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
