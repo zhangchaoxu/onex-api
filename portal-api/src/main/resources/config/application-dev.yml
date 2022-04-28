@@ -17,8 +17,8 @@ spring:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://hw3.nb6868.com:3306/onex?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&allowPublicKeyRetrieval=true
-          username: onex
-          password: CWCPxhpp67yaErnn
+          username: ENC(nCHNsufJ/RRVFmk/niAwosvj0GR9IFvk6lU8X/yupXSTiCrxGk64Cc3lnKcROb/x3Q3oaHTUHMWQFlO3y8AKJg==)
+          password: ENC(Qq11yZUlNYwLQ73NwS7MbG8c2qXKHrB6Z/K9OaVHy2tXCpspV3+O8VhD23WWDwe5wCmqKe/gL3IjF/uvCUxDKQ==)
           druid:
             initial-size: 5
 

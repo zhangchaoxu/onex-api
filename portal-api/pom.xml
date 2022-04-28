@@ -15,8 +15,9 @@
     <properties>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
         <skipTests>true</skipTests>
+        <destDir>${project.build.outputDirectory}/META-INF/resources/</destDir>
         <!-- version -->
-        <onex.version>3.4.5</onex.version>
+        <onex.version>3.5.2</onex.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <aliyun.oss.version>3.14.1</aliyun.oss.version>
         <weixin.version>4.3.0</weixin.version>
@@ -72,11 +73,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <!-- freemarker -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
         <!-- redis -->
         <dependency>

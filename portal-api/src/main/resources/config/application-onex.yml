@@ -44,6 +44,12 @@ onex:
   # 数据查询过滤
   data-query-filter:
     enable: true
+  # oss
+  oss:
+    # 文件请求路径
+    file-request-path:
+    # 文件存储路径,以/结尾
+    file-storage-path:
   # 登录配置
   auth:
     # 访问控制
