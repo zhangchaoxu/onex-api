@@ -18,7 +18,6 @@ import com.nb6868.onex.common.util.ConvertUtils;
 import com.nb6868.onex.common.util.HttpContextUtils;
 import com.nb6868.onex.common.util.WrapperUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
-import com.nb6868.onex.msg.service.MailLogService;
 import com.nb6868.onex.portal.modules.pay.PayConst;
 import com.nb6868.onex.portal.modules.pay.dto.PayRequest;
 import com.nb6868.onex.portal.modules.pay.entity.ChannelEntity;
@@ -57,8 +56,6 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
     OrderItemService orderItemService;
     @Autowired
     GoodsService goodsService;
-    @Autowired
-    MailLogService mailLogService;
     @Autowired
     ParamsService paramsService;
     @Autowired
@@ -309,7 +306,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
                 return wxPayService.createOrder(orderRequest);
             } catch (WxPayException e) {
                 e.printStackTrace();
-                throw new OnexException(ErrorCode.WX_API_ERROR, e.getErrCodeDes());
+                throw new OnexException(e.getErrCodeDes());
             }
         } else {
             throw new OnexException("暂不支持的支付类型:" + order.getPayType());
@@ -365,7 +362,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
             return true;
         } catch (WxPayException e) {
             e.printStackTrace();
-            throw new OnexException(ErrorCode.WX_API_ERROR, e);
+            throw new OnexException(e.getErrCodeDes());
         }
     }
 
