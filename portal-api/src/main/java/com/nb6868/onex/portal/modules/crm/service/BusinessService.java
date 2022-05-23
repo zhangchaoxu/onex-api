@@ -32,12 +32,17 @@ import java.util.Map;
 @Service
 public class BusinessService extends DtoService<BusinessDao, BusinessEntity, BusinessDTO> {
 
+    BusinessLogService businessLogService;
+
+    @Autowired
+    public void setBusinessLogService(BusinessLogService businessLogService) {
+        this.businessLogService = businessLogService;
+    }
+
     @Autowired
     CustomerService customerService;
     @Autowired
     ProductService productService;
-    @Autowired
-    BusinessLogService businessLogService;
     @Autowired
     BusinessProductService businessProductService;
     @Autowired

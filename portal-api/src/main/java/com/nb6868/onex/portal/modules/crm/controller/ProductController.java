@@ -93,6 +93,11 @@ public class ProductController {
     @LogOperation("保存")
     @RequiresPermissions("crm:product:save")
     public Result<?> save(@Validated(value = {DefaultGroup.class, AddGroup.class}) @RequestBody ProductDTO dto) {
+        if (dto.getCategoryId() != null) {
+            ProductCategoryEntity category = productCategoryService.getById(dto.getCategoryId());
+            AssertUtils.isNull(category, ErrorCode.ERROR_REQUEST, "分类不存在");
+            dto.setCategoryName(category.getName());
+        }
         productService.saveDto(dto);
 
         return new Result<>().success(dto);
@@ -103,6 +108,11 @@ public class ProductController {
     @LogOperation("修改")
     @RequiresPermissions("crm:product:update")
     public Result<?> update(@Validated(value = {DefaultGroup.class, UpdateGroup.class}) @RequestBody ProductDTO dto) {
+        if (dto.getCategoryId() != null) {
+            ProductCategoryEntity category = productCategoryService.getById(dto.getCategoryId());
+            AssertUtils.isNull(category, ErrorCode.ERROR_REQUEST, "分类不存在");
+            dto.setCategoryName(category.getName());
+        }
         productService.updateDto(dto);
 
         return new Result<>().success(dto);

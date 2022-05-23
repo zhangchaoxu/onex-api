@@ -10,7 +10,6 @@ import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.DtoService;
 import com.nb6868.onex.common.util.WrapperUtils;
 import com.nb6868.onex.common.validator.AssertUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -22,9 +21,6 @@ import java.util.Map;
  */
 @Service
 public class BusinessLogService extends DtoService<BusinessLogDao, BusinessLogEntity, BusinessLogDTO> {
-
-    @Autowired
-    BusinessService businessService;
 
     @Override
     public QueryWrapper<BusinessLogEntity> getWrapper(String method, Map<String, Object> params) {
@@ -40,7 +36,7 @@ public class BusinessLogService extends DtoService<BusinessLogDao, BusinessLogEn
                 .getQueryWrapper();
     }
 
-    @Override
+   /* @Override
     protected void beforeSaveOrUpdateDto(BusinessLogDTO dto, BusinessLogEntity toSaveEntity, int type) {
         BusinessEntity business = businessService.getById(dto.getBusinessId());
         AssertUtils.isNull(business, ErrorCode.ERROR_REQUEST, "商机不存在");
@@ -62,6 +58,6 @@ public class BusinessLogService extends DtoService<BusinessLogDao, BusinessLogEn
                 businessService.changeFollowDate(business.getId(), dto.getNextFollowDate());
             }
         }
-    }
+    }*/
 
 }

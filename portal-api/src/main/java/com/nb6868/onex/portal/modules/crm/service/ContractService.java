@@ -37,8 +37,6 @@ public class ContractService extends DtoService<ContractDao, ContractEntity, Con
     ContractProductService contractProductService;
     @Autowired
     ProductService productService;
-    @Autowired
-    BusinessService businessService;
 
     @Override
     public QueryWrapper<ContractEntity> getWrapper(String method, Map<String, Object> params) {
@@ -73,11 +71,11 @@ public class ContractService extends DtoService<ContractDao, ContractEntity, Con
         }
 
         // 控制商机信息是否存在
-        if (dto.getBusinessId() != null) {
+        /*if (dto.getBusinessId() != null) {
             BusinessEntity business = businessService.getById(dto.getBusinessId());
             AssertUtils.isNull(business, ErrorCode.ERROR_REQUEST, "商机信息不存在");
             toSaveEntity.setBusinessName(business.getName());
-        }
+        }*/
     }
 
     @Override

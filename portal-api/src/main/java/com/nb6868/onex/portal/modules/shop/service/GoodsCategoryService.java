@@ -26,9 +26,6 @@ import java.util.Map;
 @Service
 public class GoodsCategoryService extends DtoService<GoodsCategoryDao, GoodsCategoryEntity, GoodsCategoryDTO> {
 
-    @Autowired
-    private GoodsService goodsService;
-
     @Override
     public QueryWrapper<GoodsCategoryEntity> getWrapper(String method, Map<String, Object> params) {
         return new WrapperUtils<GoodsCategoryEntity>(new QueryWrapper<>(), params)
@@ -56,7 +53,7 @@ public class GoodsCategoryService extends DtoService<GoodsCategoryDao, GoodsCate
         }
     }
 
-    @Override
+    /*@Override
     protected void inSaveOrUpdateDto(GoodsCategoryDTO dto, GoodsCategoryEntity existedEntity, int type) {
         // 一级变x级,已存在下级,不允许修改级别
         if (1 == type && !dto.getPid().equals(existedEntity.getPid())) {
@@ -70,7 +67,7 @@ public class GoodsCategoryService extends DtoService<GoodsCategoryDao, GoodsCate
         AssertUtils.isTrue(hasSub("pid", id), "存在子类别,不允许删除");
         AssertUtils.isTrue(goodsService.query().eq("category_id", id).exists(), "类别下存在商品,不允许删除");
         return super.logicDeleteById(id);
-    }
+    }*/
 
     /**
      * 树状列表

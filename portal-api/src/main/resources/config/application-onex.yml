@@ -34,6 +34,7 @@ onex:
   # 异常处理
   exception-handler:
     enable: true
+    detail-msg: false
   # 日志
   aspect:
     log: true
@@ -56,7 +57,7 @@ onex:
     access-control:
       enable: true
       # 扫描包
-      scan-package: com.nb6868.onex.uc.controller, com.nb6868.onex.sys.controller,com.nb6868.onex.sched.controller,com.nb6868.onex.msg.controller,com.nb6868.onex.portal.modules
+      scan-package: com.nb6868.onex.uc.controller,com.nb6868.onex.sys.controller,com.nb6868.onex.portal.modules
     configs:
       ## 后台-帐号密码登录
       ADMIN_USERNAME_PASSWORD:

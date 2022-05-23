@@ -28,8 +28,8 @@ import java.util.Map;
 @Service("PayOrderService")
 public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
 
-    @Autowired
-    com.nb6868.onex.portal.modules.shop.service.OrderService shopOrderService;
+    /*@Autowired
+    com.nb6868.onex.portal.modules.shop.service.OrderService shopOrderService;*/
 
     @Override
     public QueryWrapper<OrderEntity> getWrapper(String method, Map<String, Object> params) {
@@ -65,7 +65,7 @@ public class OrderService extends DtoService<OrderDao, OrderEntity, OrderDTO> {
             boolean orderPayNotify = false;
             if ("shop_order".equalsIgnoreCase(payOrder.getOrderTable())) {
                 // 更新商城订单
-                orderPayNotify = shopOrderService.payNotify(payOrder);
+                // orderPayNotify = shopOrderService.payNotify(payOrder);
             }
             // 支付订单生成,待处理->支付成功/支付成功->业务处理完成
             update().eq("id", payOrder.getId())

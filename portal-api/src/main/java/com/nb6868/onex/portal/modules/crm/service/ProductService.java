@@ -3,14 +3,10 @@ package com.nb6868.onex.portal.modules.crm.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.nb6868.onex.portal.modules.crm.dao.ProductDao;
 import com.nb6868.onex.portal.modules.crm.dto.ProductDTO;
-import com.nb6868.onex.portal.modules.crm.entity.ProductCategoryEntity;
 import com.nb6868.onex.portal.modules.crm.entity.ProductEntity;
-import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.Const;
 import com.nb6868.onex.common.jpa.DtoService;
 import com.nb6868.onex.common.util.WrapperUtils;
-import com.nb6868.onex.common.validator.AssertUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -22,9 +18,6 @@ import java.util.Map;
  */
 @Service
 public class ProductService extends DtoService<ProductDao, ProductEntity, ProductDTO> {
-
-    @Autowired
-    ProductCategoryService categoryService;
 
     @Override
     public QueryWrapper<ProductEntity> getWrapper(String method, Map<String, Object> params) {
@@ -38,17 +31,6 @@ public class ProductService extends DtoService<ProductDao, ProductEntity, Produc
                 })
                 .apply(Const.SQL_FILTER)
                 .getQueryWrapper().orderByAsc("sn");
-    }
-
-
-    @Override
-    protected void beforeSaveOrUpdateDto(ProductDTO dto, ProductEntity toSaveEntity, int type) {
-        // 检查一下分类
-        if (dto.getCategoryId() != null) {
-            ProductCategoryEntity category = categoryService.getById(dto.getCategoryId());
-            AssertUtils.isNull(category, ErrorCode.ERROR_REQUEST, "分类不存在");
-            toSaveEntity.setCategoryName(category.getName());
-        }
     }
 
 }

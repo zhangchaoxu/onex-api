@@ -13,6 +13,7 @@ import com.nb6868.onex.common.validator.AssertUtils;
 import com.nb6868.onex.common.validator.group.AddGroup;
 import com.nb6868.onex.common.validator.group.DefaultGroup;
 import com.nb6868.onex.common.validator.group.UpdateGroup;
+import com.nb6868.onex.portal.modules.shop.service.GoodsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -38,6 +39,8 @@ import java.util.Map;
 public class BrandController {
     @Autowired
     private BrandService brandService;
+    @Autowired
+    private GoodsService goodsService;
 
     @DataSqlScope(tableAlias = "shop_brand", tenantFilter = true)
     @GetMapping("list")
@@ -94,6 +97,7 @@ public class BrandController {
     @LogOperation("删除")
     @RequiresPermissions("shop:brand:delete")
     public Result<?> delete(@NotNull(message = "{id.require}") @RequestParam Long id) {
+        AssertUtils.isTrue(goodsService.query().eq("brand_id", id).exists(), "存在商品,不允许删除");
         brandService.logicDeleteById(id);
 
         return new Result<>();

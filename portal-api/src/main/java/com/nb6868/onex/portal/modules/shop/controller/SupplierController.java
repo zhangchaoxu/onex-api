@@ -4,6 +4,7 @@ import com.nb6868.onex.common.annotation.DataSqlScope;
 import com.nb6868.onex.common.annotation.LogOperation;
 import com.nb6868.onex.portal.modules.shop.dto.SupplierDTO;
 import com.nb6868.onex.portal.modules.shop.excel.SupplierExcel;
+import com.nb6868.onex.portal.modules.shop.service.GoodsService;
 import com.nb6868.onex.portal.modules.shop.service.SupplierService;
 import com.nb6868.onex.common.exception.ErrorCode;
 import com.nb6868.onex.common.pojo.PageData;
@@ -38,6 +39,8 @@ import java.util.Map;
 public class SupplierController {
     @Autowired
     private SupplierService supplierService;
+    @Autowired
+    private GoodsService goodsService;
 
     @DataSqlScope(tableAlias = "shop_supplier", tenantFilter = true)
     @GetMapping("list")
@@ -94,6 +97,7 @@ public class SupplierController {
     @LogOperation("删除")
     @RequiresPermissions("shop:supplier:delete")
     public Result<?> delete(@NotNull(message = "{id.require}") @RequestParam Long id) {
+        AssertUtils.isTrue(goodsService.query().eq("supplier_id", id).exists(), "店铺存在商品,不允许删除");
         supplierService.logicDeleteById(id);
 
         return new Result<>();
