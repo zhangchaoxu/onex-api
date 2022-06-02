@@ -17,12 +17,12 @@
         <skipTests>true</skipTests>
         <destDir>${project.build.outputDirectory}/META-INF/resources/</destDir>
         <!-- version -->
-        <onex.version>3.5.7</onex.version>
+        <onex.version>3.6.5</onex.version>
         <dynamic.datasource.version>3.5.1</dynamic.datasource.version>
         <aliyun.oss.version>3.15.0</aliyun.oss.version>
         <weixin.version>4.3.0</weixin.version>
         <jpush.version>3.4.9</jpush.version>
-        <zxing.version>3.4.1</zxing.version>
+        <zxing.version>3.5.0</zxing.version>
     </properties>
 
     <dependencies>
